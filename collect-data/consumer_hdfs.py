@@ -11,7 +11,6 @@ consumer = KafkaConsumer(
 client = InsecureClient('http://localhost:9870', user='hadoop')
 hdfs_path = '/user/hadoop/data_from_kafka.csv'
 
-# Nếu file chưa tồn tại thì tạo rỗng
 if not client.status(hdfs_path, strict=False):
     print("File chưa tồn tại, tạo mới:", hdfs_path)
     client.write(hdfs_path, data='', encoding='utf-8')
