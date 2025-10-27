@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: air-quality-realtime
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: air-quality-realtime
+  template:
+    metadata:
+      labels:
+        app: air-quality-realtime
+    spec:
+      containers:
+        - name: air-quality-realtime
+          image: vtt2840/air-quality-realtime:latest
+          imagePullPolicy: Always
+          env:
+            - name: KAFKA_BROKER
+              value: "kafka-service:9092"
+            - name: HDFS_URL
+              value: "hdfs://namenode:9000"
+      restartPolicy: Always
