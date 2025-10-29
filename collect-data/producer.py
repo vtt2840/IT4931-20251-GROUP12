@@ -2,9 +2,12 @@ import os
 import time
 import json
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 from kafka import KafkaProducer
 from hdfs import InsecureClient
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # CONFIG
 CITY = os.getenv("CITY")
@@ -30,8 +33,8 @@ def fetch_latest_data():
         return None
 
     record = data["data"][0]
-    now_utc = datetime.utcnow()
-    now_local = datetime.now()
+    now_utc = datetime.now(timezone.utc)  # timezone-aware UTC datetime
+    now_local = datetime.now()  # local datetime
 
     doc = {
         "city": CITY,
@@ -48,9 +51,9 @@ def fetch_latest_data():
     }
     return doc
 
-
 def save_to_hdfs(record):
-    date_str = datetime.utcnow().strftime("%Y/%m/%d")
+    now_utc = datetime.now(timezone.utc)
+    date_str = now_utc.strftime("%Y/%m/%d")
     hdfs_dir = os.path.join(HDFS_PATH, date_str)
     hdfs_client.makedirs(hdfs_dir)
 
@@ -58,10 +61,8 @@ def save_to_hdfs(record):
     with hdfs_client.write(file_path, encoding="utf-8") as writer:
         writer.write(json.dumps(record) + "\n")
 
-
 def send_to_kafka(record):
     producer.send(TOPIC, value=record)
-
 
 if __name__ == "__main__":
     while True:
@@ -70,6 +71,7 @@ if __name__ == "__main__":
             if data:
                 send_to_kafka(data)
                 save_to_hdfs(data)
+                print(f"Sent data: {data['timestamp_utc']}")
         except Exception as e:
             print("Error:", e)
-        time.sleep(60) 
+        time.sleep(60)
