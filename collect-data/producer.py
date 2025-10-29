@@ -7,12 +7,12 @@ from kafka import KafkaProducer
 from hdfs import InsecureClient
 
 # CONFIG
-CITY = "Hanoi"
-API_KEY = "a17ac515f9b6411393c923e7abd376f5"
-KAFKA_BROKER = os.getenv("KAFKA_BROKER", "kafka-service:9092")
-TOPIC = "air-quality"
-HDFS_URL = os.getenv("HDFS_URL", "http://namenode:9870")  # hdfs namenode web endpoint
-HDFS_PATH = "/data/air_quality/"
+CITY = os.getenv("CITY")
+API_KEY = os.getenv("API_KEY")
+KAFKA_BROKER = os.getenv("KAFKA_BROKER")
+TOPIC = os.getenv("TOPIC")
+HDFS_URL = os.getenv("HDFS_URL")
+HDFS_PATH = os.getenv("HDFS_PATH")
 
 # SETUP 
 producer = KafkaProducer(
