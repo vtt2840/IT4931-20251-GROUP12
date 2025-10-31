@@ -6,6 +6,8 @@ from datetime import datetime, timezone
 from kafka import KafkaProducer
 from hdfs import InsecureClient
 from dotenv import load_dotenv
+from kafka.admin import KafkaAdminClient, NewTopic
+from kafka.errors import TopicAlreadyExistsError
 
 load_dotenv()
 
@@ -17,6 +19,18 @@ TOPIC = os.getenv("TOPIC")
 HDFS_URL = os.getenv("HDFS_URL")
 HDFS_PATH = os.getenv("HDFS_PATH")
 
+try:
+    admin = KafkaAdminClient(bootstrap_servers=KAFKA_BROKER)
+    topic = NewTopic(name=TOPIC, num_partitions=1, replication_factor=1)
+    admin.create_topics(new_topics=[topic], validate_only=False)
+    print(f"Created topic: {TOPIC}")
+except TopicAlreadyExistsError:
+    print(f"Topic {TOPIC} already exists.")
+except Exception as e:
+    print(f"Error creating topic: {e}")
+finally:
+    admin.close()
+
 # SETUP 
 producer = KafkaProducer(
     bootstrap_servers=[KAFKA_BROKER],
@@ -24,6 +38,8 @@ producer = KafkaProducer(
 )
 
 hdfs_client = InsecureClient(HDFS_URL, user='hadoop')
+
+print("Connect to kafka successfully")
 
 def fetch_latest_data():
     url = f"https://api.weatherbit.io/v2.0/current/airquality?city={CITY}&key={API_KEY}"

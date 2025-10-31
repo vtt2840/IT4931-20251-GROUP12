@@ -1,3 +1,4 @@
 kafka-python
 requests
 hdfs
+python-dotenv
