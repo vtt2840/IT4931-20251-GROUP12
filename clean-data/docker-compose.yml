@@ -72,7 +72,7 @@ services:
     image: bde2020/spark-master:3.2.1-hadoop3.2
     container_name: spark-master
     networks: [bigdata-network]
-    ports: ["8080:8080", "7077:7077"]
+    ports: ["8081:8080", "7077:7077"]
     volumes: ["./spark-apps:/spark-apps"]
     environment:
       - CORE_CONF_fs_defaultFS=hdfs://hadoop-namenode:9000
