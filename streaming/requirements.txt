@@ -1,0 +1,5 @@
+pyspark==3.5.3
+kafka-python
+requests
+python-dotenv
+pymongo
