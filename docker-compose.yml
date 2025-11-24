@@ -1,3 +1,14 @@
+
+networks:
+  bigdata-net:
+    driver: bridge
+
+volumes:
+  hadoop_namenode:
+  hadoop_datanode:
+  spark_checkpoints:
+  spark_ivy2: 
+
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
@@ -5,6 +16,8 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
     restart: unless-stopped
+    networks:
+      - bigdata-net
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
@@ -23,6 +36,8 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     restart: unless-stopped
+    networks:
+      - bigdata-net
 
   hadoop-namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
@@ -36,6 +51,8 @@ services:
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
     restart: unless-stopped
+    networks:
+      - bigdata-net
 
   hadoop-datanode:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
@@ -50,6 +67,8 @@ services:
     volumes:
       - hadoop_datanode:/hadoop/dfs/data
     restart: unless-stopped
+    networks:
+      - bigdata-net
 
   collection:
     build: ./collection
@@ -61,20 +80,9 @@ services:
     env_file: .env
     command: ["python", "producer.py"]
     restart: unless-stopped
+    networks:
+      - bigdata-net
 
-  # batch:
-  #   build: ./batch
-  #   image: group12-batch:latest
-  #   container_name: batch
-  #   depends_on:
-  #     - hadoop-namenode
-  #   command: >
-  #     bash -c "python cleaner.py &&
-  #              python batch_hourly_aggregates.py &&
-  #              python batch_daily_aggregates.py &&
-  #              python dq_report.py"
-  #   restart: unless-stopped
-  
   streaming:
     build: ./streaming
     image: group12-streaming:latest
@@ -83,26 +91,34 @@ services:
       - kafka
       - hadoop-namenode
       - spark-master
-    env_file: ./streaming/.env
+    env_file: .env
     command: >
-      /opt/spark/bin/spark-submit 
-      --master spark://spark-master:7077 
-      --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0,org.mongodb.spark:mongo-spark-connector_2.12:10.3.0
-      streaming_job.py
+      /opt/spark/bin/spark-submit
+      --master spark://spark-master:7077
+      --conf spark.jars.ivy=/home/spark/.ivy2
+      --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.3,org.mongodb.spark:mongo-spark-connector_2.12:10.2.0,org.apache.hadoop:hadoop-client:3.3.6
+      /app/streaming.py
+    volumes:
+      - ./streaming:/app
+      - spark_checkpoints:/checkpoints
     restart: unless-stopped
-  # Spark Master
+    networks:
+      - bigdata-net
+
   spark-master:
     image: apache/spark:3.5.3
     container_name: spark-master
     hostname: spark-master
     ports:
-      - "7077:7077"  # Master Port
-      - "8080:8080"  # Web UI
-    # Lệnh bắt buộc để chạy Master
+      - "7077:7077"
+      - "8080:8080"
+    volumes:
+      - D:\IT4931-20251-GROUP12\spark-ivy2:/home/spark/.ivy2
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
     restart: unless-stopped
+    networks:
+      - bigdata-net
 
-  # Spark Worker 1
   spark-worker-1:
     image: apache/spark:3.5.3
     container_name: spark-worker-1
@@ -111,11 +127,13 @@ services:
     environment:
       - SPARK_WORKER_CORES=1
       - SPARK_WORKER_MEMORY=1G
-    # Lệnh bắt buộc để chạy Worker và trỏ về Master
+    volumes:
+      - D:\IT4931-20251-GROUP12\spark-ivy2:/home/spark/.ivy2
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
     restart: unless-stopped
+    networks:
+      - bigdata-net
 
-  # Spark Worker 2
   spark-worker-2:
     image: apache/spark:3.5.3
     container_name: spark-worker-2
@@ -124,10 +142,9 @@ services:
     environment:
       - SPARK_WORKER_CORES=1
       - SPARK_WORKER_MEMORY=1G
-    # Lệnh bắt buộc để chạy Worker và trỏ về Master
+    volumes:
+      - D:\IT4931-20251-GROUP12\spark-ivy2:/home/spark/.ivy2
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
     restart: unless-stopped
-
-volumes:
-  hadoop_namenode:
-  hadoop_datanode:
+    networks:
+      - bigdata-net

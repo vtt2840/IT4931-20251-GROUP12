@@ -11,25 +11,25 @@ from kafka.errors import TopicAlreadyExistsError
 
 load_dotenv()
 
-# --- CẤU HÌNH ---
+
+# CONFIG
 def require_env(key: str) -> str:
     value = os.getenv(key)
-    if not value: raise ValueError(f"Missing env: {key}")
+    if not value:
+        raise ValueError(f"Missing required env var: {key}")
     return value
 
-TOKEN = require_env("API_KEY") # Token WAQI
-KAFKA_BROKER = os.getenv("KAFKA_BROKER", "kafka:9092")
-TOPIC = os.getenv("TOPIC", "air_quality")
-HDFS_URL = os.getenv("HDFS_URL", "http://hadoop-namenode:9870")
-HDFS_PATH = os.getenv("HDFS_PATH", "/data/air_quality")
-CITY = "Hanoi"
+CITY = require_env("CITY")
+API_KEY = require_env("API_KEY")
+KAFKA_BROKER = require_env("KAFKA_BROKER")
+TOPIC = require_env("TOPIC")
+HDFS_URL_WEB = require_env("HDFS_URL_WEB")
+HDFS_PATH = require_env("HDFS_PATH")
 
-# URL API WAQI cho Hà Nội
-API_URL = f"https://api.waqi.info/feed/hanoi/?token={TOKEN}"
+print("KAFKA_BROKER =", KAFKA_BROKER)
+print("HDFS_PATH =", HDFS_PATH)
 
-print(f"🚀 STARTING WAQI PRODUCER FOR {CITY}")
-
-# 1. TẠO TOPIC
+# CREATE TOPIC
 def create_topic():
     admin = None
     for _ in range(10):
@@ -37,98 +37,127 @@ def create_topic():
             admin = KafkaAdminClient(bootstrap_servers=KAFKA_BROKER)
             topic = NewTopic(name=TOPIC, num_partitions=1, replication_factor=1)
             admin.create_topics(new_topics=[topic], validate_only=False)
-            print(f"✅ Topic created: {TOPIC}")
+            print(f"Created topic: {TOPIC}")
             return
         except TopicAlreadyExistsError:
-            print(f"⚠️ Topic exists.")
+            print(f"Topic {TOPIC} already exists.")
             return
-        except Exception:
+        except Exception as e:
+            print(f"Kafka not ready, retrying topic creation in 5s: {e}")
             time.sleep(5)
         finally:
-            if admin: admin.close()
+            if admin:
+                admin.close()
+
 create_topic()
 
-# 2. KẾT NỐI PRODUCER
+# CREATE PRODUCER
+
 def create_producer():
     while True:
         try:
-            return KafkaProducer(
+            producer = KafkaProducer(
                 bootstrap_servers=[KAFKA_BROKER],
-                value_serializer=lambda x: json.dumps(x).encode("utf-8")
+                value_serializer=lambda x: json.dumps(x).encode("utf-8"),
             )
-        except:
-            print("⏳ Connecting to Kafka...")
+            print("Connected to Kafka successfully!")
+            return producer
+        except Exception as e:
+            print("Kafka not ready, retrying producer in 5s:", e)
             time.sleep(5)
+
 producer = create_producer()
 
-# 3. KẾT NỐI HDFS
-hdfs_client = InsecureClient(HDFS_URL, user='hadoop')
-try:
-    if not hdfs_client.status(HDFS_PATH, strict=False):
-        hdfs_client.makedirs(HDFS_PATH)
-except: pass
 
-# 4. HÀM LẤY DỮ LIỆU TỪ WAQI
-def fetch_data():
+# HDFS CLIENT
+
+hdfs_client = InsecureClient(HDFS_URL_WEB, user='hadoop')
+
+# Tạo thư mục gốc HDFS_PATH nếu chưa tồn tại, với quyền 777
+def ensure_hdfs_root():
     try:
-        print(f"🌍 Fetching WAQI Data...")
-        response = requests.get(API_URL, timeout=10)
+        if not hdfs_client.status(HDFS_PATH, strict=False):
+            print(f"HDFS root {HDFS_PATH} not found. Creating...")
+            hdfs_client.makedirs(HDFS_PATH)
+            hdfs_client.set_permission(HDFS_PATH, permission=0o777)
+            print(f"Created HDFS root {HDFS_PATH} with 777 permissions.")
+    except Exception as e:
+        print(f"Error ensuring HDFS root: {e}")
+
+ensure_hdfs_root()
+
+print("Connected to HDFS & Kafka — starting loop")
+
+# FETCH DATA
+
+def fetch_latest_data():
+    url = f"https://api.weatherbit.io/v2.0/current/airquality?city={CITY}&key={API_KEY}"
+    try:
+        response = requests.get(url, timeout=10)
         response.raise_for_status()
         data = response.json()
-        
-        if data['status'] != 'ok':
-            print(f"❌ WAQI Error: {data.get('data')}")
+        if "data" not in data or len(data["data"]) == 0:
             return None
-
-        # Lấy dữ liệu thô
-        result = data['data']
-        iaqi = result.get('iaqi', {})
-        
+        record = data["data"][0]
         now_utc = datetime.now(timezone.utc)
         now_local = datetime.now()
-
-        # --- QUAN TRỌNG: Mapping sang định dạng Spark cần ---
-        record = {
-            "city": "HANOI",
-            "aqi": int(result.get('aqi', 0)),
-            # Lấy an toàn các chỉ số, nếu thiếu thì gán 0
-            "co": float(iaqi.get('co', {}).get('v', 0)),
-            "no2": float(iaqi.get('no2', {}).get('v', 0)),
-            "o3": float(iaqi.get('o3', {}).get('v', 0)),
-            "pm10": float(iaqi.get('pm10', {}).get('v', 0)),
-            "pm25": float(iaqi.get('pm25', {}).get('v', 0)),
-            "so2": float(iaqi.get('so2', {}).get('v', 0)),
+        return {
+            "city": CITY,
+            "aqi": record.get("aqi"),
+            "co": record.get("co"),
+            "no2": record.get("no2"),
+            "o3": record.get("o3"),
+            "pm10": record.get("pm10"),
+            "pm25": record.get("pm25"),
+            "so2": record.get("so2"),
             "timestamp_local": now_local.strftime("%Y-%m-%dT%H:%M:%S"),
             "timestamp_utc": now_utc.strftime("%Y-%m-%dT%H:%M:%S"),
-            "source": "WAQI_Embassy"
+            "ts": int(now_utc.timestamp())
         }
-        return record
     except Exception as e:
-        print(f"❌ Error fetching: {e}")
+        print("Error fetching data:", e)
         return None
 
-# 5. GHI HDFS
+
+# SAVE TO HDFS
+
 def save_to_hdfs(record):
     now_utc = datetime.now(timezone.utc)
     date_str = now_utc.strftime("%Y/%m/%d")
     hdfs_dir = os.path.join(HDFS_PATH, date_str)
+
+    try:
+        hdfs_client.makedirs(hdfs_dir)  # tạo thư mục con nếu chưa tồn tại
+    except Exception as e:
+        print(f"Error creating HDFS directory {hdfs_dir}: {e}")
+
     file_path = os.path.join(hdfs_dir, f"data_{int(time.time())}.json")
     try:
-        try: hdfs_client.makedirs(hdfs_dir)
-        except: pass
         with hdfs_client.write(file_path, encoding="utf-8") as writer:
             writer.write(json.dumps(record) + "\n")
     except Exception as e:
-        print(f"⚠️ HDFS Error: {e}")
+        print(f"Error writing to HDFS {file_path}: {e}")
 
-# 6. MAIN LOOP
+
+# SEND TO KAFKA
+
+def send_to_kafka(record):
+    try:
+        producer.send(TOPIC, value=record)
+    except Exception as e:
+        print("Error sending to Kafka:", e)
+
+
+# MAIN LOOP
+
 if __name__ == "__main__":
     while True:
-        data = fetch_data()
-        if data:
-            producer.send(TOPIC, value=data)
-            save_to_hdfs(data)
-            print(f"📤 Sent: AQI={data['aqi']} | PM2.5={data['pm25']} | Time={data['timestamp_utc']}")
-        
-        # WAQI update mỗi giờ, nhưng  gọi mỗi phút để demo
+        try:
+            data = fetch_latest_data()
+            if data:
+                send_to_kafka(data)
+                save_to_hdfs(data)
+                print(f"Sent data: {data['timestamp_utc']}")
+        except Exception as e:
+            print("Error in main loop:", e)
         time.sleep(60)
