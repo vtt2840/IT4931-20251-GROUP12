@@ -11,96 +11,87 @@ from kafka.errors import TopicAlreadyExistsError
 
 load_dotenv()
 
-
-# CONFIG
+# --- CONFIG ---
 def require_env(key: str) -> str:
     value = os.getenv(key)
     if not value:
-        raise ValueError(f"Missing required env var: {key}")
+        print(f"WARNING: Missing env var {key}")
+        return ""
     return value
 
 CITY = require_env("CITY")
 API_KEY = require_env("API_KEY")
-KAFKA_BROKER = require_env("KAFKA_BROKER")
-TOPIC = require_env("TOPIC")
-HDFS_URL_WEB = require_env("HDFS_URL_WEB")
-HDFS_PATH = require_env("HDFS_PATH")
+KAFKA_BROKER = require_env("KAFKA_BROKER") or "kafka:9092"
+TOPIC = require_env("TOPIC") or "air-quality"
+HDFS_URL_WEB = require_env("HDFS_URL_WEB") or "http://hadoop-namenode:9870"
+HDFS_PATH = require_env("HDFS_PATH") or "/data/air-quality"
 
-print("KAFKA_BROKER =", KAFKA_BROKER)
-print("HDFS_PATH =", HDFS_PATH)
+print(f"Config: Broker={KAFKA_BROKER}, HDFS Web={HDFS_URL_WEB}")
 
-# CREATE TOPIC
+# --- KAFKA TOPIC SETUP ---
 def create_topic():
     admin = None
-    for _ in range(10):
-        try:
-            admin = KafkaAdminClient(bootstrap_servers=KAFKA_BROKER)
-            topic = NewTopic(name=TOPIC, num_partitions=1, replication_factor=1)
-            admin.create_topics(new_topics=[topic], validate_only=False)
-            print(f"Created topic: {TOPIC}")
-            return
-        except TopicAlreadyExistsError:
-            print(f"Topic {TOPIC} already exists.")
-            return
-        except Exception as e:
-            print(f"Kafka not ready, retrying topic creation in 5s: {e}")
-            time.sleep(5)
-        finally:
-            if admin:
-                admin.close()
+    try:
+        admin = KafkaAdminClient(bootstrap_servers=KAFKA_BROKER)
+        topic = NewTopic(name=TOPIC, num_partitions=1, replication_factor=1)
+        admin.create_topics(new_topics=[topic], validate_only=False)
+        print(f"Created topic: {TOPIC}")
+    except TopicAlreadyExistsError:
+        print(f"Topic {TOPIC} exists.")
+    except Exception as e:
+        print(f"Kafka Admin Error: {e}")
+    finally:
+        if admin: admin.close()
 
 create_topic()
 
-# CREATE PRODUCER
+# --- PRODUCER SETUP ---
+producer = None
+while not producer:
+    try:
+        producer = KafkaProducer(
+            bootstrap_servers=[KAFKA_BROKER],
+            value_serializer=lambda x: json.dumps(x).encode("utf-8")
+        )
+        print("Kafka Producer Connected")
+    except Exception as e:
+        print(f"Waiting for Kafka... {e}")
+        time.sleep(5)
 
-def create_producer():
-    while True:
-        try:
-            producer = KafkaProducer(
-                bootstrap_servers=[KAFKA_BROKER],
-                value_serializer=lambda x: json.dumps(x).encode("utf-8"),
-            )
-            print("Connected to Kafka successfully!")
-            return producer
-        except Exception as e:
-            print("Kafka not ready, retrying producer in 5s:", e)
-            time.sleep(5)
+# --- HDFS CLIENT ---
+hdfs_client = InsecureClient(HDFS_URL_WEB, user='root')
 
-producer = create_producer()
-
-
-# HDFS CLIENT
-
-hdfs_client = InsecureClient(HDFS_URL_WEB, user='hadoop')
-
-# Tạo thư mục gốc HDFS_PATH nếu chưa tồn tại, với quyền 777
 def ensure_hdfs_root():
     try:
         if not hdfs_client.status(HDFS_PATH, strict=False):
-            print(f"HDFS root {HDFS_PATH} not found. Creating...")
             hdfs_client.makedirs(HDFS_PATH)
             hdfs_client.set_permission(HDFS_PATH, permission=0o777)
-            print(f"Created HDFS root {HDFS_PATH} with 777 permissions.")
+            print(f"Created HDFS path: {HDFS_PATH}")
     except Exception as e:
-        print(f"Error ensuring HDFS root: {e}")
+        print(f"HDFS Connection Warning: {e}")
 
 ensure_hdfs_root()
 
-print("Connected to HDFS & Kafka — starting loop")
+from datetime import timedelta
 
-# FETCH DATA
-
+# --- FETCH DATA ---
 def fetch_latest_data():
+    if not API_KEY: 
+        return None
     url = f"https://api.weatherbit.io/v2.0/current/airquality?city={CITY}&key={API_KEY}"
     try:
         response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        data = response.json()
-        if "data" not in data or len(data["data"]) == 0:
+        if response.status_code != 200: 
+            print(f"API Error: {response.status_code}")
             return None
+        data = response.json()
+        if "data" not in data or not data["data"]: 
+            return None
+        
         record = data["data"][0]
         now_utc = datetime.now(timezone.utc)
-        now_local = datetime.now()
+        now_hanoi = now_utc + timedelta(hours=7)  # Hà Nội UTC+7
+
         return {
             "city": CITY,
             "aqi": record.get("aqi"),
@@ -110,54 +101,49 @@ def fetch_latest_data():
             "pm10": record.get("pm10"),
             "pm25": record.get("pm25"),
             "so2": record.get("so2"),
-            "timestamp_local": now_local.strftime("%Y-%m-%dT%H:%M:%S"),
             "timestamp_utc": now_utc.strftime("%Y-%m-%dT%H:%M:%S"),
+            "timestamp_local": now_hanoi.strftime("%Y-%m-%dT%H:%M:%S"),
             "ts": int(now_utc.timestamp())
         }
     except Exception as e:
-        print("Error fetching data:", e)
+        print(f"Fetch Error: {e}")
         return None
 
-
-# SAVE TO HDFS
-
+# --- SAVE TO HDFS ---
 def save_to_hdfs(record):
-    now_utc = datetime.now(timezone.utc)
-    date_str = now_utc.strftime("%Y/%m/%d")
-    hdfs_dir = os.path.join(HDFS_PATH, date_str)
-
     try:
-        hdfs_client.makedirs(hdfs_dir)  # tạo thư mục con nếu chưa tồn tại
+        now = datetime.now(timezone.utc)
+        # Đường dẫn: /data/air-quality/2023/11/30/
+        daily_path = f"{HDFS_PATH}/{now.year}/{now.month:02d}/{now.day:02d}"
+        
+        if not hdfs_client.status(daily_path, strict=False):
+            hdfs_client.makedirs(daily_path)
+            
+        filename = f"data_{int(time.time())}.json"
+        full_path = f"{daily_path}/{filename}"
+        
+        with hdfs_client.write(full_path, encoding='utf-8') as writer:
+            writer.write(json.dumps(record) + "\n") # Thêm xuống dòng
+            
+        print(f"Saved to HDFS: {full_path}")
     except Exception as e:
-        print(f"Error creating HDFS directory {hdfs_dir}: {e}")
+        print(f"HDFS Write Error: {e}")
 
-    file_path = os.path.join(hdfs_dir, f"data_{int(time.time())}.json")
-    try:
-        with hdfs_client.write(file_path, encoding="utf-8") as writer:
-            writer.write(json.dumps(record) + "\n")
-    except Exception as e:
-        print(f"Error writing to HDFS {file_path}: {e}")
-
-
-# SEND TO KAFKA
-
-def send_to_kafka(record):
-    try:
-        producer.send(TOPIC, value=record)
-    except Exception as e:
-        print("Error sending to Kafka:", e)
-
-
-# MAIN LOOP
-
+# --- MAIN LOOP ---
 if __name__ == "__main__":
+    print(f"Started. Fetching every 60s...")
     while True:
         try:
             data = fetch_latest_data()
             if data:
-                send_to_kafka(data)
+                # 1. Gửi Kafka
+                producer.send(TOPIC, value=data)
+                producer.flush()
+                print(f"Sent to Kafka: AQI={data['aqi']}")
+                
+                # 2. Lưu HDFS
                 save_to_hdfs(data)
-                print(f"Sent data: {data['timestamp_utc']}")
         except Exception as e:
-            print("Error in main loop:", e)
+            print(f"Main loop error: {e}")
+        
         time.sleep(60)

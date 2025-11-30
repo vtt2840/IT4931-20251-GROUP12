@@ -1,44 +1,43 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import (
-    col, trim, upper, from_json, year, month, dayofmonth, window, 
-    avg, max, first, to_timestamp, when, broadcast
+    col, trim, upper, from_json, avg, max as spark_max,
+    to_timestamp, when, window
 )
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, DoubleType
-import os
-import sys
+import os, sys
 
-
-# Environment variables
-
+# === CONFIG ===
 kafka_servers = os.getenv("KAFKA_BROKER", "kafka:9092")
 kafka_topic = os.getenv("TOPIC", "air-quality")
 spark_master = os.getenv("SPARK_MASTER", "spark://spark-master:7077")
-hdfs_url = os.getenv("HDFS_URL")
-hdfs_path_root = os.getenv("HDFS_PATH", "/data/air-quality/")
+hdfs_url = os.getenv("HDFS_URL", "hdfs://hadoop-namenode:9000")
 mongo_uri = os.getenv("MONGO_URI")
 
 if not mongo_uri:
     print("MONGO_URI is not set. Exiting...")
     sys.exit(1)
 
-FULL_OUTPUT_PATH = f"{hdfs_url}{hdfs_path_root}/cleaned/"
-CHECKPOINT_HDFS = f"{hdfs_url}/spark/checkpoints/streaming_aqi"
-CHECKPOINT_MONGO = f"{hdfs_url}/checkpoints/aqi_mongo"
+CHECKPOINT_MONGO = f"{hdfs_url}/checkpoints/streaming_10min"
 
-print(f"Kafka = {kafka_servers}, topic = {kafka_topic}")
-print(f"HDFS = {hdfs_url}")
+print("===== CONFIG =====")
+print("Kafka:", kafka_servers)
+print("Topic:", kafka_topic)
+print("Checkpoint:", CHECKPOINT_MONGO)
+print("==================")
 
-
+# === SPARK SESSION ===
 spark = SparkSession.builder \
-    .appName("Hanoi_AirQuality_Streaming") \
+    .appName("Hanoi_AirQuality_Streaming_10min") \
     .master(spark_master) \
     .config("spark.mongodb.connection.uri", mongo_uri) \
+    .config("spark.mongodb.output.uri", mongo_uri) \
     .getOrCreate()
+
 spark.sparkContext.setLogLevel("WARN")
 
-
+# === SCHEMA KAFKA JSON ===
 schema = StructType([
-    StructField("city_name", StringType(), True),
+    StructField("city", StringType(), True),
     StructField("aqi", IntegerType(), True),
     StructField("co", DoubleType(), True),
     StructField("no2", DoubleType(), True),
@@ -47,35 +46,34 @@ schema = StructType([
     StructField("pm25", DoubleType(), True),
     StructField("so2", DoubleType(), True),
     StructField("timestamp_local", StringType(), True),
-    StructField("timestamp_utc", StringType(), True),
+    StructField("timestamp_utc", StringType(), True)
 ])
 
-
+# Data tĩnh tham chiếu
 static_df = spark.createDataFrame([
-    ("HANOI", "21.0285", "105.8542", "Vietnam"),
-], ["city_name", "lat", "lon", "country"])
+    ("HANOI", 21.0285, 105.8542, "Vietnam"),
+], ["city", "lat", "lon", "country"])
 
-
+# === 1. READ STREAM FROM KAFKA ===
 df_raw = spark.readStream \
     .format("kafka") \
     .option("kafka.bootstrap.servers", kafka_servers) \
     .option("subscribe", kafka_topic) \
-    .option("startingOffsets", "latest") \
     .load()
 
-df_parsed = df_raw.selectExpr("CAST(value AS STRING) as json") \
-    .select(from_json(col("json"), schema).alias("data")) \
-    .select("data.*") \
-    .withColumn("timestamp_utc", to_timestamp("timestamp_utc"))
+# === 2. PARSE JSON ===
+df_parsed = df_raw.selectExpr("CAST(value AS STRING) AS json") \
+    .select(from_json(col("json"), schema).alias("d")) \
+    .select("d.*") \
+    .withColumn("timestamp_utc", to_timestamp(col("timestamp_utc"), "yyyy-MM-dd'T'HH:mm:ss"))
 
-
-df_clean = (
-    df_parsed
-    .withWatermark("timestamp_utc", "5 minutes")
-    .dropDuplicates(["city_name", "timestamp_utc"])
-    .na.drop(subset=["city_name", "aqi"])
-    .withColumn("city_name", trim(upper(col("city_name"))))
-    .filter((col("aqi") >= 0) & (col("aqi") <= 1000))
+# === 3. CLEAN & CATEGORY ===
+df_clean = df_parsed \
+    .withWatermark("timestamp_utc", "10 minutes") \
+    .dropDuplicates(["city", "timestamp_utc"]) \
+    .na.drop(subset=["city", "aqi"]) \
+    .withColumn("city", trim(upper(col("city")))) \
+    .filter((col("aqi") >= 0) & (col("aqi") <= 1000)) \
     .withColumn(
         "aqi_category",
         when(col("aqi") <= 50, "Good")
@@ -85,55 +83,67 @@ df_clean = (
         .when(col("aqi") <= 300, "Very Unhealthy")
         .otherwise("Hazardous")
     )
-    .withColumn("year", year(col("timestamp_utc")))
-    .withColumn("month", month(col("timestamp_utc")))
-    .withColumn("day", dayofmonth(col("timestamp_utc")))
-)
 
+# === 4. ENRICH STATIC DATA ===
+df_enriched = df_clean.alias("c") \
+    .join(static_df.alias("s"), col("c.city") == col("s.city"), "left") \
+    .select(col("c.*"), col("s.lat"), col("s.lon"), col("s.country"))
 
-df_enriched = df_clean.alias("c").join(
-    broadcast(static_df.alias("s")),
-    col("c.city_name") == col("s.city_name"),
-    "left"
-).select(
-    col("c.*"),
-    col("s.lat"),
-    col("s.lon"),
-    col("s.country")
-)
-
-
-df_aggregated = df_enriched.groupBy(
-    window("timestamp_utc", "1 hour"),
-    col("city_name")
+# === 5. 10-MINUTES AGGREGATION ===
+df_10min = df_enriched.groupBy(
+    window("timestamp_utc", "10 minutes"),
+    col("city")
 ).agg(
-    avg("aqi").alias("avg_aqi_1h"),
-    max("pm25").alias("max_pm25_1h"),
-    first("lat").alias("lat"),
-    first("lon").alias("lon"),
-    first("country").alias("country")
-).withColumn("window_start", col("window.start")) \
- .withColumn("window_end", col("window.end")) \
- .drop("window")
+    avg("aqi").alias("avg_aqi"),
+    avg("co").alias("avg_co"),
+    avg("no2").alias("avg_no2"),
+    avg("o3").alias("avg_o3"),
+    avg("pm10").alias("avg_pm10"),
+    avg("pm25").alias("avg_pm25"),
+    avg("so2").alias("avg_so2"),
+    spark_max("lat").alias("lat"),
+    spark_max("lon").alias("lon"),
+    spark_max("country").alias("country")
+).selectExpr(
+    "window.start as window_start",
+    "window.end as window_end",
+    "city",
+    "avg_aqi",
+    "avg_co",
+    "avg_no2",
+    "avg_o3",
+    "avg_pm10",
+    "avg_pm25",
+    "avg_so2",
+    "lat",
+    "lon",
+    "country"
+)
 
+# === 6. FOREACH BATCH TO MONGO ===
+def write_mongo(batch_df, batch_id):
+    count = batch_df.count()
+    print(f"\n===== BATCH {batch_id} | ROWS = {count} =====")
+    if count == 0:
+        print("Empty batch.")
+        return
 
-query_mongo = df_aggregated.writeStream \
+    batch_df.write \
+        .format("mongodb") \
+        .mode("append") \
+        .option("database", "aqi_db") \
+        .option("collection", "summary_10min") \
+        .option("operationType", "replace") \
+        .option("idFieldList", "city,window_start") \
+        .save()
+    print("MongoDB updated")
+
+query = df_10min.writeStream \
     .outputMode("update") \
-    .format("mongodb") \
+    .foreachBatch(write_mongo) \
     .option("checkpointLocation", CHECKPOINT_MONGO) \
-    .option("database", "aqi_db") \
-    .option("collection", "hourly_summary") \
     .trigger(processingTime="30 seconds") \
     .start()
 
-
-query_hdfs = df_clean.writeStream \
-    .outputMode("append") \
-    .format("parquet") \
-    .option("path", FULL_OUTPUT_PATH) \
-    .option("checkpointLocation", CHECKPOINT_HDFS) \
-    .partitionBy("year", "month", "day") \
-    .start()
-
-print("Streaming job started...")
+print("Streaming job running...")
 spark.streams.awaitAnyTermination()

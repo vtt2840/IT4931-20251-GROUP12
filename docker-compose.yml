@@ -96,7 +96,7 @@ services:
       /opt/spark/bin/spark-submit
       --master spark://spark-master:7077
       --conf spark.jars.ivy=/home/spark/.ivy2
-      --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.3,org.mongodb.spark:mongo-spark-connector_2.12:10.2.0,org.apache.hadoop:hadoop-client:3.3.6
+      --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.3,org.mongodb.spark:mongo-spark-connector_2.12:10.4.0
       /app/streaming.py
     volumes:
       - ./streaming:/app
