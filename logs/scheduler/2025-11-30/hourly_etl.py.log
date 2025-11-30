@@ -929,3 +929,24 @@ ModuleNotFoundError: No module named 'airflow.providers.apache'
 [2025-11-30T10:13:05.561+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:13:05.561+0000] {dag.py:3036} INFO - Sync 1 DAGs
 [2025-11-30T10:13:05.593+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:13:05.592+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
 [2025-11-30T10:13:05.636+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.143 seconds
+[2025-11-30T13:26:44.052+0000] {processor.py:161} INFO - Started process (PID=178) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T13:26:44.054+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T13:26:44.055+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:26:44.055+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T13:26:44.088+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T13:26:44.136+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:26:44.136+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T13:26:44.177+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:26:44.177+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 13:00:00+00:00, run_after=2025-11-30 14:00:00+00:00
+[2025-11-30T13:26:44.215+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.169 seconds
+[2025-11-30T13:27:14.348+0000] {processor.py:161} INFO - Started process (PID=954) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T13:27:14.349+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T13:27:14.350+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:27:14.350+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T13:27:14.370+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T13:27:14.526+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:27:14.526+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T13:27:14.551+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:27:14.551+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 13:00:00+00:00, run_after=2025-11-30 14:00:00+00:00
+[2025-11-30T13:27:14.574+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.230 seconds
+[2025-11-30T13:27:44.839+0000] {processor.py:161} INFO - Started process (PID=970) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T13:27:44.841+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T13:27:44.842+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:27:44.842+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T13:27:44.871+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T13:27:44.906+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:27:44.906+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T13:27:44.937+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:27:44.937+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 13:00:00+00:00, run_after=2025-11-30 14:00:00+00:00
+[2025-11-30T13:27:44.958+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.124 seconds

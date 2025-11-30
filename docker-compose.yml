@@ -16,8 +16,6 @@ x-airflow-common:
     JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
     SPARK_HOME: /opt/spark
     
-    # --- CẤU HÌNH MỚI: TỰ ĐỘNG KẾT NỐI SPARK (BỎ QUA UI) ---
-    # Dòng này tương đương với việc điền Host=local và Extra={"spark-home":...}
     AIRFLOW_CONN_SPARK_DEFAULT: "spark://local?spark_home=%2Fopt%2Fspark&deploy_mode=client&spark_binary=spark-submit"
     
   volumes:

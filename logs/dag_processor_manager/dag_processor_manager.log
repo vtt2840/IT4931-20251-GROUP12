@@ -1518,3 +1518,36 @@ File Path                        PID    Runtime      # DAGs    # Errors  Last Ru
 /opt/airflow/dags/hourly_etl.py                           1           0  0.19s           2025-11-30T10:13:05
 ================================================================================
 [2025-11-30T10:13:35.476+0000] {manager.py:451} INFO - Exiting gracefully upon receiving signal 15
+[2025-11-30T13:26:43.890+0000] {manager.py:469} INFO - Processing files using up to 2 processes at a time 
+[2025-11-30T13:26:43.891+0000] {manager.py:470} INFO - Process each file at most once every 30 seconds
+[2025-11-30T13:26:43.892+0000] {manager.py:471} INFO - Checking for new files in /opt/airflow/dags every 300 seconds
+[2025-11-30T13:26:43.893+0000] {manager.py:738} INFO - Searching for files in /opt/airflow/dags
+[2025-11-30T13:26:43.936+0000] {manager.py:741} INFO - There are 2 files in /opt/airflow/dags
+[2025-11-30T13:26:44.062+0000] {manager.py:879} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+-------------------------------  -----  ---------  --------  ----------  --------------  ----------
+/opt/airflow/dags/daily_etl.py     181  0.05s             0           0
+/opt/airflow/dags/hourly_etl.py    178  0.07s             0           0
+================================================================================
+[2025-11-30T13:27:14.342+0000] {manager.py:879} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+-------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/airflow/dags/daily_etl.py     957  0.00s             1           0  0.23s           2025-11-30T13:26:44
+/opt/airflow/dags/hourly_etl.py    954  0.02s             1           0  0.23s           2025-11-30T13:26:44
+================================================================================
+[2025-11-30T13:27:44.829+0000] {manager.py:879} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                          PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+-------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/airflow/dags/daily_etl.py     973  0.00s             1           0  0.24s           2025-11-30T13:27:14
+/opt/airflow/dags/hourly_etl.py    970  0.02s             1           0  0.28s           2025-11-30T13:27:14
+================================================================================
+[2025-11-30T13:28:05.671+0000] {manager.py:451} INFO - Exiting gracefully upon receiving signal 15

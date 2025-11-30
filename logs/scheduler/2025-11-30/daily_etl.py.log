@@ -922,3 +922,24 @@ ModuleNotFoundError: No module named 'airflow.providers.apache'
 [2025-11-30T10:13:05.568+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:13:05.568+0000] {dag.py:3036} INFO - Sync 1 DAGs
 [2025-11-30T10:13:05.601+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:13:05.601+0000] {dag.py:3823} INFO - Setting next_dagrun for 2_daily_aggregates_job to 2025-11-29 07:00:00+00:00, run_after=2025-11-30 07:00:00+00:00
 [2025-11-30T10:13:05.647+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/daily_etl.py took 0.148 seconds
+[2025-11-30T13:26:44.059+0000] {processor.py:161} INFO - Started process (PID=181) to work on /opt/airflow/dags/daily_etl.py
+[2025-11-30T13:26:44.060+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/daily_etl.py for tasks to queue
+[2025-11-30T13:26:44.061+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:26:44.061+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/daily_etl.py
+[2025-11-30T13:26:44.091+0000] {processor.py:840} INFO - DAG(s) '2_daily_aggregates_job' retrieved from /opt/airflow/dags/daily_etl.py
+[2025-11-30T13:26:44.136+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:26:44.136+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T13:26:44.172+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:26:44.171+0000] {dag.py:3823} INFO - Setting next_dagrun for 2_daily_aggregates_job to 2025-11-29 07:00:00+00:00, run_after=2025-11-30 07:00:00+00:00
+[2025-11-30T13:26:44.214+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/daily_etl.py took 0.160 seconds
+[2025-11-30T13:27:14.352+0000] {processor.py:161} INFO - Started process (PID=957) to work on /opt/airflow/dags/daily_etl.py
+[2025-11-30T13:27:14.354+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/daily_etl.py for tasks to queue
+[2025-11-30T13:27:14.354+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:27:14.354+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/daily_etl.py
+[2025-11-30T13:27:14.373+0000] {processor.py:840} INFO - DAG(s) '2_daily_aggregates_job' retrieved from /opt/airflow/dags/daily_etl.py
+[2025-11-30T13:27:14.526+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:27:14.526+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T13:27:14.550+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:27:14.550+0000] {dag.py:3823} INFO - Setting next_dagrun for 2_daily_aggregates_job to 2025-11-29 07:00:00+00:00, run_after=2025-11-30 07:00:00+00:00
+[2025-11-30T13:27:14.571+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/daily_etl.py took 0.222 seconds
+[2025-11-30T13:27:44.849+0000] {processor.py:161} INFO - Started process (PID=973) to work on /opt/airflow/dags/daily_etl.py
+[2025-11-30T13:27:44.850+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/daily_etl.py for tasks to queue
+[2025-11-30T13:27:44.851+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:27:44.851+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/daily_etl.py
+[2025-11-30T13:27:44.877+0000] {processor.py:840} INFO - DAG(s) '2_daily_aggregates_job' retrieved from /opt/airflow/dags/daily_etl.py
+[2025-11-30T13:27:44.909+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:27:44.909+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T13:27:44.940+0000] {logging_mixin.py:188} INFO - [2025-11-30T13:27:44.940+0000] {dag.py:3823} INFO - Setting next_dagrun for 2_daily_aggregates_job to 2025-11-29 07:00:00+00:00, run_after=2025-11-30 07:00:00+00:00
+[2025-11-30T13:27:44.961+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/daily_etl.py took 0.117 seconds
