@@ -1,0 +1,504 @@
+[2025-11-29T18:08:07.117+0000] {processor.py:161} INFO - Started process (PID=182) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:08:07.118+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:08:07.120+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:08:07.119+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:08:07.140+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:08:07.135+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:08:07.142+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:08:07.167+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.054 seconds
+[2025-11-29T18:08:38.224+0000] {processor.py:161} INFO - Started process (PID=198) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:08:38.226+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:08:38.227+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:08:38.227+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:08:38.240+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:08:38.238+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:08:38.241+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:08:38.267+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.047 seconds
+[2025-11-29T18:09:09.313+0000] {processor.py:161} INFO - Started process (PID=214) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:09:09.316+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:09:09.318+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:09:09.317+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:09:09.341+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:09:09.337+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:09:09.344+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:09:09.388+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.094 seconds
+[2025-11-29T18:09:39.543+0000] {processor.py:161} INFO - Started process (PID=230) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:09:39.551+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:09:39.558+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:09:39.556+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:09:39.602+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:09:39.594+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:09:39.606+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:09:39.670+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.131 seconds
+[2025-11-29T18:10:09.772+0000] {processor.py:161} INFO - Started process (PID=246) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:10:09.773+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:10:09.774+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:10:09.774+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:10:09.797+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:10:09.792+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:10:09.799+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:10:09.830+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.063 seconds
+[2025-11-29T18:10:39.919+0000] {processor.py:161} INFO - Started process (PID=262) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:10:39.920+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:10:39.922+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:10:39.921+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:10:39.937+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:10:39.933+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:10:39.938+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:10:39.966+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.050 seconds
+[2025-11-29T18:11:10.055+0000] {processor.py:161} INFO - Started process (PID=278) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:11:10.057+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:11:10.058+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:11:10.058+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:11:10.122+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:11:10.111+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:11:10.124+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:11:10.153+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.102 seconds
+[2025-11-29T18:11:40.272+0000] {processor.py:161} INFO - Started process (PID=294) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:11:40.273+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:11:40.274+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:11:40.274+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:11:40.295+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:11:40.290+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:11:40.297+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:11:40.391+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.124 seconds
+[2025-11-29T18:12:10.542+0000] {processor.py:161} INFO - Started process (PID=310) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:12:10.543+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:12:10.545+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:12:10.545+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:12:10.566+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:12:10.563+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:12:10.568+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:12:10.601+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.063 seconds
+[2025-11-29T18:12:40.690+0000] {processor.py:161} INFO - Started process (PID=326) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:12:40.691+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:12:40.692+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:12:40.692+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:12:40.706+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:12:40.703+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:12:40.707+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:12:40.736+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.051 seconds
+[2025-11-29T18:13:11.454+0000] {processor.py:161} INFO - Started process (PID=342) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:13:11.455+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:13:11.456+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:13:11.456+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:13:11.476+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:13:11.472+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:13:11.478+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:13:11.507+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.056 seconds
+[2025-11-29T18:13:41.730+0000] {processor.py:161} INFO - Started process (PID=358) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:13:41.731+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:13:41.732+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:13:41.731+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:13:41.756+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:13:41.750+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:13:41.758+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:13:41.840+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.114 seconds
+[2025-11-29T18:14:11.970+0000] {processor.py:161} INFO - Started process (PID=374) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:14:11.978+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:14:11.980+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:14:11.979+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:14:12.069+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:14:12.063+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:14:12.072+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:14:12.145+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.194 seconds
+[2025-11-29T18:14:42.252+0000] {processor.py:161} INFO - Started process (PID=390) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:14:42.253+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:14:42.255+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:14:42.254+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:14:42.271+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:14:42.268+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:14:42.272+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:14:42.323+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.075 seconds
+[2025-11-29T18:15:12.398+0000] {processor.py:161} INFO - Started process (PID=406) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:15:12.404+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:15:12.407+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:15:12.406+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:15:12.438+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:15:12.432+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:15:12.439+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:15:12.503+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.116 seconds
+[2025-11-29T18:15:42.748+0000] {processor.py:161} INFO - Started process (PID=424) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:15:42.750+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:15:42.752+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:15:42.751+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:15:42.776+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:15:42.771+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:15:42.781+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:15:42.816+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.073 seconds
+[2025-11-29T18:16:12.861+0000] {processor.py:161} INFO - Started process (PID=438) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:16:12.864+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:16:12.865+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:16:12.864+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:16:12.885+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:16:12.881+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:16:12.886+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:16:12.912+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.054 seconds
+[2025-11-29T18:16:43.036+0000] {processor.py:161} INFO - Started process (PID=454) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:16:43.038+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:16:43.041+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:16:43.040+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:16:43.077+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:16:43.065+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:16:43.079+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:16:43.136+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.111 seconds
+[2025-11-29T18:17:13.291+0000] {processor.py:161} INFO - Started process (PID=470) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:17:13.310+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:17:13.315+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:17:13.315+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:17:13.507+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:17:13.455+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:17:13.542+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:17:13.650+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.384 seconds
+[2025-11-29T18:17:43.952+0000] {processor.py:161} INFO - Started process (PID=486) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:17:43.953+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:17:43.955+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:17:43.954+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:17:43.976+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:17:43.971+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:17:43.977+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:17:44.004+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.054 seconds
+[2025-11-29T18:18:14.129+0000] {processor.py:161} INFO - Started process (PID=502) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:18:14.130+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:18:14.131+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:18:14.131+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:18:14.145+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:18:14.142+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:18:14.146+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:18:14.170+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.045 seconds
+[2025-11-29T18:18:45.203+0000] {processor.py:161} INFO - Started process (PID=517) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:18:45.204+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:18:45.205+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:18:45.205+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:18:45.222+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:18:45.219+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:18:45.223+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:18:45.250+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.050 seconds
+[2025-11-29T18:19:15.329+0000] {processor.py:161} INFO - Started process (PID=533) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:19:15.330+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:19:15.331+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:19:15.330+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:19:15.344+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:19:15.341+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:19:15.345+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:19:15.370+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.045 seconds
+[2025-11-29T18:19:45.487+0000] {processor.py:161} INFO - Started process (PID=549) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:19:45.488+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:19:45.489+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:19:45.489+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:19:45.509+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:19:45.506+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:19:45.510+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:19:45.534+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.050 seconds
+[2025-11-29T18:20:15.683+0000] {processor.py:161} INFO - Started process (PID=565) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:20:15.684+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:20:15.685+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:20:15.685+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:20:15.706+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:20:15.702+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:20:15.707+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:20:15.733+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.054 seconds
+[2025-11-29T18:20:45.864+0000] {processor.py:161} INFO - Started process (PID=583) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:20:45.865+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:20:45.866+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:20:45.866+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:20:45.879+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:20:45.876+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:20:45.880+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:20:45.907+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.047 seconds
+[2025-11-29T18:21:16.004+0000] {processor.py:161} INFO - Started process (PID=597) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:21:16.005+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:21:16.007+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:21:16.007+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:21:16.031+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:21:16.026+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:21:16.033+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:21:16.061+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.063 seconds
+[2025-11-29T18:21:46.171+0000] {processor.py:161} INFO - Started process (PID=613) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:21:46.172+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:21:46.174+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:21:46.174+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:21:46.213+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:21:46.207+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:21:46.215+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:21:46.247+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.080 seconds
+[2025-11-29T18:22:16.414+0000] {processor.py:161} INFO - Started process (PID=629) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:22:16.415+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:22:16.417+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:22:16.416+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:22:16.430+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:22:16.427+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:22:16.431+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:22:16.460+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.050 seconds
+[2025-11-29T18:22:47.542+0000] {processor.py:161} INFO - Started process (PID=645) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:22:47.543+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:22:47.545+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:22:47.544+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:22:47.562+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:22:47.558+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:22:47.563+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:22:47.593+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.055 seconds
+[2025-11-29T18:23:17.849+0000] {processor.py:161} INFO - Started process (PID=661) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:23:17.850+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:23:17.851+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:23:17.851+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:23:17.864+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:23:17.862+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:23:17.865+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:23:17.891+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.046 seconds
+[2025-11-29T18:23:47.975+0000] {processor.py:161} INFO - Started process (PID=677) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:23:47.976+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:23:47.977+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:23:47.977+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:23:47.996+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:23:47.991+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:23:47.997+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:23:48.027+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.056 seconds
+[2025-11-29T18:24:18.097+0000] {processor.py:161} INFO - Started process (PID=693) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:24:18.099+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:24:18.100+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:24:18.100+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:24:18.114+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:24:18.111+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:24:18.115+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:24:18.142+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.048 seconds
+[2025-11-29T18:24:49.185+0000] {processor.py:161} INFO - Started process (PID=709) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:24:49.186+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:24:49.187+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:24:49.186+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:24:49.201+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:24:49.198+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:24:49.202+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:24:49.229+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.048 seconds
+[2025-11-29T18:25:19.407+0000] {processor.py:161} INFO - Started process (PID=728) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:25:19.409+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:25:19.410+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:25:19.410+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:25:19.429+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:25:19.425+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:25:19.431+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:25:19.462+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.059 seconds
+[2025-11-29T18:25:49.522+0000] {processor.py:161} INFO - Started process (PID=742) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:25:49.523+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-29T18:25:49.525+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:25:49.525+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:25:49.549+0000] {logging_mixin.py:188} INFO - [2025-11-29T18:25:49.544+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-29T18:25:49.550+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-29T18:25:49.584+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.067 seconds

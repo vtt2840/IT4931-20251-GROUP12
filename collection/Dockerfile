@@ -20,9 +20,8 @@ COPY producer.py /app/producer.py
 # NOTE: do NOT copy secrets like .env into image for production. For local development,
 # you can mount an .env file with `-v` or use docker-compose env_file.
 
-# Create a non-root user for running the process
-RUN useradd -m appuser && chown -R appuser /app
-USER appuser
+# RUN useradd -m appuser && chown -R appuser /app
+# USER appuser
 
 ENV PYTHONUNBUFFERED=1
 

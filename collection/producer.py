@@ -11,9 +11,8 @@ from kafka.errors import TopicAlreadyExistsError
 
 load_dotenv()
 
-# ----------------------------
+
 # CONFIG
-# ----------------------------
 def require_env(key: str) -> str:
     value = os.getenv(key)
     if not value:
@@ -24,15 +23,13 @@ CITY = require_env("CITY")
 API_KEY = require_env("API_KEY")
 KAFKA_BROKER = require_env("KAFKA_BROKER")
 TOPIC = require_env("TOPIC")
-HDFS_URL = require_env("HDFS_URL")
+HDFS_URL_WEB = require_env("HDFS_URL_WEB")
 HDFS_PATH = require_env("HDFS_PATH")
 
 print("KAFKA_BROKER =", KAFKA_BROKER)
 print("HDFS_PATH =", HDFS_PATH)
 
-# ----------------------------
 # CREATE TOPIC
-# ----------------------------
 def create_topic():
     admin = None
     for _ in range(10):
@@ -54,9 +51,8 @@ def create_topic():
 
 create_topic()
 
-# ----------------------------
 # CREATE PRODUCER
-# ----------------------------
+
 def create_producer():
     while True:
         try:
@@ -72,12 +68,11 @@ def create_producer():
 
 producer = create_producer()
 
-# ----------------------------
-# HDFS CLIENT
-# ----------------------------
-hdfs_client = InsecureClient(HDFS_URL, user='hadoop')
 
-# Tạo thư mục gốc HDFS_PATH nếu chưa tồn tại, với quyền 777
+# HDFS CLIENT
+
+hdfs_client = InsecureClient(HDFS_URL_WEB, user='root')
+
 def ensure_hdfs_root():
     try:
         if not hdfs_client.status(HDFS_PATH, strict=False):
@@ -92,9 +87,8 @@ ensure_hdfs_root()
 
 print("Connected to HDFS & Kafka — starting loop")
 
-# ----------------------------
 # FETCH DATA
-# ----------------------------
+
 def fetch_latest_data():
     url = f"https://api.weatherbit.io/v2.0/current/airquality?city={CITY}&key={API_KEY}"
     try:
@@ -123,9 +117,9 @@ def fetch_latest_data():
         print("Error fetching data:", e)
         return None
 
-# ----------------------------
+
 # SAVE TO HDFS
-# ----------------------------
+
 def save_to_hdfs(record):
     now_utc = datetime.now(timezone.utc)
     date_str = now_utc.strftime("%Y/%m/%d")
@@ -143,18 +137,18 @@ def save_to_hdfs(record):
     except Exception as e:
         print(f"Error writing to HDFS {file_path}: {e}")
 
-# ----------------------------
+
 # SEND TO KAFKA
-# ----------------------------
+
 def send_to_kafka(record):
     try:
         producer.send(TOPIC, value=record)
     except Exception as e:
         print("Error sending to Kafka:", e)
 
-# ----------------------------
+
 # MAIN LOOP
-# ----------------------------
+
 if __name__ == "__main__":
     while True:
         try:
@@ -166,3 +160,4 @@ if __name__ == "__main__":
         except Exception as e:
             print("Error in main loop:", e)
         time.sleep(60)
+        

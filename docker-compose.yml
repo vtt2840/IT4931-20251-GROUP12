@@ -1,5 +1,36 @@
 version: "3.8"
 
+x-airflow-common:
+  &airflow-common
+  build:
+    context: .
+    dockerfile: Dockerfile.airflow
+  environment:
+    &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW__CORE__FERNET_KEY: ''
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    # Cấu hình Java/Spark cho Airflow
+    JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
+    SPARK_HOME: /opt/spark
+    
+    # --- CẤU HÌNH MỚI: TỰ ĐỘNG KẾT NỐI SPARK (BỎ QUA UI) ---
+    # Dòng này tương đương với việc điền Host=local và Extra={"spark-home":...}
+    AIRFLOW_CONN_SPARK_DEFAULT: "spark://local?spark_home=%2Fopt%2Fspark&deploy_mode=client&spark_binary=spark-submit"
+    
+  volumes:
+    - ./dags:/opt/airflow/dags
+    # Mount scripts để sửa code trực tiếp mà không cần rebuild (Dev mode)
+    - ./batch:/opt/airflow/scripts
+    - ./logs:/opt/airflow/logs
+  user: "${AIRFLOW_UID:-50000}:0"
+  depends_on:
+    &airflow-common-depends-on
+    postgres:
+      condition: service_healthy
+
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
@@ -64,19 +95,74 @@ services:
     command: ["python", "producer.py"]
     restart: unless-stopped
 
-  batch:
-    build: ./batch
-    image: group12-batch:latest
-    container_name: batch
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+    restart: always
+
+  airflow-init:
+    <<: *airflow-common    
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        echo "Initializing Airflow Database..."
+        airflow db migrate
+        echo "Creating Admin User..."
+        airflow users create \
+          --username airflow \
+          --password airflow \
+          --firstname Airflow \
+          --lastname Admin \
+          --role Admin \
+          --email airflow@example.com
+        echo "Init completed!"
+    environment:
+      <<: *airflow-common-env
+      _AIRFLOW_DB_MIGRATE: 'true'
+      _AIRFLOW_WWW_USER_CREATE: 'true'
+      
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: always
     depends_on:
-      - hadoop-namenode
-    command: >
-      bash -c "python cleaner.py &&
-               python batch_hourly_aggregates.py &&
-               python batch_daily_aggregates.py &&
-               python dq_report.py"
-    restart: unless-stopped
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8974/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: always
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
 
 volumes:
   hadoop_namenode:
   hadoop_datanode:
+  postgres-db-volume:

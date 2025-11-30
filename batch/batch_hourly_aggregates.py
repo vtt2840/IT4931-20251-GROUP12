@@ -8,7 +8,7 @@ from pyspark.sql.window import Window
 import logging
 import sys
 import math
-
+import os 
 # Logging setup
 logging.basicConfig(
     level=logging.INFO,
@@ -26,22 +26,22 @@ def main():
     - Thêm feature engineering: day_of_week, is_weekend, month sin/cos
     - Ghi Parquet partitioned vào /batch/air_quality/hourly
     """
-    
+    os.environ["HADOOP_USER_NAME"] = "root"
     spark = SparkSession.builder \
         .appName("batch-hourly-aggregates") \
         .getOrCreate()
     
     # Set Parquet compression
     spark.conf.set("spark.sql.parquet.compression.codec", "snappy")
-    
+    spark.conf.set("spark.sql.shuffle.partitions", "20")  # Giảm số lượng partition khi shuffle
     logger.info("=" * 80)
     logger.info("Starting Hourly Aggregates Batch Job")
     logger.info("=" * 80)
     
     try:
         # Paths
-        input_path = "hdfs://hadoop-namenode:9000/clean-data/air_quality"
-        output_path = "hdfs://hadoop-namenode:9000/batch/air_quality/hourly"
+        input_path = "hdfs://hadoop-namenode:9000/clean-data/air-quality"
+        output_path = "hdfs://hadoop-namenode:9000/batch/air-quality/hourly"
         
         logger.info(f"Reading cleaned data from: {input_path}")
         df = spark.read.parquet(input_path)
@@ -90,6 +90,7 @@ def main():
             (col("o3") >= 0) & (col("o3") <= 500) &
             (col("so2") >= 0) & (col("so2") <= 500)
         )
+        df.cache()
         
         after_filter_count = df.count()
         logger.info(f"Records after range filtering: {after_filter_count}")

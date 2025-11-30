@@ -10,6 +10,7 @@ import logging
 import sys
 import math
 from datetime import datetime
+import os 
 
 # Logging setup
 logging.basicConfig(
@@ -27,7 +28,7 @@ def main():
     - Lưu báo cáo JSON vào /reports/data-quality/YYYY/MM/DD/
     - (Tùy chọn) Publish alerts to Kafka
     """
-    
+    os.environ["HADOOP_USER_NAME"] = "root"
     spark = (
         SparkSession.builder
         .appName("dq-report")
@@ -41,7 +42,7 @@ def main():
     
     try:
         # Paths
-        input_path = "hdfs://hadoop-namenode:9000/clean-data/air_quality"
+        input_path = "hdfs://hadoop-namenode:9000/clean-data/air-quality"
         output_base = "hdfs://hadoop-namenode:9000/reports/data-quality"
         
         logger.info(f"Reading cleaned data from: {input_path}")

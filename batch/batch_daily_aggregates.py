@@ -8,6 +8,8 @@ from pyspark.sql.window import Window
 import logging
 import sys
 import math
+import os 
+
 
 # Logging setup
 logging.basicConfig(
@@ -25,13 +27,14 @@ def main():
     - Tính aggregates theo city/date: avg, max, percentiles cho AQI/PM2.5/PM10
     - Ghi Parquet partitioned vào /batch/air_quality/daily
     """
-    
+    os.environ["HADOOP_USER_NAME"] = "root"
+    # Cấu hình AQE để tối ưu hiệu năng
     spark = SparkSession.builder \
         .appName("batch-daily-aggregates") \
+        .config("spark.sql.parquet.compression.codec", "snappy") \
+        .config("spark.sql.adaptive.enabled", "true") \
+        .config("spark.sql.adaptive.coalescePartitions.enabled", "true") \
         .getOrCreate()
-    
-    # Set Parquet compression
-    spark.conf.set("spark.sql.parquet.compression.codec", "snappy")
     
     logger.info("=" * 80)
     logger.info("Starting Daily Aggregates Batch Job")
@@ -39,8 +42,8 @@ def main():
     
     try:
         # Paths
-        input_path = "hdfs://hadoop-namenode:9000/clean-data/air_quality"
-        output_path = "hdfs://hadoop-namenode:9000/batch/air_quality/daily"
+        input_path = "hdfs://hadoop-namenode:9000/clean-data/air-quality"
+        output_path = "hdfs://hadoop-namenode:9000/batch/air-quality/daily"
         dq_report_path = "hdfs://hadoop-namenode:9000/reports/data-quality"
         
         logger.info(f"Reading cleaned data from: {input_path}")
@@ -48,7 +51,7 @@ def main():
         
         initial_count = df.count()
         logger.info(f"Initial record count: {initial_count}")
-        
+        # Preprocessing & feature engineering
        
         logger.info("Starting preprocessing...")
         
@@ -83,20 +86,23 @@ def main():
         
         # 4. Range validation & filter out-of-range values
         # Valid ranges: AQI [0,500], PM2.5 [0,500], PM10 [0,600], CO [0,10000], NO2 [0,500], O3 [0,500], SO2 [0,500]
-        df = df.filter(
-            (col("aqi") >= 0) & (col("aqi") <= 500) &
-            (col("pm25") >= 0) & (col("pm25") <= 500) &
-            (col("pm10") >= 0) & (col("pm10") <= 600) &
-            (col("co") >= 0) & (col("co") <= 10000) &
-            (col("no2") >= 0) & (col("no2") <= 500) &
-            (col("o3") >= 0) & (col("o3") <= 500) &
-            (col("so2") >= 0) & (col("so2") <= 500)
+        df= df_no_dup.filter(
+            (col("aqi").between(0, 500)) &
+            (col("pm25").between(0, 500)) &
+            (col("pm10").between(0, 600)) &
+            (col("co").between(0, 10000)) &
+            (col("no2").between(0, 500)) &
+            (col("o3").between(0, 500)) &
+            (col("so2").between(0, 500))
         )
-        
+        cached_count = df.count()
+        logger.info(f"Records after caching: {cached_count}")
+
         after_filter_count = df.count()
         logger.info(f"Records after range filtering: {after_filter_count}")
         logger.info(f"Records filtered out (out of range): {initial_count - after_filter_count}")
         
+        # ============ DAILY AGGREGATES ============
         logger.info("Computing daily aggregates...")
         
         daily_agg = (
@@ -142,6 +148,14 @@ def main():
                   stddev("so2").alias("so2_stddev"),
               )
         )
+        daily_agg = daily_agg.withColumn("who_status", 
+            when(col("aqi_avg") <= 50, "Good")
+            .when(col("aqi_avg") <= 100, "Moderate")
+            .when(col("aqi_avg") <= 150, "Unhealthy for Sensitive Groups")
+            .when(col("aqi_avg") <= 200, "Unhealthy")
+            .when(col("aqi_avg") <= 300, "Very Unhealthy")
+            .otherwise("Hazardous")
+        )
         
         agg_count = daily_agg.count()
         logger.info(f"Daily aggregates computed: {agg_count} city/date combinations")
@@ -162,6 +176,7 @@ def main():
             ).otherwise(0)
         )
         
+        daily_agg.cache() 
         spike_count = daily_agg.filter(col("spike_flag") == 1).count()
         logger.info(f"Spikes detected (>50% increase): {spike_count}")
         
@@ -204,6 +219,8 @@ def main():
         logger.info(f"Partitioning: year/month/day")
         logger.info("=" * 80)
         
+        df_no_dup.unpersist()
+        daily_agg.unpersist() 
         return True
         
     except Exception as e:

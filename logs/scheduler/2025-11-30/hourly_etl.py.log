@@ -1,0 +1,931 @@
+[2025-11-30T08:11:51.427+0000] {processor.py:161} INFO - Started process (PID=182) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:11:51.427+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:11:51.429+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:11:51.428+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:11:51.442+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:11:51.439+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-30T08:11:51.443+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:11:51.462+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.038 seconds
+[2025-11-30T08:12:22.025+0000] {processor.py:161} INFO - Started process (PID=198) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:12:22.040+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:12:22.044+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:12:22.043+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:12:22.137+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:12:22.134+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-30T08:12:22.139+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:12:22.161+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.139 seconds
+[2025-11-30T08:12:52.310+0000] {processor.py:161} INFO - Started process (PID=214) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:12:52.311+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:12:52.313+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:12:52.312+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:12:52.326+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:12:52.323+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-30T08:12:52.328+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:12:52.356+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.051 seconds
+[2025-11-30T08:13:22.721+0000] {processor.py:161} INFO - Started process (PID=230) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:13:22.722+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:13:22.724+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:13:22.723+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:13:22.742+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:13:22.737+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/hourly_etl.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/hourly_etl.py", line 2, in <module>
+    from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+ModuleNotFoundError: No module named 'airflow.providers.apache'
+[2025-11-30T08:13:22.743+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:13:22.770+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.055 seconds
+[2025-11-30T08:39:48.540+0000] {processor.py:161} INFO - Started process (PID=188) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:39:48.542+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:39:48.543+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:39:48.543+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:39:48.580+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:39:48.616+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:39:48.616+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:39:48.646+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:39:48.646+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 07:00:00+00:00, run_after=2025-11-30 08:00:00+00:00
+[2025-11-30T08:39:48.674+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.137 seconds
+[2025-11-30T08:40:18.865+0000] {processor.py:161} INFO - Started process (PID=205) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:40:18.866+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:40:18.867+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:40:18.867+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:40:18.895+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:40:19.098+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:40:19.097+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:40:19.124+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:40:19.124+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 07:00:00+00:00, run_after=2025-11-30 08:00:00+00:00
+[2025-11-30T08:40:19.149+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.289 seconds
+[2025-11-30T08:40:49.457+0000] {processor.py:161} INFO - Started process (PID=221) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:40:49.459+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:40:49.460+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:40:49.459+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:40:49.484+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:40:49.527+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:40:49.526+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:40:49.558+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:40:49.557+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 07:00:00+00:00, run_after=2025-11-30 08:00:00+00:00
+[2025-11-30T08:40:49.583+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.131 seconds
+[2025-11-30T08:41:19.798+0000] {processor.py:161} INFO - Started process (PID=260) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:41:19.799+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:41:19.800+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:41:19.800+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:41:19.824+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:41:19.858+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:41:19.858+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:41:19.886+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:41:19.886+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 07:00:00+00:00, run_after=2025-11-30 08:00:00+00:00
+[2025-11-30T08:41:19.907+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.113 seconds
+[2025-11-30T08:41:50.178+0000] {processor.py:161} INFO - Started process (PID=276) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:41:50.180+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:41:50.181+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:41:50.181+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:41:50.211+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:41:50.249+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:41:50.249+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:41:50.280+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:41:50.280+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 07:00:00+00:00, run_after=2025-11-30 08:00:00+00:00
+[2025-11-30T08:41:50.307+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.132 seconds
+[2025-11-30T08:42:20.506+0000] {processor.py:161} INFO - Started process (PID=384) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:42:20.507+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:42:20.508+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:42:20.508+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:42:20.529+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:42:20.561+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:42:20.561+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:42:20.586+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:42:20.586+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:42:20.610+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.107 seconds
+[2025-11-30T08:42:50.959+0000] {processor.py:161} INFO - Started process (PID=400) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:42:50.960+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:42:50.961+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:42:50.960+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:42:50.981+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:42:51.015+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:42:51.015+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:42:51.044+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:42:51.043+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:42:51.068+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.112 seconds
+[2025-11-30T08:43:21.257+0000] {processor.py:161} INFO - Started process (PID=416) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:43:21.259+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:43:21.260+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:43:21.259+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:43:21.284+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:43:21.323+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:43:21.323+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:43:21.352+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:43:21.352+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:43:21.373+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.120 seconds
+[2025-11-30T08:43:51.764+0000] {processor.py:161} INFO - Started process (PID=432) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:43:51.765+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:43:51.766+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:43:51.765+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:43:51.793+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:43:51.830+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:43:51.830+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:43:51.860+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:43:51.860+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:43:51.882+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.122 seconds
+[2025-11-30T08:44:22.074+0000] {processor.py:161} INFO - Started process (PID=448) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:44:22.075+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:44:22.077+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:44:22.076+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:44:22.106+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:44:22.146+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:44:22.146+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:44:22.177+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:44:22.177+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:44:22.203+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.133 seconds
+[2025-11-30T08:44:52.565+0000] {processor.py:161} INFO - Started process (PID=464) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:44:52.566+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:44:52.567+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:44:52.567+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:44:52.593+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:44:52.632+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:44:52.632+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:44:52.663+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:44:52.663+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:44:52.687+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.126 seconds
+[2025-11-30T08:45:23.045+0000] {processor.py:161} INFO - Started process (PID=480) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:45:23.046+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:45:23.047+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:45:23.047+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:45:23.073+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:45:23.110+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:45:23.109+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:45:23.141+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:45:23.140+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:45:23.164+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.124 seconds
+[2025-11-30T08:45:53.450+0000] {processor.py:161} INFO - Started process (PID=495) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:45:53.451+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:45:53.452+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:45:53.452+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:45:53.482+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:45:53.520+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:45:53.519+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:45:53.554+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:45:53.554+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:45:53.583+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.138 seconds
+[2025-11-30T08:46:23.825+0000] {processor.py:161} INFO - Started process (PID=511) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:46:23.826+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:46:23.827+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:46:23.827+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:46:23.860+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:46:23.906+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:46:23.906+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:46:23.941+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:46:23.940+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:46:23.971+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.150 seconds
+[2025-11-30T08:46:54.353+0000] {processor.py:161} INFO - Started process (PID=527) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:46:54.356+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:46:54.359+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:46:54.358+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:46:54.399+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:46:54.443+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:46:54.442+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:46:54.477+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:46:54.477+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:46:54.505+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.156 seconds
+[2025-11-30T08:47:24.674+0000] {processor.py:161} INFO - Started process (PID=635) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:47:24.675+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:47:24.677+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:47:24.676+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:47:24.699+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:47:24.731+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:47:24.730+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:47:24.756+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:47:24.756+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:47:24.776+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.106 seconds
+[2025-11-30T08:47:54.984+0000] {processor.py:161} INFO - Started process (PID=651) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:47:54.985+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:47:54.986+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:47:54.986+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:47:55.011+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:47:55.054+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:47:55.054+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:47:55.088+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:47:55.088+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:47:55.116+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.136 seconds
+[2025-11-30T08:48:25.478+0000] {processor.py:161} INFO - Started process (PID=667) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:48:25.479+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:48:25.480+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:48:25.479+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:48:25.501+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:48:25.534+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:48:25.534+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:48:25.561+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:48:25.561+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:48:25.587+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.112 seconds
+[2025-11-30T08:48:55.956+0000] {processor.py:161} INFO - Started process (PID=683) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:48:55.957+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:48:55.958+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:48:55.958+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:48:55.989+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:48:56.029+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:48:56.029+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:48:56.065+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:48:56.065+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:48:56.118+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.165 seconds
+[2025-11-30T08:49:26.280+0000] {processor.py:161} INFO - Started process (PID=699) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:49:26.280+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:49:26.282+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:49:26.281+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:49:26.305+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:49:26.340+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:49:26.340+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:49:26.370+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:49:26.369+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:49:26.392+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.117 seconds
+[2025-11-30T08:49:56.666+0000] {processor.py:161} INFO - Started process (PID=716) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:49:56.667+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:49:56.669+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:49:56.668+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:49:56.697+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:49:56.736+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:49:56.736+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:49:56.769+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:49:56.768+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:49:56.796+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.134 seconds
+[2025-11-30T08:50:27.150+0000] {processor.py:161} INFO - Started process (PID=732) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:50:27.151+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:50:27.152+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:50:27.152+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:50:27.175+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:50:27.212+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:50:27.211+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:50:27.242+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:50:27.242+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:50:27.268+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.121 seconds
+[2025-11-30T08:50:57.569+0000] {processor.py:161} INFO - Started process (PID=748) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:50:57.570+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:50:57.572+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:50:57.571+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:50:57.598+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:50:57.636+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:50:57.635+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:50:57.665+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:50:57.665+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:50:57.694+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.130 seconds
+[2025-11-30T08:51:27.948+0000] {processor.py:161} INFO - Started process (PID=764) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:51:27.949+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:51:27.950+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:51:27.950+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:51:27.972+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:51:28.006+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:51:28.006+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:51:28.037+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:51:28.036+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:51:28.059+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.115 seconds
+[2025-11-30T08:51:58.330+0000] {processor.py:161} INFO - Started process (PID=780) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:51:58.331+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:51:58.333+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:51:58.332+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:51:58.356+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:51:58.393+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:51:58.393+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:51:58.429+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:51:58.429+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:51:58.503+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.179 seconds
+[2025-11-30T08:52:28.740+0000] {processor.py:161} INFO - Started process (PID=796) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:52:28.741+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:52:28.742+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:52:28.742+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:52:28.764+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:52:28.801+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:52:28.801+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:52:28.831+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:52:28.831+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:52:28.852+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.116 seconds
+[2025-11-30T08:52:59.170+0000] {processor.py:161} INFO - Started process (PID=811) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:52:59.171+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:52:59.172+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:52:59.172+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:52:59.195+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:52:59.229+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:52:59.229+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:52:59.259+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:52:59.259+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:52:59.282+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.115 seconds
+[2025-11-30T08:53:29.518+0000] {processor.py:161} INFO - Started process (PID=827) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:53:29.519+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:53:29.520+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:53:29.520+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:53:29.549+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:53:29.589+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:53:29.589+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:53:29.622+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:53:29.622+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:53:29.650+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.137 seconds
+[2025-11-30T08:53:59.946+0000] {processor.py:161} INFO - Started process (PID=843) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:53:59.947+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:53:59.948+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:53:59.948+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:53:59.978+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:54:00.019+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:54:00.019+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:54:00.047+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:54:00.047+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:54:00.081+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.139 seconds
+[2025-11-30T08:54:30.418+0000] {processor.py:161} INFO - Started process (PID=859) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:54:30.419+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:54:30.420+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:54:30.420+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:54:30.444+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:54:30.487+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:54:30.487+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:54:30.515+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:54:30.515+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:54:30.548+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.133 seconds
+[2025-11-30T08:55:00.969+0000] {processor.py:161} INFO - Started process (PID=875) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:55:00.970+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:55:00.972+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:55:00.972+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:55:01.007+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:55:01.047+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:55:01.046+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:55:01.081+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:55:01.081+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:55:01.111+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.147 seconds
+[2025-11-30T08:55:31.289+0000] {processor.py:161} INFO - Started process (PID=891) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:55:31.290+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T08:55:31.292+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:55:31.291+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:55:31.322+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T08:55:31.365+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:55:31.365+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T08:55:31.397+0000] {logging_mixin.py:188} INFO - [2025-11-30T08:55:31.397+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 08:00:00+00:00, run_after=2025-11-30 09:00:00+00:00
+[2025-11-30T08:55:31.424+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.141 seconds
+[2025-11-30T09:24:58.753+0000] {processor.py:161} INFO - Started process (PID=181) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:24:58.754+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:24:58.755+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:24:58.755+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:24:58.785+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:24:58.827+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:24:58.827+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:24:58.858+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:24:58.857+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:24:58.879+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.129 seconds
+[2025-11-30T09:25:29.075+0000] {processor.py:161} INFO - Started process (PID=457) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:25:29.076+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:25:29.077+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:25:29.076+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:25:29.103+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:25:29.282+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:25:29.282+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:25:29.306+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:25:29.305+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:25:29.327+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.256 seconds
+[2025-11-30T09:25:59.546+0000] {processor.py:161} INFO - Started process (PID=473) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:25:59.547+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:25:59.548+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:25:59.547+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:25:59.567+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:25:59.603+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:25:59.603+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:25:59.630+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:25:59.630+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:25:59.652+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.109 seconds
+[2025-11-30T09:26:30.019+0000] {processor.py:161} INFO - Started process (PID=489) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:26:30.020+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:26:30.021+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:26:30.020+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:26:30.049+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:26:30.083+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:26:30.082+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:26:30.109+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:26:30.109+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:26:30.129+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.113 seconds
+[2025-11-30T09:27:00.420+0000] {processor.py:161} INFO - Started process (PID=505) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:27:00.422+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:27:00.423+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:27:00.423+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:27:00.462+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:27:00.496+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:27:00.496+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:27:00.523+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:27:00.522+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:27:00.543+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.127 seconds
+[2025-11-30T09:27:30.960+0000] {processor.py:161} INFO - Started process (PID=521) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:27:30.961+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:27:30.962+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:27:30.962+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:27:30.984+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:27:31.017+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:27:31.017+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:27:31.045+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:27:31.045+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:27:31.069+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.112 seconds
+[2025-11-30T09:28:01.282+0000] {processor.py:161} INFO - Started process (PID=537) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:28:01.283+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:28:01.284+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:28:01.284+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:28:01.304+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:28:01.323+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:28:01.323+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:28:01.354+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:28:01.354+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:28:01.378+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.100 seconds
+[2025-11-30T09:28:31.721+0000] {processor.py:161} INFO - Started process (PID=553) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:28:31.722+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:28:31.723+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:28:31.723+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:28:31.745+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:28:31.856+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:28:31.856+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:28:31.881+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:28:31.881+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:28:31.904+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.186 seconds
+[2025-11-30T09:29:02.107+0000] {processor.py:161} INFO - Started process (PID=569) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:29:02.108+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:29:02.109+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:29:02.109+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:29:02.149+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:29:02.187+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:29:02.186+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:29:02.216+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:29:02.216+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:29:02.238+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.135 seconds
+[2025-11-30T09:29:32.690+0000] {processor.py:161} INFO - Started process (PID=585) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:29:32.691+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:29:32.693+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:29:32.692+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:29:32.718+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:29:32.752+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:29:32.752+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:29:32.781+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:29:32.781+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:29:32.813+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.126 seconds
+[2025-11-30T09:30:03.152+0000] {processor.py:161} INFO - Started process (PID=601) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:30:03.153+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:30:03.154+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:30:03.154+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:30:03.175+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:30:03.210+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:30:03.210+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:30:03.238+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:30:03.237+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:30:03.262+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.114 seconds
+[2025-11-30T09:30:33.642+0000] {processor.py:161} INFO - Started process (PID=1047) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:30:33.644+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:30:33.645+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:30:33.644+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:30:33.673+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:30:33.711+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:30:33.710+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:30:33.743+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:30:33.743+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:30:33.775+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.136 seconds
+[2025-11-30T09:31:04.189+0000] {processor.py:161} INFO - Started process (PID=1689) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:31:04.190+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:31:04.191+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:31:04.191+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:31:04.210+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:31:04.241+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:31:04.241+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:31:04.267+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:31:04.267+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:31:04.288+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.101 seconds
+[2025-11-30T09:31:34.572+0000] {processor.py:161} INFO - Started process (PID=1705) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:31:34.573+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:31:34.574+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:31:34.574+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:31:34.595+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:31:34.630+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:31:34.629+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:31:34.657+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:31:34.657+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:31:34.678+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.109 seconds
+[2025-11-30T09:32:04.979+0000] {processor.py:161} INFO - Started process (PID=1721) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:32:04.980+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:32:04.981+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:32:04.981+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:32:05.011+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:32:05.049+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:32:05.048+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:32:05.080+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:32:05.079+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:32:05.106+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.130 seconds
+[2025-11-30T09:32:35.373+0000] {processor.py:161} INFO - Started process (PID=1737) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:32:35.374+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:32:35.375+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:32:35.375+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:32:35.406+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:32:35.445+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:32:35.445+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:32:35.474+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:32:35.474+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:32:35.495+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.126 seconds
+[2025-11-30T09:32:57.776+0000] {processor.py:161} INFO - Started process (PID=1750) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:32:57.777+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:32:57.778+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:32:57.778+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:32:57.808+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:32:57.846+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:32:57.846+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:32:57.873+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:32:57.873+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:32:57.912+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.139 seconds
+[2025-11-30T09:33:28.277+0000] {processor.py:161} INFO - Started process (PID=1766) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:33:28.278+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:33:28.280+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:33:28.279+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:33:28.301+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:33:28.336+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:33:28.335+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:33:28.363+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:33:28.362+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:33:28.395+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.123 seconds
+[2025-11-30T09:33:58.767+0000] {processor.py:161} INFO - Started process (PID=1782) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:33:58.769+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:33:58.770+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:33:58.770+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:33:58.796+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:33:58.838+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:33:58.837+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:33:58.865+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:33:58.865+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:33:58.888+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.125 seconds
+[2025-11-30T09:34:29.311+0000] {processor.py:161} INFO - Started process (PID=1798) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:34:29.315+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:34:29.320+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:34:29.319+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:34:29.478+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:34:29.515+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:34:29.514+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:34:29.544+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:34:29.544+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:34:29.571+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.264 seconds
+[2025-11-30T09:34:59.816+0000] {processor.py:161} INFO - Started process (PID=1815) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:34:59.818+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:34:59.819+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:34:59.819+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:34:59.898+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:34:59.953+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:34:59.953+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:34:59.989+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:34:59.989+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:35:00.028+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.217 seconds
+[2025-11-30T09:35:30.215+0000] {processor.py:161} INFO - Started process (PID=1831) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:35:30.216+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:35:30.217+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:35:30.217+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:35:30.237+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:35:30.271+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:35:30.271+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:35:30.304+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:35:30.304+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:35:30.328+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.117 seconds
+[2025-11-30T09:36:00.649+0000] {processor.py:161} INFO - Started process (PID=1847) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:36:00.651+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:36:00.652+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:36:00.652+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:36:00.677+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:36:00.721+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:36:00.721+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:36:00.756+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:36:00.756+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:36:00.790+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.145 seconds
+[2025-11-30T09:36:31.166+0000] {processor.py:161} INFO - Started process (PID=1863) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:36:31.168+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:36:31.169+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:36:31.169+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:36:31.195+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:36:31.239+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:36:31.239+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:36:31.273+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:36:31.273+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:36:31.299+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.137 seconds
+[2025-11-30T09:36:49.592+0000] {processor.py:161} INFO - Started process (PID=1873) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:36:49.593+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:36:49.594+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:36:49.594+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:36:49.635+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:36:49.761+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:36:49.760+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:36:49.790+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:36:49.790+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:36:49.827+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.239 seconds
+[2025-11-30T09:37:19.977+0000] {processor.py:161} INFO - Started process (PID=1889) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:37:19.978+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:37:19.980+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:37:19.979+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:37:20.000+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:37:20.039+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:37:20.038+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:37:20.067+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:37:20.067+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:37:20.091+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.118 seconds
+[2025-11-30T09:37:50.435+0000] {processor.py:161} INFO - Started process (PID=1905) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:37:50.436+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:37:50.438+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:37:50.438+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:37:50.463+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:37:50.499+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:37:50.499+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:37:50.526+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:37:50.526+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:37:50.551+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.121 seconds
+[2025-11-30T09:38:20.970+0000] {processor.py:161} INFO - Started process (PID=1921) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:38:20.971+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:38:20.974+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:38:20.973+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:38:21.007+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:38:21.046+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:38:21.046+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:38:21.080+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:38:21.080+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:38:21.112+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.147 seconds
+[2025-11-30T09:38:51.514+0000] {processor.py:161} INFO - Started process (PID=1937) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:38:51.516+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:38:51.517+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:38:51.517+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:38:51.552+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:38:51.590+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:38:51.589+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:38:51.618+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:38:51.618+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:38:51.646+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.136 seconds
+[2025-11-30T09:39:22.032+0000] {processor.py:161} INFO - Started process (PID=1959) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:39:22.034+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:39:22.035+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:39:22.035+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:39:22.079+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:39:22.125+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:39:22.124+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:39:22.159+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:39:22.159+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:39:22.203+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.175 seconds
+[2025-11-30T09:39:52.540+0000] {processor.py:161} INFO - Started process (PID=1975) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:39:52.541+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:39:52.543+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:39:52.543+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:39:52.571+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:39:52.607+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:39:52.607+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:39:52.641+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:39:52.640+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:39:52.673+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.137 seconds
+[2025-11-30T09:40:23.184+0000] {processor.py:161} INFO - Started process (PID=1991) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:40:23.186+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:40:23.188+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:40:23.187+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:40:23.217+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:40:23.255+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:40:23.255+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:40:23.286+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:40:23.286+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:40:23.317+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.137 seconds
+[2025-11-30T09:40:53.624+0000] {processor.py:161} INFO - Started process (PID=2007) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:40:53.626+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:40:53.627+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:40:53.626+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:40:53.648+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:40:53.684+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:40:53.684+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:40:53.712+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:40:53.712+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:40:53.733+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.113 seconds
+[2025-11-30T09:41:24.110+0000] {processor.py:161} INFO - Started process (PID=2023) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:41:24.112+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:41:24.114+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:41:24.113+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:41:24.144+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:41:24.181+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:41:24.181+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:41:24.210+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:41:24.210+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:41:24.237+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.132 seconds
+[2025-11-30T09:41:54.623+0000] {processor.py:161} INFO - Started process (PID=2039) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:41:54.624+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:41:54.625+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:41:54.624+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:41:54.648+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:41:54.691+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:41:54.691+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:41:54.718+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:41:54.718+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:41:54.742+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.123 seconds
+[2025-11-30T09:42:25.137+0000] {processor.py:161} INFO - Started process (PID=2055) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:42:25.138+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:42:25.139+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:42:25.139+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:42:25.167+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:42:25.206+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:42:25.206+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:42:25.238+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:42:25.238+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:42:25.264+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.132 seconds
+[2025-11-30T09:42:55.605+0000] {processor.py:161} INFO - Started process (PID=2071) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:42:55.607+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:42:55.608+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:42:55.608+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:42:55.635+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:42:55.673+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:42:55.673+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:42:55.706+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:42:55.706+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:42:55.732+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.131 seconds
+[2025-11-30T09:43:26.077+0000] {processor.py:161} INFO - Started process (PID=2087) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:43:26.079+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:43:26.081+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:43:26.081+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:43:26.110+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:43:26.149+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:43:26.149+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:43:26.179+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:43:26.179+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:43:26.206+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.134 seconds
+[2025-11-30T09:43:56.589+0000] {processor.py:161} INFO - Started process (PID=2110) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:43:56.591+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:43:56.593+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:43:56.593+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:43:56.623+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:43:56.661+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:43:56.661+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:43:56.692+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:43:56.691+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:43:56.717+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.131 seconds
+[2025-11-30T09:44:27.046+0000] {processor.py:161} INFO - Started process (PID=2126) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:44:27.047+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:44:27.048+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:44:27.048+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:44:27.072+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:44:27.110+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:44:27.110+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:44:27.141+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:44:27.141+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:44:27.166+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.123 seconds
+[2025-11-30T09:44:57.548+0000] {processor.py:161} INFO - Started process (PID=2142) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:44:57.550+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:44:57.551+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:44:57.551+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:44:57.574+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:44:57.628+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:44:57.628+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:44:57.665+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:44:57.665+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:44:57.697+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.152 seconds
+[2025-11-30T09:45:28.043+0000] {processor.py:161} INFO - Started process (PID=2340) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:45:28.044+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:45:28.046+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:45:28.045+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:45:28.071+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:45:28.111+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:45:28.111+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:45:28.144+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:45:28.144+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:45:28.172+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.134 seconds
+[2025-11-30T09:45:58.636+0000] {processor.py:161} INFO - Started process (PID=2374) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:45:58.638+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:45:58.639+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:45:58.638+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:45:58.704+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:45:58.747+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:45:58.747+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:45:58.777+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:45:58.776+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:45:58.803+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.171 seconds
+[2025-11-30T09:46:29.166+0000] {processor.py:161} INFO - Started process (PID=2413) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:46:29.168+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:46:29.169+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:46:29.168+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:46:29.200+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:46:29.237+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:46:29.237+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:46:29.268+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:46:29.267+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:46:29.297+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.134 seconds
+[2025-11-30T09:46:59.630+0000] {processor.py:161} INFO - Started process (PID=2435) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:46:59.631+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:46:59.633+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:46:59.632+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:46:59.658+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:46:59.697+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:46:59.697+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:46:59.726+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:46:59.725+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:46:59.754+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.128 seconds
+[2025-11-30T09:47:30.122+0000] {processor.py:161} INFO - Started process (PID=2451) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:47:30.125+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:47:30.129+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:47:30.128+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:47:30.185+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:47:30.218+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:47:30.218+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:47:30.245+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:47:30.245+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:47:30.267+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.151 seconds
+[2025-11-30T09:48:00.595+0000] {processor.py:161} INFO - Started process (PID=2467) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:48:00.597+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:48:00.599+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:48:00.598+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:48:00.626+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:48:00.661+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:48:00.660+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:48:00.687+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:48:00.687+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:48:00.709+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.119 seconds
+[2025-11-30T09:48:31.110+0000] {processor.py:161} INFO - Started process (PID=2483) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:48:31.112+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:48:31.113+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:48:31.113+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:48:31.135+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:48:31.174+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:48:31.174+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:48:31.205+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:48:31.205+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:48:31.232+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.126 seconds
+[2025-11-30T09:49:01.627+0000] {processor.py:161} INFO - Started process (PID=2499) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:49:01.629+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:49:01.630+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:49:01.630+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:49:01.653+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:49:01.690+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:49:01.690+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:49:01.720+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:49:01.720+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:49:01.748+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.124 seconds
+[2025-11-30T09:49:32.178+0000] {processor.py:161} INFO - Started process (PID=2557) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:49:32.180+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:49:32.182+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:49:32.181+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:49:32.222+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:49:32.260+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:49:32.259+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:49:32.290+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:49:32.290+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:49:32.321+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.149 seconds
+[2025-11-30T09:50:03.175+0000] {processor.py:161} INFO - Started process (PID=2573) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:50:03.176+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:50:03.178+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:50:03.178+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:50:03.203+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:50:03.236+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:50:03.236+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:50:03.263+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:50:03.263+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:50:03.285+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.114 seconds
+[2025-11-30T09:50:33.470+0000] {processor.py:161} INFO - Started process (PID=2589) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:50:33.471+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:50:33.473+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:50:33.473+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:50:33.500+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:50:33.547+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:50:33.547+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:50:33.577+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:50:33.577+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:50:33.603+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.138 seconds
+[2025-11-30T09:51:03.989+0000] {processor.py:161} INFO - Started process (PID=2605) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:51:03.993+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:51:03.995+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:51:03.994+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:51:04.025+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:51:04.068+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:51:04.067+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:51:04.100+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:51:04.100+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:51:04.143+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.158 seconds
+[2025-11-30T09:51:34.587+0000] {processor.py:161} INFO - Started process (PID=2642) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:51:34.591+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:51:34.594+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:51:34.594+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:51:34.656+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:51:34.693+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:51:34.692+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:51:34.720+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:51:34.720+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:51:34.750+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.168 seconds
+[2025-11-30T09:52:04.950+0000] {processor.py:161} INFO - Started process (PID=2661) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:52:04.952+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:52:04.954+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:52:04.954+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:52:05.013+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:52:05.048+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:52:05.048+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:52:05.075+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:52:05.074+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:52:05.098+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.156 seconds
+[2025-11-30T09:52:35.519+0000] {processor.py:161} INFO - Started process (PID=2685) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:52:35.520+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:52:35.522+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:52:35.521+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:52:35.567+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:52:35.608+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:52:35.608+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:52:35.644+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:52:35.644+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:52:35.673+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.158 seconds
+[2025-11-30T09:53:06.006+0000] {processor.py:161} INFO - Started process (PID=2701) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:53:06.007+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:53:06.009+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:53:06.008+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:53:06.030+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:53:06.073+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:53:06.073+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:53:06.103+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:53:06.103+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:53:06.130+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.128 seconds
+[2025-11-30T09:53:36.524+0000] {processor.py:161} INFO - Started process (PID=2717) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:53:36.526+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:53:36.529+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:53:36.528+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:53:36.578+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:53:36.618+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:53:36.618+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:53:36.653+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:53:36.652+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:53:36.682+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.163 seconds
+[2025-11-30T09:54:07.083+0000] {processor.py:161} INFO - Started process (PID=2734) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:54:07.084+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:54:07.086+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:54:07.086+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:54:07.124+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:54:07.160+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:54:07.160+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:54:07.189+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:54:07.189+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:54:07.216+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.137 seconds
+[2025-11-30T09:54:37.619+0000] {processor.py:161} INFO - Started process (PID=2800) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:54:37.621+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:54:37.622+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:54:37.622+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:54:37.656+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:54:37.691+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:54:37.691+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:54:37.730+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:54:37.730+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:54:37.763+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.149 seconds
+[2025-11-30T09:55:08.221+0000] {processor.py:161} INFO - Started process (PID=2822) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:55:08.222+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:55:08.223+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:55:08.223+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:55:08.246+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:55:08.282+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:55:08.281+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:55:08.310+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:55:08.310+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:55:08.337+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.119 seconds
+[2025-11-30T09:55:38.525+0000] {processor.py:161} INFO - Started process (PID=2838) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:55:38.526+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:55:38.527+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:55:38.527+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:55:38.549+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:55:38.584+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:55:38.584+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:55:38.614+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:55:38.614+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:55:38.638+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.117 seconds
+[2025-11-30T09:56:09.053+0000] {processor.py:161} INFO - Started process (PID=2854) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:56:09.055+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:56:09.056+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:56:09.056+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:56:09.078+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:56:09.115+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:56:09.115+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:56:09.150+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:56:09.150+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:56:09.181+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.131 seconds
+[2025-11-30T09:56:39.572+0000] {processor.py:161} INFO - Started process (PID=2869) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:56:39.574+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:56:39.575+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:56:39.575+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:56:39.601+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:56:39.637+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:56:39.637+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:56:39.666+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:56:39.666+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:56:39.695+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.128 seconds
+[2025-11-30T09:57:10.059+0000] {processor.py:161} INFO - Started process (PID=2885) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:57:10.061+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:57:10.062+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:57:10.062+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:57:10.094+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:57:10.130+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:57:10.129+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:57:10.158+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:57:10.158+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:57:10.187+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.132 seconds
+[2025-11-30T09:57:40.550+0000] {processor.py:161} INFO - Started process (PID=2901) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:57:40.552+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:57:40.553+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:57:40.553+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:57:40.575+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:57:40.611+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:57:40.611+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:57:40.642+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:57:40.642+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:57:40.680+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.134 seconds
+[2025-11-30T09:58:11.056+0000] {processor.py:161} INFO - Started process (PID=2917) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:58:11.058+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:58:11.059+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:58:11.059+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:58:11.081+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:58:11.113+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:58:11.113+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:58:11.143+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:58:11.142+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:58:11.170+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.116 seconds
+[2025-11-30T09:58:41.623+0000] {processor.py:161} INFO - Started process (PID=2933) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:58:41.625+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:58:41.626+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:58:41.626+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:58:41.653+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:58:41.693+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:58:41.692+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:58:41.723+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:58:41.723+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:58:41.752+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.133 seconds
+[2025-11-30T09:59:12.126+0000] {processor.py:161} INFO - Started process (PID=2949) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:59:12.128+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:59:12.129+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:59:12.129+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:59:12.157+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:59:12.193+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:59:12.193+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:59:12.225+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:59:12.224+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:59:12.255+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.134 seconds
+[2025-11-30T09:59:42.631+0000] {processor.py:161} INFO - Started process (PID=2965) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:59:42.633+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T09:59:42.634+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:59:42.634+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:59:42.657+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T09:59:42.698+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:59:42.698+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T09:59:42.729+0000] {logging_mixin.py:188} INFO - [2025-11-30T09:59:42.729+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 09:00:00+00:00, run_after=2025-11-30 10:00:00+00:00
+[2025-11-30T09:59:42.752+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.126 seconds
+[2025-11-30T10:00:12.970+0000] {processor.py:161} INFO - Started process (PID=3238) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:00:12.972+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:00:12.973+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:00:12.973+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:00:12.993+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:00:13.024+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:00:13.024+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:00:13.048+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:00:13.048+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:00:13.072+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.106 seconds
+[2025-11-30T10:00:43.365+0000] {processor.py:161} INFO - Started process (PID=4063) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:00:43.367+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:00:43.369+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:00:43.368+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:00:43.403+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:00:43.438+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:00:43.438+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:00:43.462+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:00:43.462+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:00:43.489+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.130 seconds
+[2025-11-30T10:01:13.880+0000] {processor.py:161} INFO - Started process (PID=4079) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:01:13.883+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:01:13.885+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:01:13.885+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:01:13.909+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:01:13.944+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:01:13.944+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:01:13.969+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:01:13.969+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:01:13.995+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.119 seconds
+[2025-11-30T10:01:44.367+0000] {processor.py:161} INFO - Started process (PID=4095) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:01:44.368+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:01:44.369+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:01:44.369+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:01:44.393+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:01:44.424+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:01:44.424+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:01:44.448+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:01:44.448+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:01:44.470+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.108 seconds
+[2025-11-30T10:02:14.823+0000] {processor.py:161} INFO - Started process (PID=4111) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:02:14.824+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:02:14.825+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:02:14.825+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:02:14.844+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:02:14.873+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:02:14.873+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:02:14.899+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:02:14.899+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:02:14.920+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.101 seconds
+[2025-11-30T10:02:45.350+0000] {processor.py:161} INFO - Started process (PID=4127) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:02:45.352+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:02:45.353+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:02:45.352+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:02:45.375+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:02:45.412+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:02:45.411+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:02:45.438+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:02:45.438+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:02:45.460+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.113 seconds
+[2025-11-30T10:03:15.823+0000] {processor.py:161} INFO - Started process (PID=4143) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:03:15.824+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:03:15.825+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:03:15.825+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:03:15.847+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:03:15.881+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:03:15.880+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:03:15.908+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:03:15.908+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:03:15.934+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.115 seconds
+[2025-11-30T10:03:46.316+0000] {processor.py:161} INFO - Started process (PID=4159) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:03:46.318+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:03:46.320+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:03:46.319+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:03:46.363+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:03:46.403+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:03:46.403+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:03:46.433+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:03:46.433+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:03:46.456+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.146 seconds
+[2025-11-30T10:04:16.842+0000] {processor.py:161} INFO - Started process (PID=4175) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:04:16.845+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:04:16.847+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:04:16.847+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:04:16.874+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:04:16.915+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:04:16.914+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:04:16.943+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:04:16.942+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:04:16.965+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.127 seconds
+[2025-11-30T10:04:47.355+0000] {processor.py:161} INFO - Started process (PID=4191) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:04:47.356+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:04:47.357+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:04:47.357+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:04:47.380+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:04:47.426+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:04:47.426+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:04:47.453+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:04:47.453+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:04:47.476+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.125 seconds
+[2025-11-30T10:05:17.899+0000] {processor.py:161} INFO - Started process (PID=4207) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:05:17.900+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:05:17.902+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:05:17.901+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:05:17.921+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:05:17.952+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:05:17.952+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:05:17.980+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:05:17.979+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:05:18.001+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.105 seconds
+[2025-11-30T10:05:48.375+0000] {processor.py:161} INFO - Started process (PID=4223) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:05:48.377+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:05:48.382+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:05:48.382+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:05:48.408+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:05:48.439+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:05:48.438+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:05:48.464+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:05:48.464+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:05:48.485+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.114 seconds
+[2025-11-30T10:06:18.849+0000] {processor.py:161} INFO - Started process (PID=4239) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:06:18.850+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:06:18.851+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:06:18.851+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:06:18.870+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:06:18.908+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:06:18.908+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:06:18.934+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:06:18.934+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:06:18.959+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.114 seconds
+[2025-11-30T10:06:49.397+0000] {processor.py:161} INFO - Started process (PID=4255) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:06:49.399+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:06:49.402+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:06:49.402+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:06:49.457+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:06:49.499+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:06:49.499+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:06:49.525+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:06:49.524+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:06:49.550+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.158 seconds
+[2025-11-30T10:07:19.827+0000] {processor.py:161} INFO - Started process (PID=4271) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:07:19.829+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:07:19.830+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:07:19.830+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:07:19.856+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:07:19.892+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:07:19.892+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:07:19.920+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:07:19.920+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:07:19.944+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.121 seconds
+[2025-11-30T10:07:50.320+0000] {processor.py:161} INFO - Started process (PID=4287) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:07:50.321+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:07:50.323+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:07:50.322+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:07:50.351+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:07:50.388+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:07:50.388+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:07:50.416+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:07:50.415+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:07:50.441+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.126 seconds
+[2025-11-30T10:08:20.843+0000] {processor.py:161} INFO - Started process (PID=4303) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:08:20.845+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:08:20.846+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:08:20.846+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:08:20.866+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:08:20.900+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:08:20.900+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:08:20.928+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:08:20.927+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:08:20.947+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.108 seconds
+[2025-11-30T10:08:51.399+0000] {processor.py:161} INFO - Started process (PID=4319) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:08:51.400+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:08:51.401+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:08:51.401+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:08:51.420+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:08:51.453+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:08:51.453+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:08:51.479+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:08:51.479+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:08:51.504+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.108 seconds
+[2025-11-30T10:09:21.554+0000] {processor.py:161} INFO - Started process (PID=4335) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:09:21.555+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:09:21.556+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:09:21.556+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:09:21.575+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:09:21.606+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:09:21.606+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:09:21.632+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:09:21.632+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:09:21.659+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.108 seconds
+[2025-11-30T10:09:52.089+0000] {processor.py:161} INFO - Started process (PID=4351) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:09:52.091+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:09:52.092+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:09:52.092+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:09:52.128+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:09:52.160+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:09:52.160+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:09:52.183+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:09:52.183+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:09:52.213+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.128 seconds
+[2025-11-30T10:12:04.686+0000] {processor.py:161} INFO - Started process (PID=4362) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:12:04.687+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:12:04.688+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:12:04.688+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:12:04.720+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:12:04.767+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:12:04.767+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:12:04.802+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:12:04.801+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:12:04.831+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.149 seconds
+[2025-11-30T10:12:35.087+0000] {processor.py:161} INFO - Started process (PID=4378) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:12:35.089+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:12:35.090+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:12:35.090+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:12:35.128+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:12:35.172+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:12:35.172+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:12:35.205+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:12:35.205+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:12:35.238+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.156 seconds
+[2025-11-30T10:13:05.496+0000] {processor.py:161} INFO - Started process (PID=4394) to work on /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:13:05.498+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/hourly_etl.py for tasks to queue
+[2025-11-30T10:13:05.499+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:13:05.498+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:13:05.524+0000] {processor.py:840} INFO - DAG(s) '1_hourly_cleaning_and_report' retrieved from /opt/airflow/dags/hourly_etl.py
+[2025-11-30T10:13:05.561+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:13:05.561+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-30T10:13:05.593+0000] {logging_mixin.py:188} INFO - [2025-11-30T10:13:05.592+0000] {dag.py:3823} INFO - Setting next_dagrun for 1_hourly_cleaning_and_report to 2025-11-30 10:00:00+00:00, run_after=2025-11-30 11:00:00+00:00
+[2025-11-30T10:13:05.636+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/hourly_etl.py took 0.143 seconds
