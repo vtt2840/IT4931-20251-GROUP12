@@ -21,7 +21,7 @@ HDFS_PATH = os.getenv("HDFS_PATH")
 
 try:
     admin = KafkaAdminClient(bootstrap_servers=KAFKA_BROKER)
-    # Tăng Partitions và Replication Factor để tối ưu
+    # Tăng Partitions và Replication Factor 
     topic = NewTopic(name=TOPIC, num_partitions=3, replication_factor=3)
     admin.create_topics(new_topics=[topic], validate_only=False)
     print(f"Created topic: {TOPIC} with 3 partitions and 3 replicas.")
@@ -42,9 +42,7 @@ producer = KafkaProducer(
 )
 
 hdfs_client = InsecureClient(HDFS_URL, user='hadoop')
-
 print("Connect to kafka successfully")
-
 
 # Config BATCH 
 HDFS_BUFFER = []
@@ -90,8 +88,6 @@ def write_buffer_to_hdfs(hour_to_save):
     
     try:
         hdfs_client.makedirs(hdfs_dir, permission=755)
-        
-        # Tên file sử dụng timestamp hiện tại
         file_name = f"airquality_batch_{int(time.time())}.json"
         file_path = os.path.join(hdfs_dir, file_name)
         
