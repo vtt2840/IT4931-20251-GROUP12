@@ -8,6 +8,8 @@ from hdfs import InsecureClient
 from dotenv import load_dotenv
 from kafka.admin import KafkaAdminClient, NewTopic
 from kafka.errors import TopicAlreadyExistsError
+from zoneinfo import ZoneInfo
+VN_TZ = ZoneInfo("Asia/Ho_Chi_Minh")
 
 load_dotenv()
 
@@ -99,7 +101,7 @@ def fetch_latest_data():
             return None
         record = data["data"][0]
         now_utc = datetime.now(timezone.utc)
-        now_local = datetime.now()
+        now_vn = datetime.now(VN_TZ)
         return {
             "city": CITY,
             "aqi": record.get("aqi"),
@@ -109,7 +111,7 @@ def fetch_latest_data():
             "pm10": record.get("pm10"),
             "pm25": record.get("pm25"),
             "so2": record.get("so2"),
-            "timestamp_local": now_local.strftime("%Y-%m-%dT%H:%M:%S"),
+            "timestamp_local": now_vn.strftime("%Y-%m-%dT%H:%M:%S"),
             "timestamp_utc": now_utc.strftime("%Y-%m-%dT%H:%M:%S"),
             "ts": int(now_utc.timestamp())
         }
@@ -121,8 +123,8 @@ def fetch_latest_data():
 # SAVE TO HDFS
 
 def save_to_hdfs(record):
-    now_utc = datetime.now(timezone.utc)
-    date_str = now_utc.strftime("%Y/%m/%d")
+    now_vn = datetime.now(VN_TZ)
+    date_str = now_vn.strftime("%Y/%m/%d")
     hdfs_dir = os.path.join(HDFS_PATH, date_str)
 
     try:
@@ -159,5 +161,5 @@ if __name__ == "__main__":
                 print(f"Sent data: {data['timestamp_utc']}")
         except Exception as e:
             print("Error in main loop:", e)
-        time.sleep(60)
+        time.sleep(300)
         
