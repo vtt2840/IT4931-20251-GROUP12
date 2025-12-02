@@ -13,6 +13,7 @@ spark_master = os.getenv("SPARK_MASTER", "spark://spark-master:7077")
 hdfs_url = os.getenv("HDFS_URL", "hdfs://hadoop-namenode:9000")
 mongo_uri = os.getenv("MONGO_URI")
 
+
 if not mongo_uri:
     print("MONGO_URI is not set. Exiting...")
     sys.exit(1)
@@ -26,12 +27,14 @@ print("Checkpoint:", CHECKPOINT_MONGO)
 print("==================")
 
 # === SPARK SESSION ===
-spark = SparkSession.builder \
-    .appName("Hanoi_AirQuality_Streaming_10min") \
-    .master(spark_master) \
-    .config("spark.mongodb.connection.uri", mongo_uri) \
-    .config("spark.mongodb.output.uri", mongo_uri) \
+spark = (
+    SparkSession.builder
+    .appName("Hanoi_AirQuality_Streaming_10min")
+    .master(spark_master)
+    .config("spark.mongodb.connection.uri", mongo_uri)
+    .config("spark.mongodb.output.uri", mongo_uri)
     .getOrCreate()
+)
 
 spark.sparkContext.setLogLevel("WARN")
 
