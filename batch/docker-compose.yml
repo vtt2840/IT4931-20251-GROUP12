@@ -1,0 +1,208 @@
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+x-airflow-common: &airflow-common
+  build:
+    context: .
+    dockerfile: Dockerfile.airflow
+  environment: &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW__CORE__FERNET_KEY: ''
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    
+    # Tối ưu tài nguyên chung
+    AIRFLOW__CORE__PARALLELISM: '1'
+    AIRFLOW__CORE__DAG_CONCURRENCY: '1'
+    AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG: '1'
+    
+    # Giảm tải CPU cho Scheduler
+    AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: 60
+    AIRFLOW__SCHEDULER__MIN_FILE_PROCESS_INTERVAL: 60
+    AIRFLOW__WEBSERVER__WORKER_REFRESH_INTERVAL: 60
+    
+    # Cấu hình Spark
+    JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
+    SPARK_HOME: /opt/spark
+    SPARK_DRIVER_MEMORY: "600m"
+    SPARK_EXECUTOR_MEMORY: "600m"
+    SPARK_EXECUTOR_CORES: "1"
+    AIRFLOW_CONN_SPARK_DEFAULT: >
+      spark://local?spark_home=%2Fopt%2Fspark&deploy_mode=client&spark_binary=spark-submit
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./batch:/opt/airflow/scripts
+    - ./logs:/opt/airflow/logs
+  user: "${AIRFLOW_UID:-50000}:0"
+  logging: *default-logging
+
+services:
+  hadoop-namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    environment:
+      CLUSTER_NAME: bigdata-cluster
+      CORE_CONF_fs_defaultFS: hdfs://hadoop-namenode:9000
+      HDFS_CONF_dfs_permissions_enabled: "false"
+      HDFS_CONF_dfs_replication: "1" 
+      HADOOP_HEAPSIZE: 400
+    ports:
+      - "9870:9870"
+      - "9000:9000"
+    volumes:
+      - hadoop_namenode:/hadoop/dfs/name
+    deploy:
+      resources:
+        limits:
+          memory: 600M
+    logging: *default-logging
+
+  hadoop-datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    depends_on:
+      - hadoop-namenode
+    environment:
+      CORE_CONF_fs_defaultFS: hdfs://hadoop-namenode:9000
+      SERVICE_PRECONDITION: "hadoop-namenode:9870"
+      HDFS_CONF_dfs_permissions_enabled: "false"
+      HDFS_CONF_dfs_replication: "1"
+      HADOOP_HEAPSIZE: 300
+    volumes:
+      - hadoop_datanode:/hadoop/dfs/data
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    logging: *default-logging
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      KAFKA_HEAP_OPTS: "-Xmx128M -Xms64M"
+      ZOOKEEPER_TICK_TIME: 2000
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    logging: *default-logging
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_HEAP_OPTS: "-Xmx300M -Xms128M"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    logging: *default-logging
+
+  collection:
+    build: ./collection
+    image: group12-collection:latest
+    container_name: collection
+    env_file: .env
+    command: ["python", "producer.py"]
+    depends_on:
+      - kafka
+      - hadoop-namenode
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+    logging: *default-logging
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+      POSTGRES_MAX_CONNECTIONS: 50
+      POSTGRES_SHARED_BUFFERS: 64MB
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 10s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    logging: *default-logging
+
+  airflow-init:
+    <<: *airflow-common
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        airflow db migrate
+        airflow users create \
+          --username airflow \
+          --password airflow \
+          --firstname Airflow \
+          --lastname Admin \
+          --role Admin \
+          --email airflow@example.com
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    logging: *default-logging
+
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    environment:
+      <<: *airflow-common-env
+      # --- CẤU HÌNH QUAN TRỌNG ĐỂ KHÔNG BỊ CRASH ---
+      AIRFLOW__WEBSERVER__WEB_SERVER_WORKER_TIMEOUT: 300 # Chờ 5 phút (mặc định 2 phút)
+      AIRFLOW__WEBSERVER__WORKERS: 1                     # Chỉ chạy 1 worker (mặc định 4)
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 60s 
+      retries: 5
+    depends_on:
+      - airflow-init
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    logging: *default-logging
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8974/health"]
+      interval: 60s
+      retries: 5
+    depends_on:
+      - airflow-init
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    logging: *default-logging
+
+volumes:
+  hadoop_namenode:
+  hadoop_datanode:
+  postgres-db-volume:
