@@ -1,236 +1,109 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import (
-    col, avg, max as spark_max, min as spark_min, count, 
-    percentile_approx, to_date, hour, isnan, when, sum as spark_sum,
-    year, month, dayofmonth, row_number, stddev, expr, dayofweek, sin, cos, lit
+    col, avg, sum as spark_sum, max as spark_max, min as spark_min, 
+    count, lit, when, first, round as spark_round
 )
 from pyspark.sql.window import Window
-import logging
 import sys
-import math
 import os 
 
-
-# Logging setup
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    stream=sys.stdout
-)
-logger = logging.getLogger(__name__)
+def aqi_category(aqi_col):
+    return when(aqi_col <= 50, lit("Good")) \
+        .when((aqi_col > 50) & (aqi_col <= 100), lit("Moderate")) \
+        .when((aqi_col > 100) & (aqi_col <= 150), lit("Unhealthy for Sensitive Groups")) \
+        .when((aqi_col > 150) & (aqi_col <= 200), lit("Unhealthy")) \
+        .when((aqi_col > 200) & (aqi_col <= 300), lit("Very Unhealthy")) \
+        .otherwise(lit("Hazardous"))
 
 def main():
     """
-    Daily aggregates job:
-    - Đọc dữ liệu từ /clean-data/air_quality (Parquet đã làm sạch)
-    - Preprocessing: loại bỏ trùng lặp, kiểm tra ranges, xử lý nulls
-    - Tính aggregates theo city/date: avg, max, percentiles cho AQI/PM2.5/PM10
-    - Ghi Parquet partitioned vào /batch/air_quality/daily
+    Daily Aggregates Job (Safe Mode)
+    - Tự động bỏ qua các cột thiếu để tránh lỗi crash.
     """
     os.environ["HADOOP_USER_NAME"] = "root"
-    # Cấu hình AQE để tối ưu hiệu năng
+    
     spark = SparkSession.builder \
-        .appName("batch-daily-aggregates") \
+        .appName("batch-daily-aggregates-rollup") \
         .config("spark.sql.parquet.compression.codec", "snappy") \
         .config("spark.sql.adaptive.enabled", "true") \
-        .config("spark.sql.adaptive.coalescePartitions.enabled", "true") \
         .getOrCreate()
     
-    logger.info("=" * 80)
-    logger.info("Starting Daily Aggregates Batch Job")
-    logger.info("=" * 80)
+    # Log4j Setup
+    log4jLogger = spark.sparkContext._jvm.org.apache.log4j
+    logger = log4jLogger.LogManager.getLogger("DAILY_BATCH_JOB")
+    
+    logger.info("=" * 50)
+    logger.info(">>> STARTING DAILY AGGREGATES JOB (SAFE MODE)")
     
     try:
-        # Paths
-        input_path = "hdfs://hadoop-namenode:9000/clean-data/air-quality"
+        input_path = "hdfs://hadoop-namenode:9000/batch/air-quality/hourly"
         output_path = "hdfs://hadoop-namenode:9000/batch/air-quality/daily"
-        dq_report_path = "hdfs://hadoop-namenode:9000/reports/data-quality"
         
-        logger.info(f"Reading cleaned data from: {input_path}")
-        df = spark.read.parquet(input_path)
+        logger.info(f">>> Reading hourly data from: {input_path}")
         
-        initial_count = df.count()
-        logger.info(f"Initial record count: {initial_count}")
-        # Preprocessing & feature engineering
-       
-        logger.info("Starting preprocessing...")
-        
-        # 1. Ensure timestamp is properly converted to date and time features
-        df = df.withColumn("date", to_date(col("timestamp_utc")))
-        df = df.withColumn("hour", hour(col("timestamp_utc")))
-        # explicit time-based features (safe even if parquet partitions exist)
-        df = df.withColumn("year", year(col("timestamp_utc")))
-        df = df.withColumn("month", month(col("timestamp_utc")))
-        df = df.withColumn("day", dayofmonth(col("timestamp_utc")))
-        
-        # Feature engineering: day_of_week, is_weekend, month sin/cos
-        df = df.withColumn("day_of_week", dayofweek(col("timestamp_utc")))  # 1=Sunday, 7=Saturday
-        df = df.withColumn("is_weekend", 
-            ((col("day_of_week") == 1) | (col("day_of_week") == 7)).cast("int"))
-        df = df.withColumn("month_sin", sin(2 * math.pi * col("month") / 12))
-        df = df.withColumn("month_cos", cos(2 * math.pi * col("month") / 12))
-        
-        # 2. Drop duplicates (keep first occurrence per city/timestamp)
-        df_no_dup = df.dropDuplicates(["city", "timestamp_utc"])
-        dup_count = initial_count - df_no_dup.count()
-        logger.info(f"Duplicates removed: {dup_count}")
-        df = df_no_dup
-        
-        # 3. Check and report nulls before filtering
-        null_counts = {}
-        for col_name in df.columns:
-            null_count = df.filter(col(col_name).isNull()).count()
-            if null_count > 0:
-                null_counts[col_name] = null_count
-                logger.warning(f"Column '{col_name}' has {null_count} nulls")
-        
-        # 4. Range validation & filter out-of-range values
-        # Valid ranges: AQI [0,500], PM2.5 [0,500], PM10 [0,600], CO [0,10000], NO2 [0,500], O3 [0,500], SO2 [0,500]
-        df= df_no_dup.filter(
-            (col("aqi").between(0, 500)) &
-            (col("pm25").between(0, 500)) &
-            (col("pm10").between(0, 600)) &
-            (col("co").between(0, 10000)) &
-            (col("no2").between(0, 500)) &
-            (col("o3").between(0, 500)) &
-            (col("so2").between(0, 500))
-        )
-        cached_count = df.count()
-        logger.info(f"Records after caching: {cached_count}")
+        try:
+            df = spark.read.parquet(input_path)
+        except Exception as e:
+            logger.warn(f">>> DATA NOT FOUND: {e}")
+            return True 
 
-        after_filter_count = df.count()
-        logger.info(f"Records after range filtering: {after_filter_count}")
-        logger.info(f"Records filtered out (out of range): {initial_count - after_filter_count}")
+        existing_columns = df.columns
+        logger.info(f">>> Columns found in Hourly data: {existing_columns}")
+
+        logger.info(">>> Computing Daily Roll-up...")
+
+        metrics = ["aqi", "pm25", "pm10", "co", "no2", "o3", "so2"]
         
-        # ============ DAILY AGGREGATES ============
-        logger.info("Computing daily aggregates...")
+        # Các cột cơ bản luôn phải có
+        agg_exprs = [
+            spark_sum("n_records").alias("n_records"),
+            first("day_of_week").alias("day_of_week"),
+            first("is_weekend").alias("is_weekend"),
+            first("month_sin").alias("month_sin"),
+            first("month_cos").alias("month_cos")
+        ]
         
-        daily_agg = (
-            df.groupBy("city", "date", "year", "month", "day", "day_of_week", "is_weekend", "month_sin", "month_cos")
-              .agg(
-                  count("*").alias("n_records"),
-                  
-                  # AQI aggregates
-                  avg("aqi").alias("aqi_avg"),
-                  stddev("aqi").alias("aqi_stddev"),
-                  spark_max("aqi").alias("aqi_max"),
-                  spark_min("aqi").alias("aqi_min"),
-                  percentile_approx("aqi", 0.25).alias("aqi_p25"),
-                  percentile_approx("aqi", 0.50).alias("aqi_p50"),
-                  percentile_approx("aqi", 0.75).alias("aqi_p75"),
-                  
-                  # PM2.5 aggregates
-                  avg("pm25").alias("pm25_avg"),
-                  stddev("pm25").alias("pm25_stddev"),
-                  spark_max("pm25").alias("pm25_max"),
-                  spark_min("pm25").alias("pm25_min"),
-                  percentile_approx("pm25", 0.25).alias("pm25_p25"),
-                  percentile_approx("pm25", 0.50).alias("pm25_p50"),
-                  percentile_approx("pm25", 0.75).alias("pm25_p75"),
-                  
-                  # PM10 aggregates
-                  avg("pm10").alias("pm10_avg"),
-                  stddev("pm10").alias("pm10_stddev"),
-                  spark_max("pm10").alias("pm10_max"),
-                  spark_min("pm10").alias("pm10_min"),
-                  percentile_approx("pm10", 0.25).alias("pm10_p25"),
-                  percentile_approx("pm10", 0.50).alias("pm10_p50"),
-                  percentile_approx("pm10", 0.75).alias("pm10_p75"),
-                  
-                  # Other pollutants
-                  avg("co").alias("co_avg"),
-                  stddev("co").alias("co_stddev"),
-                  avg("no2").alias("no2_avg"),
-                  stddev("no2").alias("no2_stddev"),
-                  avg("o3").alias("o3_avg"),
-                  stddev("o3").alias("o3_stddev"),
-                  avg("so2").alias("so2_avg"),
-                  stddev("so2").alias("so2_stddev"),
-              )
-        )
-        daily_agg = daily_agg.withColumn("who_status", 
-            when(col("aqi_avg") <= 50, "Good")
-            .when(col("aqi_avg") <= 100, "Moderate")
-            .when(col("aqi_avg") <= 150, "Unhealthy for Sensitive Groups")
-            .when(col("aqi_avg") <= 200, "Unhealthy")
-            .when(col("aqi_avg") <= 300, "Very Unhealthy")
-            .otherwise("Hazardous")
-        )
+        for m in metrics:
+            # Luôn ưu tiên tính Average (Trung bình)
+            if f"{m}_avg" in existing_columns:
+                df = df.withColumn(f"{m}_weight", col(f"{m}_avg") * col("n_records"))
+                agg_exprs.append(
+                    spark_round(spark_sum(f"{m}_weight") / spark_sum("n_records"), 2).alias(f"{m}_avg")
+                )
+                
+            if f"{m}_max" in existing_columns:
+                agg_exprs.append(spark_max(f"{m}_max").alias(f"{m}_max"))
+                
+            if f"{m}_stddev" in existing_columns:
+                agg_exprs.append(spark_round(avg(f"{m}_stddev"), 2).alias(f"{m}_stddev"))
+
+        daily_agg = df.groupBy("city", "date", "year", "month", "day").agg(*agg_exprs)
         
-        agg_count = daily_agg.count()
-        logger.info(f"Daily aggregates computed: {agg_count} city/date combinations")
+        if "aqi_avg" in daily_agg.columns:
+            daily_agg = daily_agg.withColumn("who_status", aqi_category(col("aqi_avg")))
+            
+            # Spike Detection
+            window_7d = Window.partitionBy("city").orderBy("year", "month", "day").rowsBetween(-7, -1)
+            daily_agg = daily_agg.withColumn("rolling_avg_7d", spark_round(avg("aqi_avg").over(window_7d), 2))
+            daily_agg = daily_agg.withColumn("spike_flag", 
+                when((col("aqi_avg") > col("rolling_avg_7d") * 1.5) & col("rolling_avg_7d").isNotNull(), 1).otherwise(0)
+            )
+
+        logger.info(f">>> Writing to {output_path}")
         
-        # ============ SPIKE DETECTION ============
-        logger.info("Computing rolling statistics for spike detection...")
-        
-        # Calculate 7-day rolling average for spike detection
-        window_7d = Window.partitionBy("city").orderBy("date").rowsBetween(-7, 0)
-        daily_agg = daily_agg.withColumn("aqi_rolling_avg_7d", avg("aqi_avg").over(window_7d))
-        
-        # Flag spikes (>50% increase from rolling average)
-        daily_agg = daily_agg.withColumn(
-            "spike_flag",
-            when(
-                (col("aqi_avg") > col("aqi_rolling_avg_7d") * 1.5) & (col("aqi_rolling_avg_7d").isNotNull()),
-                1
-            ).otherwise(0)
-        )
-        
-        daily_agg.cache() 
-        spike_count = daily_agg.filter(col("spike_flag") == 1).count()
-        logger.info(f"Spikes detected (>50% increase): {spike_count}")
-        
-      
-        logger.info("Generating data quality report...")
-        
-        dq_report = daily_agg.select(
-            "city", "date", "n_records",
-            "aqi_avg", "aqi_p25", "aqi_p50", "aqi_p75",
-            "pm25_avg", "pm10_avg",
-            "spike_flag"
-        ).filter(col("n_records") > 0)
-        
-        dq_report_json = dq_report.toJSON().collect()
-        logger.info(f"Data quality report sample (first 5 rows):")
-        for i, row in enumerate(dq_report_json[:5]):
-            logger.info(f"  [{i}] {row}")
-        
-        
-        logger.info(f"Writing daily aggregates to: {output_path}")
-        
-        daily_agg.write \
+        daily_agg.repartition(1).write \
             .mode("overwrite") \
             .partitionBy("year", "month", "day") \
             .parquet(output_path)
-        
-        logger.info(" Daily aggregates written successfully")
-        
-      
-        logger.info("=" * 80)
-        logger.info("BATCH JOB SUMMARY")
-        logger.info("=" * 80)
-        logger.info(f"Input records (initial): {initial_count}")
-        logger.info(f"Duplicates removed: {dup_count}")
-        logger.info(f"Out-of-range records filtered: {initial_count - dup_count - after_filter_count}")
-        logger.info(f"Records after preprocessing: {after_filter_count}")
-        logger.info(f"Daily aggregates created: {agg_count}")
-        logger.info(f"Spike detections: {spike_count}")
-        logger.info(f"Output location: {output_path}")
-        logger.info(f"Partitioning: year/month/day")
-        logger.info("=" * 80)
-        
-        df_no_dup.unpersist()
-        daily_agg.unpersist() 
+            
+        logger.info(">>> DAILY JOB SUCCESS")
         return True
-        
+
     except Exception as e:
-        logger.error(f" Error in batch job: {e}", exc_info=True)
-        return False
-        
+        logger.error(f"!!! JOB ERROR: {e}")
+        raise e 
     finally:
         spark.stop()
-        logger.info("Spark session stopped")
 
 if __name__ == "__main__":
-    success = main()
-    sys.exit(0 if success else 1)
+    main()

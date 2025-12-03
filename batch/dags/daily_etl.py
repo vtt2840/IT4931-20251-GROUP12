@@ -13,9 +13,10 @@ with DAG(
     dag_id='2_daily_aggregates_job',
     default_args=default_args,
     description='Run Daily Aggregates only',
-    schedule_interval='0 7 * * *',  
+    schedule_interval='0 0 * * *',  
     start_date=days_ago(1),
     catchup=False,
+    max_active_runs=1, 
     tags=['daily', 'spark'],
 ) as dag:
 
