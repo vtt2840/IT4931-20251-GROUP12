@@ -48,13 +48,15 @@ services:
       - hadoop_datanode:/hadoop/dfs/data
 
   ingestion:
-    image: vtt2840/ingestion:latest
+    build: .
+    image: ingestion:latest
     container_name: ingestion
     depends_on:
       - kafka
       - hadoop-namenode
     env_file: .env
     command: ["python", "producer.py"]
+
 
 volumes:
   hadoop_namenode:

@@ -3,55 +3,91 @@ import time
 import json
 import requests
 from datetime import datetime, timezone
+
 from kafka import KafkaProducer
+from kafka.admin import KafkaAdminClient, NewTopic
+from kafka.errors import TopicAlreadyExistsError, NoBrokersAvailable
+
 from hdfs import InsecureClient
 from dotenv import load_dotenv
-from kafka.admin import KafkaAdminClient, NewTopic
-from kafka.errors import TopicAlreadyExistsError
 
 load_dotenv()
 
 # CONFIG
 CITY = os.getenv("CITY")
 API_KEY = os.getenv("API_KEY")
+
 KAFKA_BROKER = os.getenv("KAFKA_BROKER")
 TOPIC = os.getenv("TOPIC")
-HDFS_URL = os.getenv("HDFS_URL")
+WIND_TOPIC = os.getenv("WIND_TOPIC")
+TEMP_TOPIC = os.getenv("TEMP_TOPIC")
+HUM_TOPIC = os.getenv("HUM_TOPIC")
+
+HDFS_URL = os.getenv("HDFS_URL_WEB")
 HDFS_PATH = os.getenv("HDFS_PATH")
 
-try:
-    admin = KafkaAdminClient(bootstrap_servers=KAFKA_BROKER)
-    # Tăng Partitions và Replication Factor 
-    topic = NewTopic(name=TOPIC, num_partitions=3, replication_factor=3)
-    admin.create_topics(new_topics=[topic], validate_only=False)
-    print(f"Created topic: {TOPIC} with 3 partitions and 3 replicas.")
-except TopicAlreadyExistsError:
-    print(f"Topic {TOPIC} already exists. Please verify its configuration.")
-except Exception as e:
-    print(f"Error creating topic: {e}")
-finally:
-    if 'admin' in locals() and admin:
-        admin.close()
+# WAIT FOR KAFKA
+def wait_for_kafka(broker, retry_sec=5):
+    while True:
+        try:
+            print("Waiting for Kafka...")
+            admin = KafkaAdminClient(bootstrap_servers=broker)
+            print("Kafka is ready")
+            return admin
+        except NoBrokersAvailable:
+            time.sleep(retry_sec)
 
-# SETUP 
+topics = [
+    NewTopic(name=TOPIC, num_partitions=3, replication_factor=1),
+    NewTopic(name=WIND_TOPIC, num_partitions=3, replication_factor=1),
+    NewTopic(name=TEMP_TOPIC, num_partitions=3, replication_factor=1),
+    NewTopic(name=HUM_TOPIC, num_partitions=3, replication_factor=1),
+]
+
+admin = wait_for_kafka(KAFKA_BROKER)
+
+try:
+    admin.create_topics(new_topics=topics)
+    print("Kafka topics created")
+except TopicAlreadyExistsError:
+    print("Some topics already exist")
+finally:
+    admin.close()
+
+# KAFKA PRODUCER
 producer = KafkaProducer(
     bootstrap_servers=[KAFKA_BROKER],
     value_serializer=lambda x: json.dumps(x).encode("utf-8"),
-    acks='all', 
-    retries=5
+    acks="all",
+    retries=5,
+    linger_ms=500,
+    request_timeout_ms=30000,
+    retry_backoff_ms=5000
 )
 
-hdfs_client = InsecureClient(HDFS_URL, user='hadoop')
-print("Connect to kafka successfully")
+print("Connected to Kafka producer")
 
-# Config BATCH 
-HDFS_BUFFER = []
-LAST_HOUR_SAVED = datetime.now(timezone.utc).hour 
+# =======================
+# HDFS
+# =======================
+hdfs_client = InsecureClient(HDFS_URL, user="hadoop")
+print("Connected to HDFS")
 
+# BUFFERS (BATCH BY HOUR)
+AIR_BUFFER = []
+WIND_BUFFER = []
+TEMP_BUFFER = []
+HUM_BUFFER = []
+
+LAST_HOUR_SAVED = datetime.now(timezone.utc).hour
+
+# FETCH AIR QUALITY
 def fetch_latest_data():
     url = f"https://api.weatherbit.io/v2.0/current/airquality?city={CITY}&key={API_KEY}"
-    response = requests.get(url)
+    response = requests.get(url, timeout=10)
     data = response.json()
+    print("AIR RAW:", data)
+
     if "data" not in data:
         return None
 
@@ -59,7 +95,7 @@ def fetch_latest_data():
     now_utc = datetime.now(timezone.utc)
     now_local = datetime.now()
 
-    doc = {
+    return {
         "city": CITY,
         "aqi": record["aqi"],
         "co": record["co"],
@@ -72,66 +108,107 @@ def fetch_latest_data():
         "timestamp_utc": now_utc.strftime("%Y-%m-%dT%H:%M:%S"),
         "ts": int(now_utc.timestamp()),
     }
-    return doc
 
-def write_buffer_to_hdfs(hour_to_save):
-    global HDFS_BUFFER
-    
-    if not HDFS_BUFFER:
+# FETCH WEATHER
+def fetch_weather_data():
+    url = f"https://api.weatherbit.io/v2.0/current?city={CITY}&key={API_KEY}"
+    response = requests.get(url, timeout=10)
+    data = response.json()
+    print("WEATHER RAW:", data)
+
+    if "data" not in data:
+        return None
+
+    record = data["data"][0]
+    now_utc = datetime.now(timezone.utc)
+
+    base = {
+        "city": CITY,
+        "timestamp_utc": now_utc.strftime("%Y-%m-%dT%H:%M:%S"),
+        "ts": int(now_utc.timestamp())
+    }
+
+    return (
+        {**base, "wind_speed": record["wind_spd"]},
+        {**base, "temperature": record["temp"]},
+        {**base, "humidity": record["rh"]},
+    )
+
+# HDFS WRITE
+def write_buffer_to_hdfs(buffer, sub_dir, hour_to_save):
+    if not buffer:
         return
 
-    now_utc = datetime.now(timezone.utc)
-    date_str = now_utc.strftime("%Y/%m/%d")
-    hour_str = str(hour_to_save).zfill(2) 
-    
-    hdfs_dir = os.path.join(HDFS_PATH, date_str, hour_str)
-    
+    date_str = datetime.now(timezone.utc).strftime("%Y/%m/%d")
+    hour_str = str(hour_to_save).zfill(2)
+
+    hdfs_dir = os.path.join(HDFS_PATH, sub_dir, date_str, hour_str)
+
     try:
         hdfs_client.makedirs(hdfs_dir, permission=755)
-        file_name = f"airquality_batch_{int(time.time())}.json"
-        file_path = os.path.join(hdfs_dir, file_name)
-        
-        # Gom tất cả bản ghi thành một chuỗi JSON Lines (mỗi dòng là một JSON object)
-        data_to_write = "".join([json.dumps(r) + "\n" for r in HDFS_BUFFER])
-        
-        with hdfs_client.write(file_path, encoding="utf-8") as writer:
-            writer.write(data_to_write)
-            
-        print(f"Batch saved: {len(HDFS_BUFFER)} records to HDFS: {file_path}")
-        HDFS_BUFFER = [] # Xóa buffer sau khi ghi thành công
-        
-    except Exception as e:
-        print(f"Error saving batch to HDFS: {e}")
 
-def send_to_kafka(record):
-    producer.send(TOPIC, value=record)
+        file_path = os.path.join(
+            hdfs_dir, f"{sub_dir}_batch_{int(time.time())}.json"
+        )
+
+        with hdfs_client.write(file_path, encoding="utf-8") as writer:
+            for r in buffer:
+                writer.write(json.dumps(r, ensure_ascii=False) + "\n")
+
+        print(f"[HDFS] Saved {len(buffer)} records → {file_path}")
+        buffer.clear()
+
+    except Exception as e:
+        print(f"[HDFS ERROR] {sub_dir}: {e}")
+
+# SEND KAFKA
+def send_to_kafka(topic, record):
+    producer.send(topic, value=record)
 
 if __name__ == "__main__":
     while True:
         try:
-            # Xử lý Batch
             now_utc = datetime.now(timezone.utc)
             current_hour = now_utc.hour
-            
-            # Kiểm tra nếu giờ hiện tại khác giờ đã lưu batch cuối cùng
+
+            # Save batch when hour changes
             if current_hour != LAST_HOUR_SAVED:
-                print(f"--- Triggering batch save: hour {LAST_HOUR_SAVED} -> {current_hour} ---")
-                # Ghi dữ liệu của giờ đã qua 
-                write_buffer_to_hdfs(LAST_HOUR_SAVED) 
+                print(f"--- Saving batch hour {LAST_HOUR_SAVED} ---")
+
+                write_buffer_to_hdfs(AIR_BUFFER, "air_quality", LAST_HOUR_SAVED)
+                write_buffer_to_hdfs(WIND_BUFFER, "weather_wind", LAST_HOUR_SAVED)
+                write_buffer_to_hdfs(TEMP_BUFFER, "weather_temperature", LAST_HOUR_SAVED)
+                write_buffer_to_hdfs(HUM_BUFFER, "weather_humidity", LAST_HOUR_SAVED)
+
                 LAST_HOUR_SAVED = current_hour
-            
-            # Thu thập và Đưa dữ liệu vào HDFS Buffer và Kafka 
-            data = fetch_latest_data()
-            if data:
-                # 1. Gửi lên Kafka 
-                send_to_kafka(data)
-                # 2. Thêm vào HDFS Buffer 
-                HDFS_BUFFER.append(data)
-                
-                print(f"Sent data: {data['timestamp_utc']} | Buffer size: {len(HDFS_BUFFER)}")
-            
+
+            # Air quality
+            air_data = fetch_latest_data()
+            if air_data:
+                send_to_kafka(TOPIC, air_data)
+                AIR_BUFFER.append(air_data)
+
+            # Weather
+            weather = fetch_weather_data()
+            if weather:
+                wind_doc, temp_doc, hum_doc = weather
+
+                send_to_kafka(WIND_TOPIC, wind_doc)
+                send_to_kafka(TEMP_TOPIC, temp_doc)
+                send_to_kafka(HUM_TOPIC, hum_doc)
+
+                WIND_BUFFER.append(wind_doc)
+                TEMP_BUFFER.append(temp_doc)
+                HUM_BUFFER.append(hum_doc)
+
+            print(
+                f"AIR:{len(AIR_BUFFER)} | "
+                f"WIND:{len(WIND_BUFFER)} | "
+                f"TEMP:{len(TEMP_BUFFER)} | "
+                f"HUM:{len(HUM_BUFFER)}"
+            )
+
         except Exception as e:
             print("Error:", e)
-            
-        # Tần suất lấy dữ liệu
+
         time.sleep(60)
