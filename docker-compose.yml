@@ -12,18 +12,11 @@ volumes:
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
-    container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
-    restart: unless-stopped
-    networks:
-      - bigdata-net
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
-    container_name: kafka
-    depends_on:
-      - zookeeper
     ports:
       - "9092:9092"
       - "29092:29092"
@@ -35,54 +28,44 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    restart: unless-stopped
-    networks:
-      - bigdata-net
+    depends_on:
+      - zookeeper
 
   hadoop-namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
     container_name: hadoop-namenode
     environment:
-      CLUSTER_NAME: bigdata-cluster
-      CORE_CONF_fs_defaultFS: hdfs://hadoop-namenode:9000
+      - CLUSTER_NAME=bigdata-cluster
+      - CORE_CONF_fs_defaultFS=hdfs://hadoop-namenode:9000
     ports:
       - "9870:9870"
       - "9000:9000"
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
-    restart: unless-stopped
-    networks:
-      - bigdata-net
 
   hadoop-datanode:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
     container_name: hadoop-datanode
-    depends_on:
-      - hadoop-namenode
     environment:
-      CORE_CONF_fs_defaultFS: hdfs://hadoop-namenode:9000
-      SERVICE_PRECONDITION: "hadoop-namenode:9870"
+      - CORE_CONF_fs_defaultFS=hdfs://hadoop-namenode:9000
+      - SERVICE_PRECONDITION=hadoop-namenode:9000
     ports:
       - "9864:9864"
+    depends_on:
+      - hadoop-namenode
     volumes:
       - hadoop_datanode:/hadoop/dfs/data
-    restart: unless-stopped
-    networks:
-      - bigdata-net
 
-  collection:
-    build: ./collection
-    image: group12-collection:latest
-    container_name: collection
+  ingestion:
+    build: .
+    image: ingestion:latest
+    container_name: ingestion
     depends_on:
       - kafka
       - hadoop-namenode
     env_file: .env
     command: ["python", "producer.py"]
-    restart: unless-stopped
-    networks:
-      - bigdata-net
-
+  
   streaming:
     build: ./streaming
     image: group12-streaming:latest
