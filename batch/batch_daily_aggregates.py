@@ -1,109 +1,131 @@
+import sys
+import os
+import argparse
+import logging
+import datetime
+
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import (
-    col, avg, sum as spark_sum, max as spark_max, min as spark_min, 
-    count, lit, when, first, round as spark_round
+    col, avg, max as spark_max, min as spark_min, 
+    sum as spark_sum, count, round as spark_round, 
+    lag, when, lit, first
 )
 from pyspark.sql.window import Window
-import sys
-import os 
+from pyspark.ml.stat import Correlation
+from pyspark.ml.feature import VectorAssembler
 
-def aqi_category(aqi_col):
-    return when(aqi_col <= 50, lit("Good")) \
-        .when((aqi_col > 50) & (aqi_col <= 100), lit("Moderate")) \
-        .when((aqi_col > 100) & (aqi_col <= 150), lit("Unhealthy for Sensitive Groups")) \
-        .when((aqi_col > 150) & (aqi_col <= 200), lit("Unhealthy")) \
-        .when((aqi_col > 200) & (aqi_col <= 300), lit("Very Unhealthy")) \
-        .otherwise(lit("Hazardous"))
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
-def main():
-    """
-    Daily Aggregates Job (Safe Mode)
-    - Tự động bỏ qua các cột thiếu để tránh lỗi crash.
-    """
-    os.environ["HADOOP_USER_NAME"] = "root"
-    
-    spark = SparkSession.builder \
-        .appName("batch-daily-aggregates-rollup") \
-        .config("spark.sql.parquet.compression.codec", "snappy") \
+HDFS_ROOT = "hdfs://hadoop-namenode:9000"
+
+def get_spark_session(job_name):
+    os.environ["HADOOP_USER_NAME"] = "hadoop"
+    return SparkSession.builder \
+        .appName(job_name) \
         .config("spark.sql.adaptive.enabled", "true") \
         .getOrCreate()
-    
-    # Log4j Setup
-    log4jLogger = spark.sparkContext._jvm.org.apache.log4j
-    logger = log4jLogger.LogManager.getLogger("DAILY_BATCH_JOB")
-    
-    logger.info("=" * 50)
-    logger.info(">>> STARTING DAILY AGGREGATES JOB (SAFE MODE)")
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--year", type=int)
+    # Daily thường chạy đè lại dữ liệu phân tích của cả năm/tháng để cập nhật xu hướng mới nhất
+    args = parser.parse_args()
+
+    if not args.year:
+        args.year = datetime.datetime.now().year
+
+    logger.info(f"--- STARTING DAILY ANALYTICAL JOB FOR YEAR {args.year} ---")
+    spark = get_spark_session(f"Daily_Analytics_{args.year}")
+    spark.sparkContext.setLogLevel("ERROR")
+
+    input_path = f"{HDFS_ROOT}/user/hadoop/batch/hourly"
     
     try:
-        input_path = "hdfs://hadoop-namenode:9000/batch/air-quality/hourly"
-        output_path = "hdfs://hadoop-namenode:9000/batch/air-quality/daily"
-        
-        logger.info(f">>> Reading hourly data from: {input_path}")
-        
-        try:
-            df = spark.read.parquet(input_path)
-        except Exception as e:
-            logger.warn(f">>> DATA NOT FOUND: {e}")
-            return True 
-
-        existing_columns = df.columns
-        logger.info(f">>> Columns found in Hourly data: {existing_columns}")
-
-        logger.info(">>> Computing Daily Roll-up...")
-
-        metrics = ["aqi", "pm25", "pm10", "co", "no2", "o3", "so2"]
-        
-        # Các cột cơ bản luôn phải có
-        agg_exprs = [
-            spark_sum("n_records").alias("n_records"),
-            first("day_of_week").alias("day_of_week"),
-            first("is_weekend").alias("is_weekend"),
-            first("month_sin").alias("month_sin"),
-            first("month_cos").alias("month_cos")
-        ]
-        
-        for m in metrics:
-            # Luôn ưu tiên tính Average (Trung bình)
-            if f"{m}_avg" in existing_columns:
-                df = df.withColumn(f"{m}_weight", col(f"{m}_avg") * col("n_records"))
-                agg_exprs.append(
-                    spark_round(spark_sum(f"{m}_weight") / spark_sum("n_records"), 2).alias(f"{m}_avg")
-                )
-                
-            if f"{m}_max" in existing_columns:
-                agg_exprs.append(spark_max(f"{m}_max").alias(f"{m}_max"))
-                
-            if f"{m}_stddev" in existing_columns:
-                agg_exprs.append(spark_round(avg(f"{m}_stddev"), 2).alias(f"{m}_stddev"))
-
-        daily_agg = df.groupBy("city", "date", "year", "month", "day").agg(*agg_exprs)
-        
-        if "aqi_avg" in daily_agg.columns:
-            daily_agg = daily_agg.withColumn("who_status", aqi_category(col("aqi_avg")))
-            
-            # Spike Detection
-            window_7d = Window.partitionBy("city").orderBy("year", "month", "day").rowsBetween(-7, -1)
-            daily_agg = daily_agg.withColumn("rolling_avg_7d", spark_round(avg("aqi_avg").over(window_7d), 2))
-            daily_agg = daily_agg.withColumn("spike_flag", 
-                when((col("aqi_avg") > col("rolling_avg_7d") * 1.5) & col("rolling_avg_7d").isNotNull(), 1).otherwise(0)
-            )
-
-        logger.info(f">>> Writing to {output_path}")
-        
-        daily_agg.repartition(1).write \
-            .mode("overwrite") \
-            .partitionBy("year", "month", "day") \
-            .parquet(output_path)
-            
-        logger.info(">>> DAILY JOB SUCCESS")
-        return True
-
+        df_hourly = spark.read.parquet(input_path).filter(col("year") == args.year)
     except Exception as e:
-        logger.error(f"!!! JOB ERROR: {e}")
-        raise e 
-    finally:
-        spark.stop()
+        logger.error(f"Data not found: {e}")
+        return
+    
+    #Lưu DataFrame vào bộ nhớ (RAM) của Spark để tái sử dụng nhanh hơn.
+    df_hourly.cache()
+
+    # 2. ANALYSIS 1: DAILY TREND WITH GROWTH RATE (Window Functions)
+    #  Vẽ biểu đồ đường PM2.5 theo ngày & Xem xu hướng tăng/giảm
+    logger.info("Computing Daily Trends...")
+
+    # Gom nhóm theo ngày
+    daily_agg = df_hourly.groupBy("city", "year", "month", "day").agg(
+        avg("pm25_mean").alias("day_pm25"),
+        spark_max("pm25_max").alias("day_max_pm25"),
+        avg("aqi_mean").alias("day_aqi"),
+        avg("avg_temp").alias("day_temp"),
+        avg("avg_wind").alias("day_wind"),
+        # Đếm số giờ ô nhiễm trong ngày (PM2.5 > 50 là mốc xấu)
+        count(when(col("pm25_mean") > 50, 1)).alias("polluted_hours")
+    )
+
+    # Sắp xếp theo ngày để so sánh với ngày hôm trước
+    w_daily = Window.partitionBy("city").orderBy("year", "month", "day")
+
+    daily_trend = daily_agg.withColumn(
+        "prev_day_pm25", lag("day_pm25", 1).over(w_daily)
+    ).withColumn(
+        # Tính % thay đổi
+        "pm25_growth_pct", 
+        spark_round(((col("day_pm25") - col("prev_day_pm25")) / col("prev_day_pm25")) * 100, 2)
+    ).withColumn(
+        "trend_status",
+        when(col("pm25_growth_pct") > 10, "WORSENING")
+        .when(col("pm25_growth_pct") < -10, "IMPROVING")
+        .otherwise("STABLE")
+    )
+
+    daily_trend.coalesce(1).write.mode("overwrite").parquet(f"{HDFS_ROOT}/user/hadoop/batch/daily/trend")
+
+    # 3. ANALYSIS 2: HOURLY HEATMAP (Pivot & Unpivot)
+    # Vẽ Heatmap [Trục dọc: Thứ 2-CN] x [Trục ngang: 0h-23h]
+    # Giá trị ô: Trung bình PM2.5
+
+    logger.info("Computing Heatmap Data (Pivot)...")
+
+    # Pivot: Biến giờ (0..23) thành cột
+    heatmap_df = df_hourly.groupBy("city", "day_of_week") \
+        .pivot("local_hour", list(range(24))) \
+        .agg(spark_round(avg("pm25_mean"), 1)) \
+        .orderBy("city", "day_of_week")
+
+    heatmap_df.coalesce(1).write.mode("overwrite").parquet(f"{HDFS_ROOT}/user/hadoop/batch/daily/heatmap_pm25")
+
+    # 4. ANALYSIS 3: CORRELATION MATRIX (Advanced MLlib)
+    # Xem PM2.5 tương quan thế nào với Temp, Hum, Wind
+    
+    logger.info("Computing Correlation Matrix...")
+
+    cols_corr = ["pm25_mean", "pm10_mean", "aqi_mean", "avg_temp", "avg_hum", "avg_wind"]
+    
+    df_clean = df_hourly.select(cols_corr).na.drop()
+
+    if not df_clean.rdd.isEmpty():
+        # Gom các cột thành Vector
+        assembler = VectorAssembler(inputCols=cols_corr, outputCol="features")
+        df_vector = assembler.transform(df_clean)
+
+        # Tính tương quan Pearson
+        pearson_corr = Correlation.corr(df_vector, "features", "pearson").collect()[0][0]
+
+        rows = pearson_corr.toArray().tolist()
+        corr_data = []
+        for i, row in enumerate(rows):
+            corr_dict = {"variable": cols_corr[i]}
+            for j, val in enumerate(row):
+                corr_dict[cols_corr[j]] = float(val)
+            corr_data.append(corr_dict)
+        
+        spark.createDataFrame(corr_data).coalesce(1).write.mode("overwrite").json(f"{HDFS_ROOT}/user/hadoop/batch/daily/correlation")
+
+    logger.info("Daily Analytical Job Finished.")
+    spark.stop()
 
 if __name__ == "__main__":
     main()

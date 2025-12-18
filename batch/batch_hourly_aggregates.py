@@ -1,165 +1,164 @@
+import sys
+import os
+import argparse
+import logging
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import (
-    col, avg, max as spark_max, min as spark_min, count, 
-    percentile_approx, to_date, hour, stddev, year, month, dayofmonth,
-    dayofweek, sin, cos, lit, from_utc_timestamp, when
+    col, lit, avg, max as spark_max, min as spark_min, 
+    stddev, count, when, first, date_trunc, udf, 
+    dayofweek, expr, percentile_approx, skewness
 )
-from pyspark.sql.types import StructType, StructField, StringType, DoubleType, LongType
-from pyspark.sql.window import Window
-import logging
-import sys
-import math
-import os 
+from pyspark.sql.types import StringType
+from pyspark.sql.functions import from_utc_timestamp, hour as spark_hour
 
-# Logging setup
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    stream=sys.stdout
-)
+# Chuẩn hóa log khi chạy
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+HDFS_ROOT = "hdfs://hadoop-namenode:9000"
 
-# Hàm phân loại chất lượng không khí
-def aqi_category(aqi_col):
-    return when(aqi_col <= 50, lit("Good")) \
-        .when((aqi_col > 50) & (aqi_col <= 100), lit("Moderate")) \
-        .when((aqi_col > 100) & (aqi_col <= 150), lit("Unhealthy for Sensitive Groups")) \
-        .when((aqi_col > 150) & (aqi_col <= 200), lit("Unhealthy")) \
-        .when((aqi_col > 200) & (aqi_col <= 300), lit("Very Unhealthy")) \
-        .otherwise(lit("Hazardous"))
-
-def main():
-    os.environ["HADOOP_USER_NAME"] = "root"
-    
-    spark = SparkSession.builder \
-        .appName("batch-hourly-aggregates") \
-        .config("spark.sql.parquet.compression.codec", "snappy") \
+def get_spark_session(job_name):
+    os.environ["HADOOP_USER_NAME"] = "hadoop"
+    return SparkSession.builder \
+        .appName(job_name) \
         .config("spark.sql.adaptive.enabled", "true") \
         .getOrCreate()
 
-    logger.info("=" * 100)
-    logger.info("Starting Hourly Aggregates Batch Job")
-    logger.info("=" * 100)
+# --- UDF: Phân loại AQI ---
+@udf(returnType=StringType())
+def categorize_aqi(aqi):
+    if aqi is None: return "Unknown"
+    if aqi <= 50: return "Good"
+    elif aqi <= 100: return "Moderate"
+    elif aqi <= 150: return "Unhealthy for Sensitive"
+    elif aqi <= 200: return "Unhealthy"
+    elif aqi <= 300: return "Very Unhealthy"
+    else: return "Hazardous"
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--year", type=int)
+    parser.add_argument("--month", type=int)
+    parser.add_argument("--day", type=int)
+    parser.add_argument("--hour", type=int)
+    args = parser.parse_args()
+
+    if not args.year:
+        import datetime
+        now = datetime.datetime.now()
+        args.year, args.month, args.day, args.hour = now.year, now.month, now.day, now.hour
+
+    logger.info(f"STARTING EDA FEATURE JOB (AQI + PM2.5): {args.year}-{args.month}-{args.day} Hour: {args.hour}")
+    spark = get_spark_session(f"EDA Features {args.hour}h")
+    spark.sparkContext.setLogLevel("ERROR")
+
+    # --- 1. ĐỌC DỮ LIỆU ---
+    def read_source(subpath):
+        try:
+            path = f"{HDFS_ROOT}/user/hadoop/clean-data/{subpath}"
+            return spark.read.parquet(path).filter(
+                (col("year") == args.year) & 
+                (col("month") == args.month) & 
+                (col("day") == args.day)
+            )
+        except Exception:
+            return None
+
+    df_air = read_source("air_quality")
+    df_wind = read_source("weather_wind")
+    df_temp = read_source("weather_temperature")
+    df_hum = read_source("weather_humidity")
+
+    if not df_air:
+        logger.error("No Air Quality data found. Exiting.")
+        return
+
+    # --- 2. CHUẨN BỊ JOIN ---
+
+    # Chuẩn hóa thời gian về cùng phút để join
+
+    def prep_df(df, metric_col):
+        if df is None: return None
+        return df.withColumn("join_time", date_trunc("minute", col("timestamp_utc"))) \
+                 .select("city", "join_time", metric_col)
+
+    df_air = df_air.withColumn("join_time", date_trunc("minute", col("timestamp_utc")))
+    df_wind_clean = prep_df(df_wind, "wind_speed")
+    df_temp_clean = prep_df(df_temp, "temperature")
+    df_hum_clean  = prep_df(df_hum, "humidity")
+
+    # --- 3. JOIN DATA ---
+    master_df = df_air
+    if df_wind_clean: master_df = master_df.join(df_wind_clean, ["city", "join_time"], "left")
+    if df_temp_clean: master_df = master_df.join(df_temp_clean, ["city", "join_time"], "left")
+    if df_hum_clean:  master_df = master_df.join(df_hum_clean, ["city", "join_time"], "left")
+
     
-    try:
-        input_path = "hdfs://hadoop-namenode:9000/clean-data/air-quality"
-        output_path = "hdfs://hadoop-namenode:9000/batch/air-quality/hourly"
-        
-        logger.info(f"Reading cleaned data from: {input_path}")
-        
-        # SỬ DỤNG SCHEMA CỨNG
-        df = spark.read.parquet(input_path)
-        
-        initial_count = df.count()
-        logger.info(f"Initial record count: {initial_count}")
+    master_df = master_df.withColumn("local_time", from_utc_timestamp(col("join_time"), "Asia/Ho_Chi_Minh"))
+    master_df = master_df.filter(spark_hour("join_time") == args.hour) # Lọc theo giờ UTC
 
-        # Chuyển UTC sang giờ Việt Nam
-        df = df.withColumn("timestamp_local", from_utc_timestamp(col("timestamp_utc"), "Asia/Ho_Chi_Minh"))
+    if master_df.rdd.isEmpty():
+        logger.warning(f"No data for hour {args.hour} UTC.")
+        return
 
-        # Preprocessing & Feature Engineering
-        df = (
-            df.withColumn("date", to_date(col("timestamp_local")))
-              .withColumn("hour_of_day", hour(col("timestamp_local")))
-              .withColumn("year", year(col("timestamp_local")))
-              .withColumn("month", month(col("timestamp_local")))
-              .withColumn("day", dayofmonth(col("timestamp_local")))
-              .withColumn("day_of_week", dayofweek(col("timestamp_local")))
-              .withColumn("is_weekend", ((col("day_of_week") == 1) | (col("day_of_week") == 7)).cast("int"))
-              .withColumn("month_sin", sin(2 * math.pi * col("month") / 12))
-              .withColumn("month_cos", cos(2 * math.pi * col("month") / 12))
-        )
+    master_df = master_df.withColumn("day_of_week", dayofweek("local_time")) \
+                         .withColumn("is_weekend", when(col("day_of_week").isin(1, 7), 1).otherwise(0)) \
+                         .withColumn("local_hour", spark_hour("local_time"))
 
-        # Drop duplicates
-        df = df.dropDuplicates(["city", "timestamp_utc"])
-        
-        # Range validation
-        df = df.filter(
-            (col("aqi").between(0, 500)) &
-            (col("pm25").between(0, 500)) &
-            (col("pm10").between(0, 600)) &
-            (col("co").between(0, 10000)) &
-            (col("no2").between(0, 500)) &
-            (col("o3").between(0, 500)) &
-            (col("so2").between(0, 500))
-        )
-        
-        # --- 4. HOURLY AGGREGATION ---
-        logger.info("Computing hourly aggregates...")
-        
-        hourly_agg = df.groupBy(
-            "city", "date", "hour_of_day",
-            "year", "month", "day",
-            "day_of_week", "is_weekend",
-            "month_sin", "month_cos"              
-        ).agg(
-            count("*").alias("n_records"),
-            
-            # AQI
-            avg("aqi").alias("aqi_avg"),
-            stddev("aqi").alias("aqi_stddev"),
-            spark_max("aqi").alias("aqi_max"),
-            spark_min("aqi").alias("aqi_min"),
-            percentile_approx("aqi", 0.50).alias("aqi_p50"),
-            
-            # PM2.5
-            avg("pm25").alias("pm25_avg"),
-            stddev("pm25").alias("pm25_stddev"),
-            spark_max("pm25").alias("pm25_max"),
-            spark_min("pm25").alias("pm25_min"),
-            percentile_approx("pm25", 0.50).alias("pm25_p50"),
-            
-            avg("pm10").alias("pm10_avg"),
-            stddev("pm10").alias("pm10_stddev"),
-            spark_max("pm10").alias("pm10_max"),
-            spark_min("pm10").alias("pm10_min"),
-            percentile_approx("pm10", 0.50).alias("pm10_p50"),
-            
-            # Others
-            avg("co").alias("co_avg"),      stddev("co").alias("co_stddev"),
-            avg("no2").alias("no2_avg"),    stddev("no2").alias("no2_stddev"),
-            avg("o3").alias("o3_avg"),      stddev("o3").alias("o3_stddev"),
-            avg("so2").alias("so2_avg"),    stddev("so2").alias("so2_stddev"),
-        )
+    # --- 5. AGGREGATION (FULL METRICS: AQI, PM2.5, PM10) ---
+    final_report = master_df.groupBy("city").agg(
 
-        # WHO Status
-        hourly_agg = hourly_agg.withColumn("who_status", aqi_category(col("aqi_avg")))
+        lit(args.year).alias("year"),
+        lit(args.month).alias("month"),
+        lit(args.day).alias("day"),
+        lit(args.hour).alias("hour"), 
+        first("local_hour").alias("local_hour"),
+        first("day_of_week").alias("day_of_week"),
+        first("is_weekend").alias("is_weekend"),
+        
+        # === AQI STATS ===
+        avg("aqi").alias("aqi_mean"),
+        percentile_approx("aqi", 0.5).alias("aqi_median"),
+        percentile_approx("aqi", 0.25).alias("aqi_q1"),
+        percentile_approx("aqi", 0.75).alias("aqi_q3"),
+        spark_max("aqi").alias("aqi_max"),
+        
+        # === PM2.5 STATS ===
+        # Dùng cho Boxplot PM2.5 và Time Series
+        avg("pm25").alias("pm25_mean"),
+        percentile_approx("pm25", 0.5).alias("pm25_median"), # Trung vị PM2.5
+        percentile_approx("pm25", 0.25).alias("pm25_q1"),    # Q1(Tứ phân vị thứ nhất) -> 25% dữ liệu <=Q1 , Q1~Q3 ổn định , Q3-Q1 lớn biến động mạnh
+        percentile_approx("pm25", 0.75).alias("pm25_q3"),    # Q3(Tứ phân vị thứ ba) -> 75% dữ liệu <= Q3 
+        stddev("pm25").alias("pm25_stddev"),                 # Độ biến động của bụi mịn
+        spark_max("pm25").alias("pm25_max"),
+        spark_min("pm25").alias("pm25_min"),
 
-        # --- 5. SPIKE DETECTION ---
-        logger.info("Computing rolling statistics...")
-        window_24h = Window.partitionBy("city").orderBy("year", "month", "day", "hour_of_day").rowsBetween(-23, -1)
+        # === PM10 STATS (Phân tích bụi thô ) ===
+        avg("pm10").alias("pm10_mean"),
+        percentile_approx("pm10", 0.5).alias("pm10_median"),
+        spark_max("pm10").alias("pm10_max"),
         
-        hourly_agg = hourly_agg.withColumn("aqi_rolling_avg_24h", avg("aqi_avg").over(window_24h))
+        # Weather Stats (Cho Correlation)
+        avg("temperature").alias("avg_temp"),
+        avg("humidity").alias("avg_hum"),
+        avg("wind_speed").alias("avg_wind"),
         
-        hourly_agg = hourly_agg.withColumn(
-            "spike_flag",
-            when(
-                (col("aqi_avg") > col("aqi_rolling_avg_24h") * 1.5) & 
-                col("aqi_rolling_avg_24h").isNotNull(), 
-                1
-            ).otherwise(0)
-        )
+        # Categorization(Phân loại AQI theo giờ )
+        categorize_aqi(avg("aqi")).alias("aqi_category_hourly")
+    )
 
-        logger.info(f"Writing to {output_path}...")
-        
-        hourly_agg.repartition(1).write \
-            .mode("overwrite") \
-            .partitionBy("year", "month", "day") \
-            .parquet(output_path)
-        
-        logger.info("Hourly aggregates written successfully")
-        logger.info("=" * 80)
-        
-        return True
-        
-    except Exception as e:
-        logger.error(f"Error in batch job: {e}", exc_info=True)
-        return False
-        
-    finally:
-        spark.stop()
-        logger.info("Spark session stopped")
+    # --- 6. SAVE ---
+    output_path = f"{HDFS_ROOT}/user/hadoop/batch/hourly"
+    
+    logger.info(f"Writing Full EDA data to: {output_path}")
+    final_report.coalesce(1).write \
+        .mode("append") \
+        .partitionBy("year", "month", "day") \
+        .parquet(output_path)
+
+    logger.info("Job Finished Successfully.")
+    spark.stop()
 
 if __name__ == "__main__":
-    success = main()
-    sys.exit(0 if success else 1)
+    main()

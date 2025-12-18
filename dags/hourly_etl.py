@@ -5,6 +5,7 @@ from datetime import timedelta
 
 default_args = {
     'owner': 'group12',
+    'depends_on_past': False, 
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
 }
@@ -15,34 +16,46 @@ with DAG(
     description='Clean data -> Hourly Aggregates',
     schedule_interval='0 * * * *', 
     start_date=days_ago(1),
-    catchup=False,
+    catchup=False, 
     max_active_runs=1,
     tags=['hourly', 'spark'],
 ) as dag:
 
     spark_conf_low_resource = {
-        "spark.master": "local[1]",          # QUAN TRỌNG: Chỉ dùng 1 Core (thay vì *)
-        "spark.driver.memory": "512m",       # Tăng lên 512m (300m là không đủ)
+        "spark.master": "local[1]",          
+        "spark.driver.memory": "512m",       
         "spark.executor.memory": "512m",     
-        "spark.sql.shuffle.partitions": "10" # Giảm partition
+        "spark.sql.shuffle.partitions": "10" 
     }
 
-    # Bước 1: Làm sạch dữ liệu
+    # TASK 1: LÀM SẠCH DỮ LIỆU 
     clean_task = SparkSubmitOperator(
         task_id='clean_data',
-        application='/opt/airflow/scripts/cleaner.py',
+        application='/opt/airflow/scripts/cleaner.py', 
         conn_id='spark_default',
         conf=spark_conf_low_resource,
-        verbose=True
+        verbose=True,
+        application_args=[
+            "--year", "{{ execution_date.strftime('%Y') }}",
+            "--month", "{{ execution_date.strftime('%m') }}",
+            "--day", "{{ execution_date.strftime('%d') }}",
+            "--hour", "{{ execution_date.strftime('%H') }}"
+        ]
     )
 
-    # Bước 2: Tổng hợp theo giờ
+    # TASK 2: TỔNG HỢP THEO GIỜ
     hourly_task = SparkSubmitOperator(
         task_id='hourly_aggregates',
         application='/opt/airflow/scripts/batch_hourly_aggregates.py',
         conn_id='spark_default',
         conf=spark_conf_low_resource, 
-        verbose=True
+        verbose=True,
+        application_args=[
+            "--year", "{{ execution_date.strftime('%Y') }}",
+            "--month", "{{ execution_date.strftime('%m') }}",
+            "--day", "{{ execution_date.strftime('%d') }}",
+            "--hour", "{{ execution_date.strftime('%H') }}"
+        ]
     )
 
     # Luồng chạy
