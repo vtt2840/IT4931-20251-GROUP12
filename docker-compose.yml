@@ -14,6 +14,8 @@ services:
     image: confluentinc/cp-zookeeper:7.5.0
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
+    networks:
+      - bigdata-net
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
@@ -30,6 +32,8 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
+    networks:
+      - bigdata-net
 
   hadoop-namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
@@ -42,6 +46,8 @@ services:
       - "9000:9000"
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
+    networks:
+      - bigdata-net
 
   hadoop-datanode:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
@@ -55,9 +61,11 @@ services:
       - hadoop-namenode
     volumes:
       - hadoop_datanode:/hadoop/dfs/data
+    networks:
+      - bigdata-net
 
   ingestion:
-    build: .
+    build: ./collection
     image: ingestion:latest
     container_name: ingestion
     depends_on:
@@ -65,6 +73,8 @@ services:
       - hadoop-namenode
     env_file: .env
     command: ["python", "producer.py"]
+    networks:
+      - bigdata-net
   
   streaming:
     build: ./streaming
@@ -72,14 +82,14 @@ services:
     container_name: streaming
     depends_on:
       - kafka
-      - hadoop-namenode
       - spark-master
     env_file: .env
     command: >
       /opt/spark/bin/spark-submit
       --master spark://spark-master:7077
       --conf spark.jars.ivy=/home/spark/.ivy2
-      --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.3,org.mongodb.spark:mongo-spark-connector_2.12:10.4.0
+      --packages
+      org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.3,org.elasticsearch:elasticsearch-spark-30_2.12:8.11.1
       /app/streaming.py
     volumes:
       - ./streaming:/app
@@ -87,6 +97,7 @@ services:
     restart: unless-stopped
     networks:
       - bigdata-net
+
 
   spark-master:
     image: apache/spark:3.5.3
@@ -112,6 +123,7 @@ services:
       - SPARK_WORKER_MEMORY=1G
     volumes:
       - D:\IT4931-20251-GROUP12\spark-ivy2:/home/spark/.ivy2
+      - spark_checkpoints:/app/checkpoints
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
     restart: unless-stopped
     networks:
@@ -127,6 +139,7 @@ services:
       - SPARK_WORKER_MEMORY=1G
     volumes:
       - D:\IT4931-20251-GROUP12\spark-ivy2:/home/spark/.ivy2
+      - spark_checkpoints:/app/checkpoints
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
     restart: unless-stopped
     networks:
