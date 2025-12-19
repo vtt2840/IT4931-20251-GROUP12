@@ -4,7 +4,7 @@ WORKDIR /app
 COPY streaming.py /app/streaming.py
 
 USER root
-# tạo checkpoint + ivy cache và cấp quyền cho spark
+
 RUN mkdir -p /checkpoints/aqi_streaming \
     && mkdir -p /home/spark/.ivy2 \
     && chown -R spark:spark /checkpoints /home/spark/.ivy2
