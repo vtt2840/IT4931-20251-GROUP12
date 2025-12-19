@@ -11,34 +11,33 @@ kafka_servers = os.getenv("KAFKA_BROKER", "kafka:9092")
 kafka_topic = os.getenv("TOPIC", "air-quality")
 spark_master = os.getenv("SPARK_MASTER", "spark://spark-master:7077")
 
-# ===== Elasticsearch Cloud (from ENV) =====
-ES_NODES = os.getenv("ES_NODES")
-ES_PORT = os.getenv("ES_PORT", "443")
+# ===== Elasticsearch Cloud Config =====
+raw_es_nodes = os.getenv("ES_NODES")  # Ví dụ: https://my-deployment.es.us-central1.gcp.cloud.es.io
 ES_INDEX = os.getenv("ES_INDEX", "aqi_data")
-ES_API_KEY = os.getenv("ES_API_KEY")
-ES_USER = os.getenv("username")
-ES_PASS = os.getenv("password")
+ES_API_KEY = os.getenv("ES_API_KEY") # Chuỗi Base64 dài (được tạo từ Kibana)
 
-if not ES_NODES or not ES_API_KEY:
+if not raw_es_nodes or not ES_API_KEY:
     raise RuntimeError("❌ ES_NODES or ES_API_KEY is not set")
 
-print(f"DEBUG: ES_NODES = {ES_NODES}")
-print(f"DEBUG: API_KEY starts with = {ES_API_KEY[:5]}...")
-
-
-CHECKPOINT_LOCATION = "/app/checkpoints/aqi_streaming"
+# --- Xử lý URL ES_NODES (QUAN TRỌNG) ---
+# Spark ES Connector cần Hostname thuần, không chứa 'https://' hay ':port'
+ES_NODES = raw_es_nodes.replace("https://", "").replace("http://", "").split(":")[0]
 
 print("===== CONFIG =====")
 print("Kafka:", kafka_servers)
-print("Topic:", kafka_topic)
-print("Elasticsearch index:", ES_INDEX)
+print("ES Host (Cleaned):", ES_NODES)
+print("ES Index:", ES_INDEX)
 print("==================")
+
+CHECKPOINT_LOCATION = "/app/checkpoints/aqi_streaming"
 
 # ================= SPARK SESSION =================
 spark = (
     SparkSession.builder
     .appName("Hanoi_AirQuality_Streaming_10min")
     .master(spark_master)
+    # Lưu ý: Phiên bản connector phải tương thích với Spark và Scala
+    .config("spark.jars.packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.3,org.elasticsearch:elasticsearch-spark-30_2.12:8.15.0")
     .getOrCreate()
 )
 
@@ -70,8 +69,8 @@ df_raw = (
     .format("kafka")
     .option("kafka.bootstrap.servers", kafka_servers)
     .option("subscribe", kafka_topic)
-    .option("startingOffsets", "earliest") # Luôn đọc từ đầu nếu là checkpoint mới
-    .option("failOnDataLoss", "false")     # Thêm dòng này
+    .option("startingOffsets", "earliest")
+    .option("failOnDataLoss", "false")
     .load()
 )
 
@@ -145,39 +144,61 @@ df_10min = (
     )
 )
 
+# ================= WRITER FUNCTION =================
 def write_elasticsearch(batch_df, batch_id):
     count = batch_df.count()
-    if count == 0: return
+    if count == 0:
+        return
+
     print(f"===== BATCH {batch_id} | ROWS = {count} =====")
+
+    # Sử dụng API Key trong Header Authorization là cách an toàn nhất cho mọi version
+    # ES_API_KEY phải là chuỗi Base64 đầy đủ
+    auth_header_value = f"ApiKey {ES_API_KEY}"
 
     (
         batch_df.write
         .format("org.elasticsearch.spark.sql")
-        .option("es.nodes", ES_NODES)
-        .option("es.port", ES_PORT)
+        # --- Network Config ---
+        .option("es.nodes", ES_NODES)          
+        .option("es.port", "443")              
+        .option("es.nodes.wan.only", "true")   # Bắt buộc cho Cloud
+        .option("es.nodes.discovery", "false") # Tắt discovery trên Cloud để tránh lỗi private IP
+        .option("es.net.ssl", "true")          
+        
+        # --- Authentication (Quan trọng) ---
+        # Thay vì dùng es.net.http.auth.api.key, ta bơm thẳng vào Header
+        .option("es.net.http.header.Authorization", auth_header_value)
+        
+        # --- Headers cho ES 8.x ---
+        .option("es.net.http.header.Accept", "application/vnd.elasticsearch+json;compatible-with=8")
+        .option("es.net.http.header.Content-Type", "application/vnd.elasticsearch+json;compatible-with=8")
+        
+        # --- Data & Settings ---
         .option("es.resource", ES_INDEX)
-        .option("es.nodes.wan.only", "true")
-        .option("es.net.ssl", "true")
-        .option("es.net.http.auth.user", ES_USER)
-        .option("es.net.http.auth.pass", ES_PASS)
-        # BẮT BUỘC cho Cloud: Tắt tự động dò tìm node để tránh request không hợp lệ
-        .option("es.nodes.discovery", "false")
-        .option("es.nodes.client.only", "false")
-        # Thêm cấu hình này để tránh lỗi handshake trên một số môi trường
-        .option("es.net.ssl.cert.allow.self.signed", "true")
+        .option("es.input.json", "false")      # DataFrame tự convert sang JSON
+        .option("es.mapping.date.rich", "false") # Tránh lỗi format ngày tháng phức tạp
+        .option("es.write.operation", "index") # Hoặc "upsert" nếu có ID
+        
+        # --- Timeout & Batching ---
+        .option("es.batch.size.entries", "1000")
+        .option("es.http.timeout", "5m")
+        .option("es.http.retries", "3")
+        
         .mode("append")
         .save()
     )
+
     print(f"✅ Batch {batch_id}: Written to Elasticsearch Cloud")
 
 
 # ================= START STREAM =================
 query = (
     df_10min.writeStream
-    .outputMode("update")
+    .outputMode("update") # update hoặc append tùy logic (aggregate dùng update tốt hơn)
     .foreachBatch(write_elasticsearch)
     .option("checkpointLocation", CHECKPOINT_LOCATION)
-    .trigger(processingTime="30 seconds")
+    .trigger(processingTime="120 seconds")
     .start()
 )
 
