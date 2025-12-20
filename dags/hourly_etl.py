@@ -58,5 +58,21 @@ with DAG(
         ]
     )
 
+    #Export PM2.5 theo giờ
+    export_hourly = SparkSubmitOperator(
+        task_id='export_hourly_to_es',
+        application='/opt/airflow/scripts/export_hourly.py',
+        conn_id='spark_default',
+        conf=spark_conf_low_resource
+    )
+
+    # Export relationship PM2.5 – weather theo giờ
+    export_correlation_hourly = SparkSubmitOperator(
+        task_id='export_hourly_correlation_to_es',
+        application='/opt/airflow/scripts/export_correlation.py',
+        conn_id='spark_default',
+        conf=spark_conf_low_resource
+    )
+
     # Luồng chạy
-    clean_task >> hourly_task
+    clean_task >> hourly_task >> export_hourly >> export_correlation_hourly

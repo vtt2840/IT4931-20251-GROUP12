@@ -35,4 +35,15 @@ with DAG(
         ]
     )
 
-    daily_task
+    # Export PM2.5 theo ngày 
+    export_daily = SparkSubmitOperator(
+        task_id='export_daily_to_es',
+        application='/opt/airflow/scripts/export_daily.py',
+        conn_id='spark_default',
+        conf={
+            "spark.master": "local[1]",
+            "spark.driver.memory": "512m"
+        }
+    )
+
+    daily_task >> export_daily
