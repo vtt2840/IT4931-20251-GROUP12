@@ -93,7 +93,7 @@ services:
       /app/streaming.py
     volumes:
       - ./streaming:/app
-      - spark_checkpoints:/app/checkpoints
+      - spark_checkpoints:/checkpoints
     restart: unless-stopped
     networks:
       - bigdata-net
