@@ -107,7 +107,7 @@ services:
       - "7077:7077"
       - "8080:8080"
     volumes:
-      - D:\IT4931-20251-GROUP12\spark-ivy2:/home/spark/.ivy2
+      - ./spark-ivy2:/home/spark/.ivy2
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
     restart: unless-stopped
     networks:
@@ -122,7 +122,7 @@ services:
       - SPARK_WORKER_CORES=1
       - SPARK_WORKER_MEMORY=1G
     volumes:
-      - D:\IT4931-20251-GROUP12\spark-ivy2:/home/spark/.ivy2
+      - ./spark-ivy2:/home/spark/.ivy2
       - spark_checkpoints:/app/checkpoints
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
     restart: unless-stopped
@@ -138,7 +138,7 @@ services:
       - SPARK_WORKER_CORES=1
       - SPARK_WORKER_MEMORY=1G
     volumes:
-      - D:\IT4931-20251-GROUP12\spark-ivy2:/home/spark/.ivy2
+      - ./spark-ivy2:/home/spark/.ivy2
       - spark_checkpoints:/app/checkpoints
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
     restart: unless-stopped
