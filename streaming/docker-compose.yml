@@ -65,7 +65,7 @@ services:
       - bigdata-net
 
   ingestion:
-    build: ./collection
+    build: .
     image: ingestion:latest
     container_name: ingestion
     depends_on:
