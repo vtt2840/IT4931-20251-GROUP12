@@ -26,7 +26,7 @@ Dự án xây dựng **hệ thống pipeline xử lý dữ liệu lớn** nhằm
 
 ### Orchestration
 - **Apache Airflow**
-  - Chỉ dùng để điều phối **Batch Processing**
+  - Điều phối **Batch Processing**
   - Tự động kích hoạt các Spark Job theo lịch
 
 ---
@@ -47,7 +47,7 @@ Dự án xây dựng **hệ thống pipeline xử lý dữ liệu lớn** nhằm
 Khởi chạy toàn bộ các service bằng Docker Compose:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 2. Điều phối Batch Process (Airflow)
