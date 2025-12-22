@@ -4,37 +4,20 @@ import argparse
 import logging
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import (
-    col, lit, avg, max as spark_max, min as spark_min, 
-    stddev, count, when, first, date_trunc, udf, 
-    dayofweek, expr, percentile_approx, skewness
+    col, lit, avg, date_trunc, hour as spark_hour
 )
-from pyspark.sql.types import StringType
-from pyspark.sql.functions import from_utc_timestamp, hour as spark_hour
 
-# Chuẩn hóa log khi chạy
-
+# Chuẩn hóa log
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 HDFS_ROOT = "hdfs://hadoop-namenode:9000"
 
 def get_spark_session(job_name):
-    os.environ["HADOOP_USER_NAME"] = "hadoop"
     return SparkSession.builder \
         .appName(job_name) \
         .config("spark.sql.adaptive.enabled", "true") \
         .getOrCreate()
-
-# --- UDF: Phân loại AQI ---
-@udf(returnType=StringType())
-def categorize_aqi(aqi):
-    if aqi is None: return "Unknown"
-    if aqi <= 50: return "Good"
-    elif aqi <= 100: return "Moderate"
-    elif aqi <= 150: return "Unhealthy for Sensitive"
-    elif aqi <= 200: return "Unhealthy"
-    elif aqi <= 300: return "Very Unhealthy"
-    else: return "Hazardous"
 
 def main():
     parser = argparse.ArgumentParser()
@@ -44,13 +27,14 @@ def main():
     parser.add_argument("--hour", type=int)
     args = parser.parse_args()
 
+    # Tự động lấy giờ hiện tại nếu không truyền tham số
     if not args.year:
         import datetime
-        now = datetime.datetime.now()
+        now = datetime.datetime.utcnow()
         args.year, args.month, args.day, args.hour = now.year, now.month, now.day, now.hour
 
-    logger.info(f"STARTING EDA FEATURE JOB (AQI + PM2.5): {args.year}-{args.month}-{args.day} Hour: {args.hour}")
-    spark = get_spark_session(f"EDA Features {args.hour}h")
+    logger.info(f"STARTING COMPACT JOB (AQI + PM2.5 + Weather): {args.year}-{args.month}-{args.day} Hour: {args.hour}")
+    spark = get_spark_session(f"Batch Processing {args.hour}h")
     spark.sparkContext.setLogLevel("ERROR")
 
     # --- 1. ĐỌC DỮ LIỆU ---
@@ -75,9 +59,6 @@ def main():
         return
 
     # --- 2. CHUẨN BỊ JOIN ---
-
-    # Chuẩn hóa thời gian về cùng phút để join
-
     def prep_df(df, metric_col):
         if df is None: return None
         return df.withColumn("join_time", date_trunc("minute", col("timestamp_utc"))) \
@@ -94,64 +75,33 @@ def main():
     if df_temp_clean: master_df = master_df.join(df_temp_clean, ["city", "join_time"], "left")
     if df_hum_clean:  master_df = master_df.join(df_hum_clean, ["city", "join_time"], "left")
 
-    
-    master_df = master_df.withColumn("local_time", from_utc_timestamp(col("join_time"), "Asia/Ho_Chi_Minh"))
-    master_df = master_df.filter(spark_hour("join_time") == args.hour) # Lọc theo giờ UTC
+    # Lọc đúng giờ cần xử lý
+    master_df = master_df.filter(spark_hour("join_time") == args.hour)
 
     if master_df.rdd.isEmpty():
         logger.warning(f"No data for hour {args.hour} UTC.")
         return
 
-    master_df = master_df.withColumn("day_of_week", dayofweek("local_time")) \
-                         .withColumn("is_weekend", when(col("day_of_week").isin(1, 7), 1).otherwise(0)) \
-                         .withColumn("local_hour", spark_hour("local_time"))
-
-    # --- 5. AGGREGATION (FULL METRICS: AQI, PM2.5, PM10) ---
+    # --- 4. AGGREGATION (CHỈ LẤY CÁI CẦN THIẾT) ---
     final_report = master_df.groupBy("city").agg(
-
         lit(args.year).alias("year"),
         lit(args.month).alias("month"),
         lit(args.day).alias("day"),
-        lit(args.hour).alias("hour"), 
-        first("local_hour").alias("local_hour"),
-        first("day_of_week").alias("day_of_week"),
-        first("is_weekend").alias("is_weekend"),
+        lit(args.hour).alias("hour"),
         
-        # === AQI STATS ===
-        avg("aqi").alias("aqi_mean"),
-        percentile_approx("aqi", 0.5).alias("aqi_median"),
-        percentile_approx("aqi", 0.25).alias("aqi_q1"),
-        percentile_approx("aqi", 0.75).alias("aqi_q3"),
-        spark_max("aqi").alias("aqi_max"),
+        avg("aqi").alias("aqi_mean"),          
+        avg("pm25").alias("pm25_mean"),        
         
-        # === PM2.5 STATS ===
-        # Dùng cho Boxplot PM2.5 và Time Series
-        avg("pm25").alias("pm25_mean"),
-        percentile_approx("pm25", 0.5).alias("pm25_median"), # Trung vị PM2.5
-        percentile_approx("pm25", 0.25).alias("pm25_q1"),    # Q1(Tứ phân vị thứ nhất) -> 25% dữ liệu <=Q1 , Q1~Q3 ổn định , Q3-Q1 lớn biến động mạnh
-        percentile_approx("pm25", 0.75).alias("pm25_q3"),    # Q3(Tứ phân vị thứ ba) -> 75% dữ liệu <= Q3 
-        stddev("pm25").alias("pm25_stddev"),                 # Độ biến động của bụi mịn
-        spark_max("pm25").alias("pm25_max"),
-        spark_min("pm25").alias("pm25_min"),
-
-        # === PM10 STATS (Phân tích bụi thô ) ===
-        avg("pm10").alias("pm10_mean"),
-        percentile_approx("pm10", 0.5).alias("pm10_median"),
-        spark_max("pm10").alias("pm10_max"),
-        
-        # Weather Stats (Cho Correlation)
+        # Chỉ số thời tiết (Correlation)
         avg("temperature").alias("avg_temp"),
-        avg("humidity").alias("avg_hum"),
-        avg("wind_speed").alias("avg_wind"),
-        
-        # Categorization(Phân loại AQI theo giờ )
-        categorize_aqi(avg("aqi")).alias("aqi_category_hourly")
+        avg("humidity").alias("avg_hum"),      
+        avg("wind_speed").alias("avg_wind")   
     )
 
-    # --- 6. SAVE ---
+    # --- 5. SAVE ---
     output_path = f"{HDFS_ROOT}/user/hadoop/batch/hourly"
     
-    logger.info(f"Writing Full EDA data to: {output_path}")
+    logger.info(f"Writing Compact data to: {output_path}")
     final_report.coalesce(1).write \
         .mode("append") \
         .partitionBy("year", "month", "day") \

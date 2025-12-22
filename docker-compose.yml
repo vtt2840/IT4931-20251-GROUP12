@@ -8,6 +8,8 @@ x-airflow-common: &airflow-common
   build:
     context: .
     dockerfile: Dockerfile.airflow
+  env_file:
+    - .env
   environment: &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
@@ -35,7 +37,8 @@ x-airflow-common: &airflow-common
       spark://local?spark_home=%2Fopt%2Fspark&deploy_mode=client&spark_binary=spark-submit
   volumes:
     - ./dags:/opt/airflow/dags
-    - ./batch:/opt/airflow/scripts
+    - ./batch:/opt/airflow/batch
+    - ./visualization:/opt/airflow/visualization
     - ./logs:/opt/airflow/logs
   user: "${AIRFLOW_UID:-50000}:0"
   logging: *default-logging
@@ -143,10 +146,6 @@ services:
       POSTGRES_SHARED_BUFFERS: 64MB
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U airflow"]
-      interval: 10s
-      retries: 5
     deploy:
       resources:
         limits:
