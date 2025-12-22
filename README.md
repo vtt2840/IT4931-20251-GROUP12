@@ -1,132 +1,113 @@
-# Big Data Project - Hanoi Air Quality Analysis
+# Hanoi Air Quality – Big Data Analysis (Group 12)
 
-## Kiến trúc tổng quát
-- **collection**: Python producer gọi Weatherbit API, đẩy dữ liệu vào Kafka và lưu JSON thô vào HDFS theo ngày.
-- **batch**: Các job PySpark (`cleaner`, `batch_hourly_aggregates`, `batch_daily_aggregates`, `dq_report`) đọc dữ liệu từ HDFS, làm sạch, tổng hợp và xuất báo cáo chất lượng dữ liệu.
-- **hạ tầng**: Kafka + Zookeeper + Hadoop NameNode/DataNode được orchestration bằng `docker-compose.yml`.
+Dự án xây dựng **hệ thống pipeline xử lý dữ liệu lớn** nhằm theo dõi và phân tích **chất lượng không khí tại Hà Nội**.
+---
 
-## Chuẩn bị môi trường
-1. Cài Docker + Docker Compose.
-2. Tạo file `.env` ở thư mục gốc (tham khảo block dưới):
-   ```
-   CITY=Hanoi
-   API_KEY=735aa4b584ba48b0b68dc312f2a272e4
-   KAFKA_BROKER=kafka:9092
-   TOPIC=air_quality
-   HDFS_URL=http://hadoop-namenode:9870
-   HDFS_PATH=/data/air_quality
-   ```
-   > Repo ignore `.env`, bạn có thể sao chép nội dung này vào `.env` thủ công.
+## Kiến trúc hệ thống & Công nghệ
 
-## Chạy toàn bộ stack
-```bash
-docker-compose up -d --build zookeeper kafka hadoop-namenode hadoop-datanode collection
+### Data Ingestion
+- **Python Producer** thu thập dữ liệu từ **Weatherbit API**
+- Đẩy dữ liệu vào **Apache Kafka**
+- Đồng thời lưu **JSON thô** vào **HDFS**
+
+### Storage
+- **HDFS**
+  - Lưu trữ Data Lake
+  - Bao gồm **Raw JSON** và **Cleaned Parquet**
+- **Elasticsearch**
+  - Lưu trữ dữ liệu sau xử lý
+  - Phục vụ truy vấn tốc độ cao (Kibana)
+
+### Processing
+- **PySpark**
+  - Làm sạch dữ liệu
+  - Tổng hợp chỉ số AQI
+  - Kiểm tra và đánh giá **Data Quality**
+
+### Orchestration
+- **Apache Airflow**
+  - Chỉ dùng để điều phối **Batch Processing**
+  - Tự động kích hoạt các Spark Job theo lịch
+
+---
+
+## Cấu trúc thư mục chính
+
+```plaintext
+.          
+├── batch/              # Các script PySpark (cleaner, aggregates, dq_report) và định nghĩa các DAGs điều phối Batch Process
+├── ingestion/          # Thu thập dữ liệu (API -> Kafka/HDFS)
+├── streaming/          # Xử lý dữ liệu dòng từ Kafka
+├── .gitignore
+└── README.md
 ```
-- Kiểm tra log collection: `docker logs -f collection` (phải thấy log `Sent data: ...`).
-- Kiểm tra Kafka topic: dùng `kafka-console-consumer` trong container Kafka hoặc tool bất kỳ.
-- Kiểm tra dữ liệu thô trên HDFS: 
-  ```bash
-  docker exec -it hadoop-namenode hdfs dfs -ls -R /data/air_quality | head
-  ```
 
-## Chạy batch pipeline
-Chạy full pipeline một lần:
+##  Hướng dẫn vận hành
+
+### 1. Khởi động hạ tầng
+Khởi chạy toàn bộ các service bằng Docker Compose:
+
 ```bash
-docker-compose up --build batch
+docker-compose up -d
 ```
 
-Hoặc từng bước (phù hợp CI/CD):
-```bash
-docker-compose run --rm batch python cleaner.py
-docker-compose run --rm batch python batch_hourly_aggregates.py
-docker-compose run --rm batch python batch_daily_aggregates.py
-docker-compose run --rm batch python dq_report.py
-```
+2. Điều phối Batch Process (Airflow)
 
-## Vị trí dữ liệu trên HDFS
-- Raw JSON: `/data/air_quality/YYYY/MM/DD/*.json`
-- Clean parquet: `/clean-data/air_quality/`
-- Hourly aggregates: `/batch/air_quality/hourly/`
-- Daily aggregates: `/batch/air_quality/daily/`
-- Data quality report: `/reports/data-quality/YYYY/MM/DD/`
+Truy cập giao diện Airflow: http://localhost:8080
 
-## Checklist chạy và kiểm tra từng giai đoạn
-1. **Ingestion (collection → Kafka + raw HDFS)**
-   ```bash
-   docker logs --tail 5 collection
-   docker exec hadoop-namenode hdfs dfs -ls /data/air_quality/2025/11/18
-   docker exec hadoop-namenode hdfs dfs -cat /data/air_quality/2025/11/18/data_<epoch>.json
-   ```
-   > Kỳ vọng: log “Sent data …” mỗi ~60 s và trong HDFS có các file JSON ~200 B.
+Airflow sẽ tự động điều phối các bước:
 
-2. **Cleaner**
-   ```bash
-   docker-compose run --rm batch python cleaner.py
-   docker exec hadoop-namenode hdfs dfs -ls -R /clean-data/air_quality
-   ```
-   > Thấy `_SUCCESS` và file parquet partition `year=<yyyy>/month=<mm>/day=<dd>`.
+Cleaner
 
-3. **Hourly aggregates**
-   ```bash
-   docker-compose run --rm batch python batch_hourly_aggregates.py
-   docker exec hadoop-namenode hdfs dfs -ls -R /batch/air_quality/hourly
-   ```
+Đọc dữ liệu thô từ HDFS
 
-4. **Daily aggregates**
-   ```bash
-   docker-compose run --rm batch python batch_daily_aggregates.py
-   docker exec hadoop-namenode hdfs dfs -ls -R /batch/air_quality/daily
-   ```
+Làm sạch và lưu dưới dạng Parquet
 
-5. **Data Quality report**
-   ```bash
-   docker-compose run --rm batch python dq_report.py
-   docker exec hadoop-namenode hdfs dfs -ls -R /reports/data-quality/2025/11/18
-   docker exec hadoop-namenode hdfs dfs -cat /reports/data-quality/2025/11/18/part-00011
-   ```
-   > Script tự xóa thư mục cũ trước khi ghi nên có thể chạy nhiều lần trong ngày.
+Aggregation
 
-## Dữ liệu mẫu (để test nhanh)
-- **Raw ingestion JSON**
-  ```json
-  {
-    "city": "Hanoi",
-    "aqi": 29,
-    "co": 1989,
-    "no2": 41,
-    "o3": 6,
-    "pm10": 9,
-    "pm25": 7,
-    "so2": 11,
-    "timestamp_local": "2025-11-18T11:58:06",
-    "timestamp_utc": "2025-11-18T11:58:06",
-    "ts": 1763467086
-  }
-  ```
-- **Data Quality report output (rút gọn)**
-  ```json
-  {
-    "report_date": "2025-11-18",
-    "summary": {
-      "total_records": 3,
-      "duplicate_records": 0,
-      "null_columns": { "city": { "null_count": 0 }, "...": "..." },
-      "range_violations": { "aqi": { "violations": 0 }, "...": "..." },
-      "spike_detections": 0
-    },
-    "daily_city_details": [
-      {
-        "city": "HANOI",
-        "n_records": 3,
-        "aqi_avg": 29.0,
-        "status": "OK"
-      }
-    ]
-  }
-  ```
-> Khi chạy test, đối chiếu kết quả thực tế với mẫu trên để xác nhận pipeline hoạt động đúng.
+Tổng hợp chỉ số AQI theo Giờ / Ngày
 
-## Troubleshooting nhanh
-- Kafka chưa sẵn sàng → producer retry 5s/lần (log `Kafka not ready`).
-- HDFS chưa có thư mục → producer tự tạo và set quyền 777.
-- Không có dữ liệu mới → kiểm tra API key hoặc quota Weatherbit.
+DQ Report
+
+Kiểm tra lỗi dữ liệu
+
+Xuất dữ liệu sau xử lý
+
+Elasticsearch Indexing
+
+Đẩy dữ liệu cuối cùng vào Elasticsearch
+
+### Vị trí lưu trữ dữ liệu trong HDFS
+
+Dữ liệu thô
+
+/collect-data/air_quality/YYYY/MM/DD/HH
+/collect-data/weather_humidity/YYYY/MM/DD/HH
+/collect-data/weather_temperature/YYYY/MM/DD/HH
+/collect-data/weather_wind/YYYY/MM/DD/HH
+
+
+Dữ liệu làm sạch
+
+/clean-data/air_quality/YYYY/MM/DD/HH
+/clean-data/weather_humidity/YYYY/MM/DD/HH
+/clean-data/weather_temperature/YYYY/MM/DD/HH
+/clean-data/weather_wind/YYYY/MM/DD/HH
+
+
+Dữ liệu sau phân tích batch
+
+batch/hourly/YY/MM/DD
+batch/dailyly/YY/MM/DD
+
+### Thành viên thực hiện 
+
+Nguyễn Thị Thùy Linh (Trưởng nhóm)
+
+Nguyễn Phương Thảo
+
+Vũ Thu Trang
+
+Ngô Thu Minh
+
+Vũ Thúy Hằng
