@@ -35,10 +35,9 @@ Dự án xây dựng **hệ thống pipeline xử lý dữ liệu lớn** nhằm
 
 ```plaintext
 .          
-├── batch/              # Các script PySpark (cleaner, aggregates, dq_report) và định nghĩa các DAGs điều phối Batch Process
+├── batch/              # Các script PySpark và định nghĩa các DAGs điều phối Batch Process
 ├── ingestion/          # Thu thập dữ liệu (API -> Kafka/HDFS)
 ├── streaming/          # Xử lý dữ liệu dòng từ Kafka
-├── .gitignore
 └── README.md
 ```
 
@@ -81,24 +80,28 @@ Elasticsearch Indexing
 
 Dữ liệu thô
 
+```plaintext
 /collect-data/air_quality/YYYY/MM/DD/HH
 /collect-data/weather_humidity/YYYY/MM/DD/HH
 /collect-data/weather_temperature/YYYY/MM/DD/HH
 /collect-data/weather_wind/YYYY/MM/DD/HH
-
+```
 
 Dữ liệu làm sạch
 
+```plaintext
 /clean-data/air_quality/YYYY/MM/DD/HH
 /clean-data/weather_humidity/YYYY/MM/DD/HH
 /clean-data/weather_temperature/YYYY/MM/DD/HH
 /clean-data/weather_wind/YYYY/MM/DD/HH
-
+```
 
 Dữ liệu sau phân tích batch
 
+```plaintext
 batch/hourly/YY/MM/DD
 batch/dailyly/YY/MM/DD
+```
 
 ### Thành viên thực hiện 
 
