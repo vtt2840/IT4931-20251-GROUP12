@@ -50,7 +50,7 @@ Khởi chạy toàn bộ các service bằng Docker Compose:
 docker-compose up -d
 ```
 
-2. Điều phối Batch Process (Airflow)
+### 2. Điều phối Batch Process (Airflow)
 
 Truy cập giao diện Airflow: http://localhost:8080
 
