@@ -29,18 +29,22 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--year", type=int)
     parser.add_argument("--month", type=int)
+    parser.add_argument("--day", type=int, required=False, help="Day to filter output") 
     args = parser.parse_args()
 
     now = datetime.datetime.now()
     if not args.year: args.year = now.year
     if not args.month: args.month = now.month
 
-    logger.info(f"--- DAILY ANALYTICS: Processing {args.month}/{args.year} ---")
+    msg_day = f"/{args.day}" if args.day else ""
+    logger.info(f"--- DAILY ANALYTICS: Processing {args.month}/{args.year}{msg_day} ---")
+    
     spark = get_spark_session(f"Daily_Analytics_{args.year}_{args.month}")
     spark.sparkContext.setLogLevel("ERROR")
 
     base_path = f"{HDFS_ROOT}/user/hadoop/batch/hourly"
     
+    # Logic đọc dữ liệu: Vẫn cần đọc cả tháng (và tháng trước) để tính Trend so với ngày hôm qua
     prev_month = args.month - 1 if args.month > 1 else 12
     prev_year = args.year if args.month > 1 else args.year - 1
 
@@ -70,6 +74,7 @@ def main():
         "pm25_mean", "aqi_mean", "avg_temp", "avg_hum", "avg_wind"
     )
 
+    # 1. Aggregation (Tính trung bình ngày)
     daily_agg = df_hourly.groupBy("city", "year", "month", "day").agg(
         spark_round(avg("pm25_mean"), 2).alias("pm25_avg"),
         spark_round(avg("aqi_mean"), 0).alias("aqi_avg"),
@@ -81,6 +86,8 @@ def main():
     )
 
     daily_agg = daily_agg.withColumn("date", make_date("year", "month", "day"))
+    
+    # 2. Window Functions (Tính Trend - Cần dữ liệu quá khứ nên làm trước khi lọc ngày)
     w_daily = Window.partitionBy("city").orderBy("date")
 
     df_trend = daily_agg.withColumn(
@@ -95,13 +102,24 @@ def main():
         .otherwise("STABLE")
     ).drop("prev_day_pm25")
 
-    df_final_write = df_trend.filter(
-        (col("year") == args.year) & (col("month") == args.month)
-    )
+    # 3. Filter Output (Quan trọng: Lọc lại đúng ngày cần chạy để ghi đè 1 partition)
+    # Lọc năm/tháng
+    condition = (col("year") == args.year) & (col("month") == args.month)
+    
+    if args.day:
+        logger.info(f"Filtering output for day: {args.day}")
+        condition = condition & (col("day") == args.day)
+
+    df_final_write = df_trend.filter(condition)
 
     output_path = f"{HDFS_ROOT}/user/hadoop/batch/daily"
-    logger.info(f"Writing Data to partition year={args.year}/month={args.month}")
+    
+    if args.day:
+         logger.info(f"Writing Data to partition year={args.year}/month={args.month}/day={args.day}")
+    else:
+         logger.info(f"Writing Data to partition year={args.year}/month={args.month} (Full Month)")
 
+    # Ghi dữ liệu
     df_final_write.coalesce(1).write \
         .mode("overwrite") \
         .partitionBy("year", "month", "day") \

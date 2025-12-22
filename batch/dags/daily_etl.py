@@ -37,7 +37,7 @@ with DAG(
         ]
     )
 
-    # TASK 2: EXPORT DAILY (Cần thêm args!)
+    # TASK 2: EXPORT DAILY
     export_daily = SparkSubmitOperator(
         task_id='export_daily_to_es',
         application='/opt/airflow/visualization/export_daily.py',
