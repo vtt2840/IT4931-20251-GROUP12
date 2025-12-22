@@ -8,6 +8,8 @@ x-airflow-common: &airflow-common
   build:
     context: .
     dockerfile: Dockerfile.airflow
+  env_file:
+    - .env
   environment: &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
@@ -35,7 +37,8 @@ x-airflow-common: &airflow-common
       spark://local?spark_home=%2Fopt%2Fspark&deploy_mode=client&spark_binary=spark-submit
   volumes:
     - ./dags:/opt/airflow/dags
-    - ./batch:/opt/airflow/scripts
+    - ./batch:/opt/airflow/batch
+    - ./visualization:/opt/airflow/visualization
     - ./logs:/opt/airflow/logs
   user: "${AIRFLOW_UID:-50000}:0"
   logging: *default-logging
@@ -43,6 +46,7 @@ x-airflow-common: &airflow-common
 services:
   hadoop-namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: hadoop-namenode
     environment:
       CLUSTER_NAME: bigdata-cluster
       CORE_CONF_fs_defaultFS: hdfs://hadoop-namenode:9000
@@ -62,14 +66,17 @@ services:
 
   hadoop-datanode:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: hadoop-datanode
     depends_on:
       - hadoop-namenode
     environment:
       CORE_CONF_fs_defaultFS: hdfs://hadoop-namenode:9000
-      SERVICE_PRECONDITION: "hadoop-namenode:9870"
+      SERVICE_PRECONDITION: "hadoop-namenode:9000"
       HDFS_CONF_dfs_permissions_enabled: "false"
       HDFS_CONF_dfs_replication: "1"
       HADOOP_HEAPSIZE: 300
+    ports: 
+      - "9864:9864"
     volumes:
       - hadoop_datanode:/hadoop/dfs/data
     deploy:
@@ -92,13 +99,17 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
+    ports:
+      - "9092:9092"
+      - "29092:29092"
     depends_on:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_HEAP_OPTS: "-Xmx300M -Xms128M"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
@@ -110,10 +121,10 @@ services:
           memory: 512M
     logging: *default-logging
 
-  collection:
+  ingestion:
     build: ./collection
-    image: group12-collection:latest
-    container_name: collection
+    image: ingestion:latest
+    container_name: ingestion
     env_file: .env
     command: ["python", "producer.py"]
     depends_on:
@@ -122,7 +133,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 128M
+          memory: 250M
     logging: *default-logging
 
   postgres:
@@ -135,10 +146,6 @@ services:
       POSTGRES_SHARED_BUFFERS: 64MB
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U airflow"]
-      interval: 10s
-      retries: 5
     deploy:
       resources:
         limits:
@@ -172,9 +179,8 @@ services:
       - "8080:8080"
     environment:
       <<: *airflow-common-env
-      # --- CẤU HÌNH QUAN TRỌNG ĐỂ KHÔNG BỊ CRASH ---
-      AIRFLOW__WEBSERVER__WEB_SERVER_WORKER_TIMEOUT: 300 # Chờ 5 phút (mặc định 2 phút)
-      AIRFLOW__WEBSERVER__WORKERS: 1                     # Chỉ chạy 1 worker (mặc định 4)
+      AIRFLOW__WEBSERVER__WEB_SERVER_WORKER_TIMEOUT: 300 
+      AIRFLOW__WEBSERVER__WORKERS: 1                     
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
       interval: 60s 

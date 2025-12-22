@@ -14,14 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Copy application source
 COPY producer.py /app/producer.py
-
-# NOTE: do NOT copy secrets like .env into image for production. For local development,
-# you can mount an .env file with `-v` or use docker-compose env_file.
-
-# RUN useradd -m appuser && chown -R appuser /app
-# USER appuser
 
 ENV PYTHONUNBUFFERED=1
 

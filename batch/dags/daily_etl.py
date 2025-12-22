@@ -20,12 +20,40 @@ with DAG(
     tags=['daily', 'spark'],
 ) as dag:
 
-    # Chỉ chạy script tổng hợp ngày
+    # TASK 1: DAILY AGGREGATES
     daily_task = SparkSubmitOperator(
         task_id='daily_aggregates',
-        application='/opt/airflow/scripts/batch_daily_aggregates.py',
+        application='/opt/airflow/batch/batch_daily_aggregates.py',
         conn_id='spark_default',
-        conf={"spark.master": "local[*]"}
+        conf={
+            "spark.master": "local[1]",
+            "spark.driver.memory": "512m",
+             "spark.executor.memory": "512m",
+        },  
+        application_args=[
+            "--year", "{{ execution_date.strftime('%Y') }}",
+            "--month", "{{ execution_date.strftime('%m') }}",
+            "--day", "{{ execution_date.strftime('%d') }}"
+        ]
     )
 
-    daily_task
+    # TASK 2: EXPORT DAILY (Cần thêm args!)
+    export_daily = SparkSubmitOperator(
+        task_id='export_daily_to_es',
+        application='/opt/airflow/visualization/export_daily.py',
+        conn_id='spark_default',
+        packages="org.elasticsearch:elasticsearch-spark-30_2.12:8.11.0",
+        conf={
+            "spark.master": "local[1]",
+            "spark.driver.memory": "512m",
+             "spark.executor.memory": "512m"
+        },
+        # QUAN TRỌNG: Phải truyền ngày tháng
+        application_args=[
+            "--year", "{{ execution_date.strftime('%Y') }}",
+            "--month", "{{ execution_date.strftime('%m') }}",
+            "--day", "{{ execution_date.strftime('%d') }}"
+        ]
+    )
+
+    daily_task >> export_daily

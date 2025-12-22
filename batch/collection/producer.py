@@ -2,164 +2,170 @@ import os
 import time
 import json
 import requests
+import threading
 from datetime import datetime, timezone
-from kafka import KafkaProducer
+from kafka import KafkaProducer, KafkaConsumer
+from kafka.admin import KafkaAdminClient, NewTopic
+from kafka.errors import TopicAlreadyExistsError, NoBrokersAvailable
 from hdfs import InsecureClient
 from dotenv import load_dotenv
-from kafka.admin import KafkaAdminClient, NewTopic
-from kafka.errors import TopicAlreadyExistsError
-from zoneinfo import ZoneInfo
-VN_TZ = ZoneInfo("Asia/Ho_Chi_Minh")
 
 load_dotenv()
 
+# --- CONFIG ---
+CITY = os.getenv("CITY")
+API_KEY = os.getenv("API_KEY")
+KAFKA_BROKER = os.getenv("KAFKA_BROKER")
+TOPIC = os.getenv("TOPIC")
+WIND_TOPIC = os.getenv("WIND_TOPIC")
+TEMP_TOPIC = os.getenv("TEMP_TOPIC")
+HUM_TOPIC = os.getenv("HUM_TOPIC")
+HDFS_URL = os.getenv("HDFS_URL_WEB")
+HDFS_PATH = os.getenv("HDFS_PATH")
 
-# CONFIG
-def require_env(key: str) -> str:
-    value = os.getenv(key)
-    if not value:
-        raise ValueError(f"Missing required env var: {key}")
-    return value
-
-CITY = require_env("CITY")
-API_KEY = require_env("API_KEY")
-KAFKA_BROKER = require_env("KAFKA_BROKER")
-TOPIC = require_env("TOPIC")
-HDFS_URL_WEB = require_env("HDFS_URL_WEB")
-HDFS_PATH = require_env("HDFS_PATH")
-
-print("KAFKA_BROKER =", KAFKA_BROKER)
-print("HDFS_PATH =", HDFS_PATH)
-
-# CREATE TOPIC
-def create_topic():
-    admin = None
-    for _ in range(10):
+# --- KAFKA SETUP ---
+def setup_kafka():
+    while True:
         try:
             admin = KafkaAdminClient(bootstrap_servers=KAFKA_BROKER)
-            topic = NewTopic(name=TOPIC, num_partitions=1, replication_factor=1)
-            admin.create_topics(new_topics=[topic], validate_only=False)
-            print(f"Created topic: {TOPIC}")
-            return
+            topics = [
+                NewTopic(name=TOPIC, num_partitions=3, replication_factor=1),
+                NewTopic(name=WIND_TOPIC, num_partitions=3, replication_factor=1),
+                NewTopic(name=TEMP_TOPIC, num_partitions=3, replication_factor=1),
+                NewTopic(name=HUM_TOPIC, num_partitions=3, replication_factor=1),
+            ]
+            admin.create_topics(new_topics=topics)
+            admin.close()
+            print("Kafka topics ready")
+            break
         except TopicAlreadyExistsError:
-            print(f"Topic {TOPIC} already exists.")
-            return
+            break
         except Exception as e:
-            print(f"Kafka not ready, retrying topic creation in 5s: {e}")
+            print(f"Waiting for Kafka: {e}")
             time.sleep(5)
-        finally:
-            if admin:
-                admin.close()
 
-create_topic()
+    return KafkaProducer(
+        bootstrap_servers=[KAFKA_BROKER],
+        value_serializer=lambda x: json.dumps(x).encode("utf-8"),
+        acks="all",
+        retries=5
+    )
 
-# CREATE PRODUCER
-
-def create_producer():
+# --- HDFS WORKER (CONSUMER) ---
+def hdfs_sink_worker(topic_name, sub_dir):
+    """Luồng tiêu thụ dữ liệu từ Kafka và ghi vào HDFS theo đúng cấu trúc cũ"""
+    print(f"Worker started for topic: {topic_name} -> {sub_dir}")
+    hdfs_client = InsecureClient(HDFS_URL, user="hadoop")
+    
     while True:
         try:
-            producer = KafkaProducer(
+            consumer = KafkaConsumer(
+                topic_name,
                 bootstrap_servers=[KAFKA_BROKER],
-                value_serializer=lambda x: json.dumps(x).encode("utf-8"),
+                auto_offset_reset='earliest',
+                enable_auto_commit=False,
+                group_id=f"hdfs_group_{sub_dir}", 
+                value_deserializer=lambda x: json.loads(x.decode('utf-8'))
             )
-            print("Connected to Kafka successfully!")
-            return producer
+            
+            for message in consumer:
+                record = message.value
+                success = False
+                
+                while not success:
+                    try:
+                        now_utc = datetime.now(timezone.utc)
+                        date_str = now_utc.strftime("%Y/%m/%d")
+                        hour_str = now_utc.strftime("%H")
+                        hdfs_dir = os.path.join(HDFS_PATH,"collect-data", sub_dir, date_str, hour_str)
+                        
+                        if not hdfs_client.status(hdfs_dir, strict=False):
+                            hdfs_client.makedirs(hdfs_dir, permission=755)
+                        
+                        file_path = os.path.join(hdfs_dir, f"{sub_dir}_{int(time.time())}.json")
+                        with hdfs_client.write(file_path, encoding="utf-8") as writer:
+                            writer.write(json.dumps(record, ensure_ascii=False) + "\n")
+                        
+                        consumer.commit()
+                        success = True
+                    except Exception as e:
+                        if "safe mode" in str(e).lower():
+                            print(f" [HDFS SafeMode] {sub_dir} retrying in 15s...")
+                        else:
+                            print(f" [HDFS Error] {sub_dir}: {e}")
+                        time.sleep(15)
         except Exception as e:
-            print("Kafka not ready, retrying producer in 5s:", e)
+            print(f"Consumer {topic_name} error: {e}")
             time.sleep(5)
 
-producer = create_producer()
-
-
-# HDFS CLIENT
-
-hdfs_client = InsecureClient(HDFS_URL_WEB, user='root')
-
-def ensure_hdfs_root():
-    try:
-        if not hdfs_client.status(HDFS_PATH, strict=False):
-            print(f"HDFS root {HDFS_PATH} not found. Creating...")
-            hdfs_client.makedirs(HDFS_PATH)
-            hdfs_client.set_permission(HDFS_PATH, permission=0o777)
-            print(f"Created HDFS root {HDFS_PATH} with 777 permissions.")
-    except Exception as e:
-        print(f"Error ensuring HDFS root: {e}")
-
-ensure_hdfs_root()
-
-print("Connected to HDFS & Kafka — starting loop")
-
-# FETCH DATA
-
+# --- DATA FETCHING ---
 def fetch_latest_data():
-    url = f"https://api.weatherbit.io/v2.0/current/airquality?city={CITY}&key={API_KEY}"
     try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        data = response.json()
-        if "data" not in data or len(data["data"]) == 0:
-            return None
+        url = f"https://api.weatherbit.io/v2.0/current/airquality?city={CITY}&key={API_KEY}"
+        r = requests.get(url, timeout=10)
+        data = r.json()
+        if "data" not in data: return None
         record = data["data"][0]
-        now_utc = datetime.now(timezone.utc)
-        now_vn = datetime.now(VN_TZ)
         return {
-            "city": CITY,
-            "aqi": record.get("aqi"),
-            "co": record.get("co"),
-            "no2": record.get("no2"),
-            "o3": record.get("o3"),
-            "pm10": record.get("pm10"),
-            "pm25": record.get("pm25"),
-            "so2": record.get("so2"),
-            "timestamp_local": now_vn.strftime("%Y-%m-%dT%H:%M:%S"),
-            "timestamp_utc": now_utc.strftime("%Y-%m-%dT%H:%M:%S"),
-            "ts": int(now_utc.timestamp())
+            "city": CITY, "aqi": record["aqi"], "co": record["co"], "no2": record["no2"],
+            "o3": record["o3"], "pm10": record["pm10"], "pm25": record["pm25"], "so2": record["so2"],
+            "timestamp_local": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+            "timestamp_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S"),
+            "ts": int(time.time()),
         }
-    except Exception as e:
-        print("Error fetching data:", e)
-        return None
+    except: return None
 
-
-# SAVE TO HDFS
-
-def save_to_hdfs(record):
-    now_vn = datetime.now(VN_TZ)
-    date_str = now_vn.strftime("%Y/%m/%d")
-    hdfs_dir = os.path.join(HDFS_PATH, date_str)
-
+def fetch_weather_data():
     try:
-        hdfs_client.makedirs(hdfs_dir)  # tạo thư mục con nếu chưa tồn tại
-    except Exception as e:
-        print(f"Error creating HDFS directory {hdfs_dir}: {e}")
+        url = f"https://api.weatherbit.io/v2.0/current?city={CITY}&key={API_KEY}"
+        r = requests.get(url, timeout=10)
+        data = r.json()
+        if "data" not in data: return None
+        record = data["data"][0]
+        base = {"city": CITY, "ts": int(time.time()), "timestamp_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")}
+        return (
+            {**base, "wind_speed": record["wind_spd"]},
+            {**base, "temperature": record["temp"]},
+            {**base, "humidity": record["rh"]},
+        )
+    except: return None
 
-    file_path = os.path.join(hdfs_dir, f"data_{int(time.time())}.json")
-    try:
-        with hdfs_client.write(file_path, encoding="utf-8") as writer:
-            writer.write(json.dumps(record) + "\n")
-    except Exception as e:
-        print(f"Error writing to HDFS {file_path}: {e}")
-
-
-# SEND TO KAFKA
-
-def send_to_kafka(record):
-    try:
-        producer.send(TOPIC, value=record)
-    except Exception as e:
-        print("Error sending to Kafka:", e)
-
-
-# MAIN LOOP
-
+# --- MAIN ---
 if __name__ == "__main__":
+    setup_kafka()
+    producer = setup_kafka() # Khởi tạo lại producer sau khi check topic
+
+    # Danh sách mapping Topic Kafka -> Thư mục HDFS tương ứng
+    workers = [
+        (TOPIC, "air_quality"),
+        (WIND_TOPIC, "weather_wind"),
+        (TEMP_TOPIC, "weather_temperature"),
+        (HUM_TOPIC, "weather_humidity")
+    ]
+
+    # Khởi chạy 4 luồng ghi HDFS
+    for t_name, s_dir in workers:
+        t = threading.Thread(target=hdfs_sink_worker, args=(t_name, s_dir), daemon=True)
+        t.start()
+
+    print("Main Loop: Fetching API and sending to Kafka...")
     while True:
         try:
-            data = fetch_latest_data()
-            if data:
-                send_to_kafka(data)
-                save_to_hdfs(data)
-                print(f"Sent data: {data['timestamp_utc']}")
+            # Air
+            air = fetch_latest_data()
+            if air: producer.send(TOPIC, air)
+            
+            # Weather
+            weather = fetch_weather_data()
+            if weather:
+                w_doc, t_doc, h_doc = weather
+                producer.send(WIND_TOPIC, w_doc)
+                producer.send(TEMP_TOPIC, t_doc)
+                producer.send(HUM_TOPIC, h_doc)
+            
+            producer.flush()
+            print(f" [Kafka] Data sent at {datetime.now().strftime('%H:%M:%S')}")
         except Exception as e:
-            print("Error in main loop:", e)
-        time.sleep(300)
+            print(f"Main Error: {e}")
         
+        time.sleep(60)
