@@ -6,9 +6,9 @@ from pyspark.sql.functions import col, make_timestamp, lit, sha2, concat_ws
 HDFS_ROOT = os.getenv("HDFS_URL", "hdfs://hadoop-namenode:9000")
 HDFS_PATH = f"{HDFS_ROOT}/user/hadoop/batch/hourly"
 
-raw_es_nodes = os.getenv("ES_NODES", "b94a5b4805fe45cc83ba8ee2b196c8ac.asia-southeast1.gcp.elastic-cloud.com")
-ES_API_KEY = os.getenv("ES_API_KEY", "aTFaNk5Kc0JSeHppLTdsYlhxaHQ6TEJWNVFoZW02YnctNDFrLWV5ZkNmQQ==")
-ES_INDEX_CORRELATION = os.getenv("ES_INDEX_CORRELATION", "air_quality_correlation_hourly")
+raw_es_nodes = os.getenv("ES_NODES")
+ES_API_KEY = os.getenv("ES_API_KEY")
+ES_INDEX_CORRELATION = os.getenv("ES_INDEX_CORRELATION")
 
 ES_NODES = raw_es_nodes.replace("https://", "").replace("http://", "")
 
