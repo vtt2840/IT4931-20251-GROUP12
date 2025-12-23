@@ -103,14 +103,58 @@ batch/hourly/YY/MM/DD
 batch/dailyly/YY/MM/DD
 ```
 
-### Thành viên thực hiện 
+Real-time Processing (Streaming)
+Thành phần này đảm nhận vai trò xử lý dữ liệu dòng (Stream Processing) từ Kafka, thực hiện các phép biến đổi phức tạp và đẩy kết quả phân tích tức thời lên Elasticsearch Cloud.
 
+1. Luồng xử lý dữ liệu (Streaming Logic)
+Dịch vụ streaming thực hiện chuỗi thao tác sau:
+
+
+Tiêu thụ dữ liệu: Đọc luồng JSON từ Kafka topic air-quality.
+
+Làm sạch & Chuẩn hóa:
+
+Sử dụng Watermarking (10 phút) để xử lý dữ liệu đến trễ và giới hạn trạng thái lưu trữ.
+
+Loại bỏ các bản ghi trùng lặp dựa trên city và timestamp_utc.
+
+Lọc các giá trị AQI không hợp lệ (ngoài khoảng 0 - 1000).
+
+Làm giàu dữ liệu (Enrichment): Sử dụng kỹ thuật Broadcast Join với dữ liệu tĩnh (tọa độ GPS, quốc gia) để tối ưu hiệu suất xử lý.
+
+Phân loại & Đánh giá rủi ro:
+
+Tự động phân cấp chỉ số AQI (Good, Moderate, Unhealthy,...).
+
+Tính toán điểm rủi ro sức khỏe (aqi_risk_score) thông qua Spark UDF tùy chỉnh.
+
+2. Các chỉ số tổng hợp (Aggregations)
+Hệ thống chạy song song hai luồng phân tích với chu kỳ 120 giây (Trigger):
+
+Main Aggregation: Tính toán trung bình (avg), độ lệch chuẩn (stddev), và phân vị 95 (p95) của các chỉ số AQI, PM2.5, PM10 theo cửa sổ 10 phút.
+
+Pivot Analysis: Thống kê số lượng bản ghi theo từng phân cấp chất lượng không khí trong mỗi khung giờ.
+
+3. Lưu trữ & Tối ưu hóa
+
+Sink: Ghi dữ liệu vào Elasticsearch dưới dạng upsert thông qua foreachBatch để tránh trùng lặp dữ liệu.
+
+Tối ưu hiệu suất:
+
+Bật Adaptive Query Execution (AQE) để tự động điều chỉnh kế hoạch thực thi.
+
+Cấu hình spark.sql.shuffle.partitions = 4 phù hợp với tài nguyên Docker.
+
+
+Fault Tolerance: Sử dụng cơ chế Checkpointing lưu tại /app/checkpoints/aqi_streaming để đảm bảo hệ thống có thể phục hồi khi xảy ra sự cố.
+
+Thành viên thực hiện
 Nguyễn Thị Thùy Linh (Trưởng nhóm)
 
 Nguyễn Phương Thảo
 
 Vũ Thu Trang
 
-Ngô Thu Minh
+Ngô Minh Thu
 
 Vũ Thúy Hằng
