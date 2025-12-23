@@ -103,7 +103,7 @@ batch/hourly/YY/MM/DD
 batch/dailyly/YY/MM/DD
 ```
 
-Real-time Processing (Streaming)
+### Real-time Processing (Streaming)
 Thành phần này đảm nhận vai trò xử lý dữ liệu dòng (Stream Processing) từ Kafka, thực hiện các phép biến đổi phức tạp và đẩy kết quả phân tích tức thời lên Elasticsearch Cloud.
 
 1. Luồng xử lý dữ liệu (Streaming Logic)
@@ -148,7 +148,7 @@ Cấu hình spark.sql.shuffle.partitions = 4 phù hợp với tài nguyên Docke
 
 Fault Tolerance: Sử dụng cơ chế Checkpointing lưu tại /app/checkpoints/aqi_streaming để đảm bảo hệ thống có thể phục hồi khi xảy ra sự cố.
 
-Thành viên thực hiện
+### Thành viên thực hiện
 Nguyễn Thị Thùy Linh (Trưởng nhóm)
 
 Nguyễn Phương Thảo
